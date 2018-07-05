@@ -201,7 +201,7 @@ class MyHomeScreen extends State<HomeScreen> {
         result = caculateStatement(result, statement);
       }
       result = caculateStatement(result, statement);
-      resultNumber = result.truncateToDouble().toString();
+      resultNumber = result.toString();
     });
   }
 
