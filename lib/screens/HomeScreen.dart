@@ -1,5 +1,6 @@
 import 'package:caculator/viewmodel/Statement.dart';
 import 'package:flutter/material.dart';
+import 'package:decimal/decimal.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -61,7 +62,7 @@ class MyHomeScreen extends State<HomeScreen> {
               ],);
             } else {
               int index = statements.length + 1 - position;
-              double number = statements[index].number;
+              String number = getShowNumber(statements[index].number);
               String operator = getStatementOperator(statements[index].operator);
               widget = Row(mainAxisAlignment: MainAxisAlignment.end,children: <Widget>[
                 Container(
@@ -201,7 +202,7 @@ class MyHomeScreen extends State<HomeScreen> {
         result = caculateStatement(result, statement);
       }
       result = caculateStatement(result, statement);
-      resultNumber = result.toString();
+      resultNumber = getShowNumber(result);
     });
   }
 
@@ -304,6 +305,10 @@ class MyHomeScreen extends State<HomeScreen> {
             child: Center(
               child: Text(text,
                 style: TextStyle(fontSize: 40.0, color: Colors.white),),)));
+  }
+
+  String getShowNumber(double number){
+    return Decimal.parse(number.toString()).toString();
   }
 
 }
