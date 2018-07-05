@@ -1,4 +1,4 @@
 class Statement{
-  int number = 0;
+  double number = 0.0;
   int operator = 0;
 }
