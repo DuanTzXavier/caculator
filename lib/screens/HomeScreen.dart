@@ -313,7 +313,11 @@ class MyHomeScreen extends State<HomeScreen> {
   }
 
   String getShowNumber(double number) {
-    return Decimal.parse(number.toString()).toString();
+    if (number != double.infinity && number != double.negativeInfinity &&
+        number != double.maxFinite && number != double.maxFinite) {
+      return Decimal.parse(number.toString()).toString();
+    }
+    return number.toString();
   }
 
 }
