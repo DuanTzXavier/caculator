@@ -16,7 +16,7 @@ class MyHomeScreen extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
+      appBar: initAppBar(),
       body: Column(
         children: <Widget>[
           initInputedView(),
@@ -36,7 +36,7 @@ class MyHomeScreen extends State<HomeScreen> {
   Widget initInputedView() {
     return AspectRatio(
       aspectRatio: 6 / 4,
-      child: Padding(
+      child: Container(color: Colors.grey[100],
         padding: EdgeInsets.only(right: 20.0),
         child: ListView.builder(
           reverse: true,
@@ -164,7 +164,9 @@ class MyHomeScreen extends State<HomeScreen> {
 
   void appendNumber(String append) {
     setState(() {
-      if (showText == "0" || statement.number == 0) {
+      if (append == "%"){
+        showText = getShowNumber(double.parse(showText)/100);
+      }else if (showText == "0" || statement.number == 0) {
         this.showText = append;
       } else {
         this.showText += append;
@@ -322,6 +324,29 @@ class MyHomeScreen extends State<HomeScreen> {
       return Decimal.parse(number.toString()).toString();
     }
     return number.toString();
+  }
+
+  Widget initAppBar() {
+    return AppBar(
+      backgroundColor: Colors.grey[100],
+      leading: clickToShowScaffold(
+          Icon(Icons.view_module, color: Colors.grey[800]), "view_module"),
+      elevation: 0.0,
+      actions: <Widget>[
+        Container(padding: EdgeInsets.only(right: 15.0),child: clickToShowScaffold(
+            Icon(Icons.swap_horiz, color: Colors.grey[800]), "swap_horiz"),)
+      ],
+    );
+  }
+
+  Builder clickToShowScaffold(Widget widget, String message) {
+    return new Builder(builder: (BuildContext context) {
+      return GestureDetector(child: widget, onTap: () {
+        Scaffold.of(context).showSnackBar(new SnackBar(
+          content: new Text(message),
+        ));
+      },);
+    });
   }
 
 }
