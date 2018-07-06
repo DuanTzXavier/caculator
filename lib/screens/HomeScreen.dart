@@ -63,7 +63,7 @@ class MyHomeScreen extends State<HomeScreen> {
               ],);
             } else {
               int index = statements.length + 1 - position;
-              String number = getShowNumber(statements[index].number);
+              String number = statements[index].inputNumber.toString();
               String operator = getStatementOperator(
                   statements[index].operator);
               widget = Row(
@@ -165,13 +165,13 @@ class MyHomeScreen extends State<HomeScreen> {
   void appendNumber(String append) {
     setState(() {
       if (append == "%"){
-        showText = getShowNumber(double.parse(showText)/100);
-      }else if (showText == "0" || statement.number == 0) {
+        showText = (Decimal.parse(showText)/Decimal.fromInt(100)).toString();
+      }else if (showText == "0" || statement.inputNumber == null) {
         this.showText = append;
       } else {
         this.showText += append;
       }
-      statement.number = double.parse(showText);
+      statement.inputNumber = Decimal.parse(showText);
       caculateResult();
     });
   }
@@ -186,7 +186,7 @@ class MyHomeScreen extends State<HomeScreen> {
 
   void addOperator(int operator) {
     setState(() {
-      if (statement.number == 0.0) {
+      if (statement.inputNumber == null) {
         statement.operator = operator;
         return;
       }
@@ -196,42 +196,42 @@ class MyHomeScreen extends State<HomeScreen> {
       statement = Statement();
       statement.operator = operator;
       if (operator > 2) {
-        statement.number = 1.0;
+        statement.inputNumber = Decimal.fromInt(1);
       } else {
-        statement.number = 0.0;
+        statement.inputNumber = Decimal.fromInt(0);
       }
-      showText = " ";
+      showText = "";
       caculateResult();
     });
   }
 
   void caculateResult() {
     setState(() {
-      double result = 0.0;
+      Decimal result = Decimal.fromInt(0);
       for (var statement in statements) {
         result = caculateStatement(result, statement);
       }
       result = caculateStatement(result, statement);
-      resultNumber = getShowNumber(result);
+      resultNumber = result.toString();
     });
   }
 
-  double caculateStatement(double result, Statement statement) {
+  Decimal caculateStatement(Decimal result, Statement statement) {
     switch (statement.operator) {
       case 1:
-        result += statement.number;
+        result += statement.inputNumber;
         break;
       case 2:
-        result -= statement.number;
+        result -= statement.inputNumber;
         break;
       case 3:
-        result *= statement.number;
+        result *= statement.inputNumber;
         break;
       case 4:
-        result /= statement.number;
+        result /= statement.inputNumber;
         break;
       default:
-        result = statement.number;
+        result = statement.inputNumber;
         break;
     }
     return result;
@@ -267,9 +267,9 @@ class MyHomeScreen extends State<HomeScreen> {
         showText = showText.substring(0, showText.length - 1);
       }
       if (showText.length < 2){
-        statement.number = statement.operator > 2 ? 1.0 : 0.0;
+        statement.inputNumber = statement.operator > 2 ? Decimal.fromInt(1) : Decimal.fromInt(0);
       }else{
-        statement.number = double.parse(showText);
+        statement.inputNumber = Decimal.parse(showText);
       }
       caclulateStatement();
     });
