@@ -165,7 +165,6 @@ class MyHomeScreen extends State<HomeScreen> {
         this.showText += append;
       }
       statement.number = double.parse(showText);
-      statement.set = true;
       caculateResult();
     });
   }
@@ -189,7 +188,11 @@ class MyHomeScreen extends State<HomeScreen> {
       }
       statement = Statement();
       statement.operator = operator;
-      statement.number = 0.0;
+      if (operator > 2){
+        statement.number = 1.0;
+      }else {
+        statement.number = 0.0;
+      }
       showText = " ";
       caculateResult();
     });
@@ -215,18 +218,10 @@ class MyHomeScreen extends State<HomeScreen> {
         result -= statement.number;
         break;
       case 3:
-        if (!statement.set) {
-          result *= 1;
-        }else {
-          result *= statement.number;
-        }
+        result *= statement.number;
         break;
       case 4:
-        if (!statement.set) {
-          result /= 1;
-        }else {
-          result /= statement.number;
-        }
+        result /= statement.number;
         break;
       default:
         result = statement.number;
