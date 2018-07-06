@@ -156,7 +156,9 @@ class MyHomeScreen extends State<HomeScreen> {
               initButton("+", callback: () {
                 addOperator(1);
               }),
-              initBigButton("="),
+              initBigButton("=", callback: () {
+
+              }),
             ])),
 
       ],);
@@ -309,17 +311,17 @@ class MyHomeScreen extends State<HomeScreen> {
 
   Widget initButton(String text, {GestureTapCallback callback, Color color}) {
     return Expanded(
-        child: new Material(
-          child: new InkWell(onTap: callback,
-            child: GestureDetector(onTap: null, child: Container(
-              decoration: new BoxDecoration(
-                border: new Border.all(
-                    width: 0.1,
-                    color: Colors.black38),),
-              child: Center(
-                child: Text(
-                  text,
-                  style: TextStyle(fontSize: 22.0, color: color),),),),),),));
+      child: new Material(
+        child: new InkWell(onTap: callback,
+          child: Container(
+            decoration: new BoxDecoration(
+              border: new Border.all(
+                  width: 0.1,
+                  color: Colors.black38),),
+            child: Center(
+              child: Text(
+                text,
+                style: TextStyle(fontSize: 22.0, color: color),),),),),),);
   }
 
   Widget initIconButton(String text, GestureTapCallback callback) {
@@ -333,17 +335,20 @@ class MyHomeScreen extends State<HomeScreen> {
             child: Icon(Icons.add),),),));
   }
 
-  Widget initBigButton(String text) {
+  Widget initBigButton(String text, {GestureTapCallback callback}) {
     return Expanded(
-        flex: 2,
-        child: Container(
+      flex: 2,
+      child: new Material(
+        color: Colors.orange,
+        child: new InkWell(onTap: callback,
+          child: Container(
             decoration: new BoxDecoration(
-              color: Colors.orange,
               border: new Border.all(
                   width: 0.1, color: Colors.black38),),
             child: Center(
               child: Text(text,
-                style: TextStyle(fontSize: 40.0, color: Colors.white),),)));
+                style: TextStyle(
+                    fontSize: 40.0, color: Colors.white),),),),),),);
   }
 
   String getShowNumber(double number) {
