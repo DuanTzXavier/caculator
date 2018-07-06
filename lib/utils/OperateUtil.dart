@@ -28,21 +28,32 @@ class OperateUtil {
   }
 
   static Decimal calculateStatement(Decimal result, Statement statement) {
+
+    Decimal operatorNumber = statement.inputNumber;
+
+    if (operatorNumber == null){
+      if (statement.operator > 2) {
+        operatorNumber = Decimal.fromInt(1);
+      } else {
+        operatorNumber = Decimal.fromInt(0);
+      }
+    }
+
     switch (statement.operator) {
       case 1:
-        result += statement.inputNumber;
+        result += operatorNumber;
         break;
       case 2:
-        result -= statement.inputNumber;
+        result -= operatorNumber;
         break;
       case 3:
-        result *= statement.inputNumber;
+        result *= operatorNumber;
         break;
       case 4:
-        result /= statement.inputNumber;
+        result /= operatorNumber;
         break;
       default:
-        result = statement.inputNumber;
+        result = operatorNumber;
         break;
     }
     return result;

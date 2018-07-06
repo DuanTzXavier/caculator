@@ -235,19 +235,14 @@ class MyHomeScreen extends State<HomeScreen> {
         statement.inputNumber = lastResult;
         isShowResult = false;
       }
-      if (statement.inputNumber == null) {
+      if (statements.length == 0 || (statements.length > 0 && statements[statements.length - 1].operator == 5)) {
         statement.inputNumber = Decimal.fromInt(0);
       }
-      if (!statements.contains(statement)) {
+      if (!statements.contains(statement) && statement.inputNumber != null) {
         statements.add(statement);
       }
       statement = Statement();
       statement.operator = operator;
-      if (operator > 2) {
-        statement.inputNumber = Decimal.fromInt(1);
-      } else {
-        statement.inputNumber = Decimal.fromInt(0);
-      }
       showText = "";
       calculateResult();
     });
