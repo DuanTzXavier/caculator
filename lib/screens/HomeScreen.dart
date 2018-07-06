@@ -259,12 +259,16 @@ class MyHomeScreen extends State<HomeScreen> {
 
   void deleteNumber() {
     setState(() {
-      if (showText.length <= 2) {
-        showText = statement.operator == 0 ? "0" : " ";
+      if (showText.length < 2) {
+        showText = statement.operator == 0 ? "0" : "";
       } else {
         showText = showText.substring(0, showText.length - 1);
       }
-      statement.number = statement.operator > 2 ? 1.0 : double.parse(showText);
+      if (showText.length < 2){
+        statement.number = statement.operator > 2 ? 1.0 : 0.0;
+      }else{
+        statement.number = double.parse(showText);
+      }
       caclulateStatement();
     });
   }
