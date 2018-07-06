@@ -166,12 +166,19 @@ class MyHomeScreen extends State<HomeScreen> {
     setState(() {
       if (append == "%"){
         showText = (Decimal.parse(showText)/Decimal.fromInt(100)).toString();
-      }else if (showText == "0" || statement.inputNumber == null) {
+      } else if (append == "." && showText.contains(".")) {
+        return;
+      } else if (showText == "0" || statement.inputNumber == null) {
         this.showText = append;
       } else {
-        this.showText += append;
+        showText += append;
       }
-      statement.inputNumber = Decimal.parse(showText);
+      if(showText.endsWith(".")){
+        statement.inputNumber = Decimal.parse(showText.replaceAll(".", ""));
+      }else{
+        statement.inputNumber = Decimal.parse(showText);
+      }
+
       caculateResult();
     });
   }
@@ -330,11 +337,11 @@ class MyHomeScreen extends State<HomeScreen> {
     return AppBar(
       backgroundColor: Colors.grey[100],
       leading: clickToShowScaffold(
-          Icon(Icons.view_module, color: Colors.grey[800]), "view_module"),
+          Icon(Icons.view_module, color: Colors.grey[800]), "点什么点，我还没写功能呢"),
       elevation: 0.0,
       actions: <Widget>[
         Container(padding: EdgeInsets.only(right: 15.0),child: clickToShowScaffold(
-            Icon(Icons.swap_horiz, color: Colors.grey[800]), "swap_horiz"),)
+            Icon(Icons.swap_horiz, color: Colors.grey[800]), "点什么点，我还没写功能呢"),)
       ],
     );
   }
