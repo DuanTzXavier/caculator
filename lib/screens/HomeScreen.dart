@@ -208,8 +208,7 @@ class MyHomeScreen extends State<HomeScreen> {
   void addOperator(int operator) {
     setState(() {
       if (statement.inputNumber == null) {
-        statement.operator = operator;
-        return;
+        statement.inputNumber = Decimal.fromInt(0);
       }
       if (!statements.contains(statement)) {
         statements.add(statement);
