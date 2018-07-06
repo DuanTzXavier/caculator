@@ -1,3 +1,4 @@
+import 'package:caculator/utils/OperateUtil.dart';
 import 'package:caculator/viewmodel/Statement.dart';
 import 'package:flutter/material.dart';
 import 'package:decimal/decimal.dart';
@@ -12,6 +13,8 @@ class MyHomeScreen extends State<HomeScreen> {
   String resultNumber = "0";
   List<Statement> statements = List();
   Statement statement = Statement();
+  bool isShowResult = false;
+  bool isAllClear = false;
 
   @override
   Widget build(BuildContext context) {
@@ -37,7 +40,7 @@ class MyHomeScreen extends State<HomeScreen> {
     return AspectRatio(
       aspectRatio: 6 / 4,
       child: Container(color: Colors.grey[100],
-        padding: EdgeInsets.only(right: 20.0),
+        padding: EdgeInsets.only(right: 20.0, left: 20.0, bottom: 10.0),
         child: ListView.builder(
           reverse: true,
           itemCount: statements.length == 0 ? 1 : statements.length + 2,
@@ -45,10 +48,15 @@ class MyHomeScreen extends State<HomeScreen> {
             Widget widget;
 
             if (position == 0 && statements.length > 0) {
-              widget = initResult();
+              bool isblock = statements[statements.length - 1].operator == 5;
+              widget = Opacity(
+                opacity: isShowResult || isblock ? 0.0 : 1.0, child: initResult(),);
             } else
             if (position == 0 || (position == 1 && statements.length > 0)) {
-              String operator = getStatementOperator(statement.operator);
+              String operator = OperateUtil.getStatementOperator(
+                  statement.operator);
+              String showNumber = isShowResult ? statement.inputNumber
+                  .toString() : showText;
               widget = Row(
                 mainAxisAlignment: MainAxisAlignment.end, children: <Widget>[
                 Container(
@@ -58,27 +66,33 @@ class MyHomeScreen extends State<HomeScreen> {
                     style: TextStyle(fontSize: 40.0),),),
                 Align(
                   alignment: Alignment.bottomRight,
-                  child: Text('$showText',
+                  child: Text('$showNumber',
                     style: TextStyle(fontSize: 40.0),),),
               ],);
             } else {
               int index = statements.length + 1 - position;
               String number = statements[index].inputNumber.toString();
-              String operator = getStatementOperator(
+              String operator = OperateUtil.getStatementOperator(
                   statements[index].operator);
-              widget = Row(
-                mainAxisAlignment: MainAxisAlignment.end, children: <Widget>[
-                Container(
-                  padding: EdgeInsets.only(right: 20.0),
-                  child: Text('$operator',
-                    style: TextStyle(
-                        fontSize: 30.0, color: Colors.grey[600]),),),
-                Align(
-                  child: Text('$number',
-                    style: TextStyle(
-                        fontSize: 30.0, color: Colors.grey[600]),),),
+              widget =
+                  Column(children: <Widget>[
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: <Widget>[
+                        Container(
+                          padding: EdgeInsets.only(right: 20.0),
+                          child: Text('$operator',
+                            style: TextStyle(
+                                fontSize: 30.0, color: Colors.grey[600]),),),
+                        Align(
+                          child: Text('$number',
+                            style: TextStyle(
+                                fontSize: 30.0, color: Colors.grey[600]),),),
 
-              ],);
+                      ],),
+
+                    Offstage(offstage: statements[index].operator == 5 ? false : true, child: Divider(color: Colors.grey,),),
+                  ],);
             }
 
             return widget;
@@ -157,7 +171,7 @@ class MyHomeScreen extends State<HomeScreen> {
                 addOperator(1);
               }),
               initBigButton("=", callback: () {
-
+                showResult();
               }),
             ])),
 
@@ -166,6 +180,13 @@ class MyHomeScreen extends State<HomeScreen> {
 
   void appendNumber(String append) {
     setState(() {
+      if (statement.operator == 5) {
+        statements.add(statement);
+        statement = Statement();
+        isShowResult = false;
+      }
+      isAllClear = false;
+
       switch (append) {
         case "%":
           if (showText.isEmpty) {
@@ -195,20 +216,25 @@ class MyHomeScreen extends State<HomeScreen> {
       statement.inputNumber = Decimal.parse(
           showText.endsWith(".") ? showText.replaceAll(".", "") : showText);
 
-      caculateResult();
+      calculateResult();
     });
   }
 
   void clearNumber() {
     setState(() {
-      this.showText = "0";
-      statements.clear();
-      statement = Statement();
+      initCalculateValue();
     });
   }
 
   void addOperator(int operator) {
     setState(() {
+      if (statement.operator == 5) {
+        statements.add(statement);
+        Decimal lastResult = statement.inputNumber;
+        statement = new Statement();
+        statement.inputNumber = lastResult;
+        isShowResult = false;
+      }
       if (statement.inputNumber == null) {
         statement.inputNumber = Decimal.fromInt(0);
       }
@@ -223,18 +249,22 @@ class MyHomeScreen extends State<HomeScreen> {
         statement.inputNumber = Decimal.fromInt(0);
       }
       showText = "";
-      caculateResult();
+      calculateResult();
     });
   }
 
-  void caculateResult() {
+  void calculateResult() {
     setState(() {
+      if (statements.length > 0 && statements[statements.length - 1].operator == 5){
+        return;
+      }
+
       Decimal result = Decimal.fromInt(0);
       try {
         for (var statement in statements) {
-          result = caculateStatement(result, statement);
+          result = OperateUtil.calculateStatement(result, statement);
         }
-        result = caculateStatement(result, statement);
+        result = OperateUtil.calculateStatement(result, statement);
         resultNumber = result.toString();
       } on Exception catch (_) {
         resultNumber = "Error";
@@ -244,69 +274,60 @@ class MyHomeScreen extends State<HomeScreen> {
     });
   }
 
-  Decimal caculateStatement(Decimal result, Statement statement) {
-    switch (statement.operator) {
-      case 1:
-        result += statement.inputNumber;
-        break;
-      case 2:
-        result -= statement.inputNumber;
-        break;
-      case 3:
-        result *= statement.inputNumber;
-        break;
-      case 4:
-        result /= statement.inputNumber;
-        break;
-      default:
-        result = statement.inputNumber;
-        break;
-    }
-    return result;
+  void showResult() {
+    setState(() {
+      statements.add(statement);
+      statement = Statement();
+      statement.inputNumber = Decimal.parse(resultNumber);
+      statement.operator = 5;
+      isShowResult = true;
+    });
   }
 
-  String getStatementOperator(int operator) {
-    String result = " ";
-    switch (operator) {
-      case 1:
-        result = "+";
-        break;
-      case 2:
-        result = "-";
-        break;
-      case 3:
-        result = "*";
-        break;
-      case 4:
-        result = "/";
-        break;
-      default:
-        result = " ";
-        break;
+  void initCalculateValue() {
+    isShowResult = false;
+    showText = "0";
+    statement = Statement();
+
+    if (isAllClear){
+      statements.clear();
+    }else{
+      isAllClear = true;
+      for (int i = statements.length;i > 0;i --){
+        if (statements[i-1].operator != 5){
+          statements.remove(statements[i-1]);
+        }else{
+          break;
+        }
+      }
     }
-    return result;
   }
+
 
   void deleteNumber() {
     setState(() {
+      if (statement.operator == 5) {
+        return;
+      }
       if (showText.length < 2 || showText == "0.") {
         showText = statement.operator == 0 ? "0" : "";
       } else {
         showText = showText.substring(0, showText.length - 1);
       }
-      if (showText.length < 2) {
+      if (showText.length < 1) {
         statement.inputNumber =
         statement.operator > 2 ? Decimal.fromInt(1) : Decimal.fromInt(0);
       } else {
         statement.inputNumber = Decimal.parse(
             showText.endsWith(".") ? showText.replaceAll(".", "") : showText);
       }
+
       caclulateStatement();
     });
   }
 
   void caclulateStatement() {
-    caculateResult();
+    calculateResult();
   }
 
   Widget initButton(String text, {GestureTapCallback callback, Color color}) {
