@@ -1,5 +1,5 @@
-import 'package:caculator/utils/OperateUtil.dart';
-import 'package:caculator/viewmodel/Statement.dart';
+import 'package:calculator/utils/OperateUtil.dart';
+import 'package:calculator/viewmodel/Statement.dart';
 import 'package:flutter/material.dart';
 import 'package:decimal/decimal.dart';
 
@@ -104,7 +104,7 @@ class MyHomeScreen extends State<HomeScreen> {
       children: <Widget>[
         Expanded(child: Column(
             children: <Widget>[
-              initButton("AC", color: Colors.orange, callback: () {
+              initButton(isAllClear ? "AC" : "C", color: Colors.orange, callback: () {
                 clearNumber();
               }),
               initButton("7", callback: () {
@@ -235,7 +235,7 @@ class MyHomeScreen extends State<HomeScreen> {
         statement.inputNumber = lastResult;
         isShowResult = false;
       }
-      if (statements.length == 0 || (statements.length > 0 && statements[statements.length - 1].operator == 5)) {
+      if (statement.inputNumber == null && (statements.length == 0 || (statements.length > 0 && statements[statements.length - 1].operator == 5))) {
         statement.inputNumber = Decimal.fromInt(0);
       }
       if (!statements.contains(statement) && statement.inputNumber != null) {

@@ -1,4 +1,4 @@
-import 'package:caculator/viewmodel/Statement.dart';
+import 'package:calculator/viewmodel/Statement.dart';
 import 'package:decimal/decimal.dart';
 
 class OperateUtil {

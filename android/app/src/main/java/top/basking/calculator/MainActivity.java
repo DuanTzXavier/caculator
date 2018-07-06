@@ -1,4 +1,4 @@
-package top.basking.caculator;
+package top.basking.calculator;
 
 import android.os.Bundle;
 import io.flutter.app.FlutterActivity;
