@@ -49,7 +49,8 @@ class MyHomeScreen extends State<HomeScreen> {
             } else
             if (position == 0 || (position == 1 && statements.length > 0)) {
               String operator = getStatementOperator(statement.operator);
-              widget = Row(mainAxisAlignment: MainAxisAlignment.end,children: <Widget>[
+              widget = Row(
+                mainAxisAlignment: MainAxisAlignment.end, children: <Widget>[
                 Container(
                   padding: EdgeInsets.only(right: 20.0),
                   alignment: Alignment.bottomRight,
@@ -63,15 +64,19 @@ class MyHomeScreen extends State<HomeScreen> {
             } else {
               int index = statements.length + 1 - position;
               String number = getShowNumber(statements[index].number);
-              String operator = getStatementOperator(statements[index].operator);
-              widget = Row(mainAxisAlignment: MainAxisAlignment.end,children: <Widget>[
+              String operator = getStatementOperator(
+                  statements[index].operator);
+              widget = Row(
+                mainAxisAlignment: MainAxisAlignment.end, children: <Widget>[
                 Container(
                   padding: EdgeInsets.only(right: 20.0),
                   child: Text('$operator',
-                    style: TextStyle(fontSize: 30.0, color: Colors.grey[600]),),),
+                    style: TextStyle(
+                        fontSize: 30.0, color: Colors.grey[600]),),),
                 Align(
                   child: Text('$number',
-                    style: TextStyle(fontSize: 30.0, color: Colors.grey[600]),),),
+                    style: TextStyle(
+                        fontSize: 30.0, color: Colors.grey[600]),),),
 
               ],);
             }
@@ -179,7 +184,7 @@ class MyHomeScreen extends State<HomeScreen> {
 
   void addOperator(int operator) {
     setState(() {
-      if (statement.number == 0.0){
+      if (statement.number == 0.0) {
         statement.operator = operator;
         return;
       }
@@ -188,9 +193,9 @@ class MyHomeScreen extends State<HomeScreen> {
       }
       statement = Statement();
       statement.operator = operator;
-      if (operator > 2){
+      if (operator > 2) {
         statement.number = 1.0;
-      }else {
+      } else {
         statement.number = 0.0;
       }
       showText = " ";
@@ -198,10 +203,10 @@ class MyHomeScreen extends State<HomeScreen> {
     });
   }
 
-  void caculateResult(){
+  void caculateResult() {
     setState(() {
       double result = 0.0;
-      for(var statement in statements){
+      for (var statement in statements) {
         result = caculateStatement(result, statement);
       }
       result = caculateStatement(result, statement);
@@ -209,8 +214,8 @@ class MyHomeScreen extends State<HomeScreen> {
     });
   }
 
-  double caculateStatement(double result, Statement statement){
-    switch(statement.operator){
+  double caculateStatement(double result, Statement statement) {
+    switch (statement.operator) {
       case 1:
         result += statement.number;
         break;
@@ -230,9 +235,9 @@ class MyHomeScreen extends State<HomeScreen> {
     return result;
   }
 
-  String getStatementOperator(int operator){
+  String getStatementOperator(int operator) {
     String result = " ";
-    switch(operator){
+    switch (operator) {
       case 1:
         result = "+";
         break;
@@ -254,11 +259,13 @@ class MyHomeScreen extends State<HomeScreen> {
 
   void deleteNumber() {
     setState(() {
-      if (showText.length <= 1) {
-        showText = "0";
+      if (showText.length <= 2) {
+        showText = statement.operator == 0 ? "0" : " ";
       } else {
         showText = showText.substring(0, showText.length - 1);
       }
+      statement.number = statement.operator > 2 ? 1.0 : double.parse(showText);
+      caclulateStatement();
     });
   }
 
@@ -268,14 +275,17 @@ class MyHomeScreen extends State<HomeScreen> {
 
   Widget initButton(String text, {GestureTapCallback callback, Color color}) {
     return Expanded(
-        child: GestureDetector(onTap: callback, child: Container(
-          decoration: new BoxDecoration(
-            border: new Border.all(
-                width: 0.1,
-                color: Colors.black38),),
-          child: Center(
-            child: Text(
-              text, style: TextStyle(fontSize: 22.0, color: color),),),),));
+        child: new Material(
+          child: new InkWell(onTap: callback,
+            child: GestureDetector(onTap: null, child: Container(
+              decoration: new BoxDecoration(
+                border: new Border.all(
+                    width: 0.1,
+                    color: Colors.black38),),
+              child: Center(
+                child: Text(
+                  text,
+                  style: TextStyle(fontSize: 22.0, color: color),),),),),),));
   }
 
   Widget initIconButton(String text, GestureTapCallback callback) {
@@ -302,7 +312,7 @@ class MyHomeScreen extends State<HomeScreen> {
                 style: TextStyle(fontSize: 40.0, color: Colors.white),),)));
   }
 
-  String getShowNumber(double number){
+  String getShowNumber(double number) {
     return Decimal.parse(number.toString()).toString();
   }
 
