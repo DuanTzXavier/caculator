@@ -164,20 +164,34 @@ class MyHomeScreen extends State<HomeScreen> {
 
   void appendNumber(String append) {
     setState(() {
-      if (append == "%"){
-        showText = (Decimal.parse(showText)/Decimal.fromInt(100)).toString();
-      } else if (append == "." && showText.contains(".")) {
-        return;
-      } else if (showText == "0" || statement.inputNumber == null) {
-        this.showText = append;
-      } else {
-        showText += append;
+      switch (append) {
+        case "%":
+          if (showText.isEmpty) {
+            break;
+          }
+          showText =
+              (Decimal.parse(showText) / Decimal.fromInt(100)).toString();
+          break;
+        case ".":
+          if (showText.contains(".")) {
+            break;
+          }
+          if (showText.isEmpty) {
+            showText = "0";
+          }
+          showText += append;
+          break;
+        default:
+          if (showText == "0" || statement.inputNumber == null) {
+            showText = append;
+          } else {
+            showText += append;
+          }
+          break;
       }
-      if(showText.endsWith(".")){
-        statement.inputNumber = Decimal.parse(showText.replaceAll(".", ""));
-      }else{
-        statement.inputNumber = Decimal.parse(showText);
-      }
+
+      statement.inputNumber = Decimal.parse(
+          showText.endsWith(".") ? showText.replaceAll(".", "") : showText);
 
       caculateResult();
     });
@@ -215,11 +229,17 @@ class MyHomeScreen extends State<HomeScreen> {
   void caculateResult() {
     setState(() {
       Decimal result = Decimal.fromInt(0);
-      for (var statement in statements) {
+      try {
+        for (var statement in statements) {
+          result = caculateStatement(result, statement);
+        }
         result = caculateStatement(result, statement);
+        resultNumber = result.toString();
+      } on Exception catch (_) {
+        resultNumber = "Error";
+      } catch (_) {
+        resultNumber = "Error";
       }
-      result = caculateStatement(result, statement);
-      resultNumber = result.toString();
     });
   }
 
@@ -268,15 +288,17 @@ class MyHomeScreen extends State<HomeScreen> {
 
   void deleteNumber() {
     setState(() {
-      if (showText.length < 2) {
+      if (showText.length < 2 || showText == "0.") {
         showText = statement.operator == 0 ? "0" : "";
       } else {
         showText = showText.substring(0, showText.length - 1);
       }
-      if (showText.length < 2){
-        statement.inputNumber = statement.operator > 2 ? Decimal.fromInt(1) : Decimal.fromInt(0);
-      }else{
-        statement.inputNumber = Decimal.parse(showText);
+      if (showText.length < 2) {
+        statement.inputNumber =
+        statement.operator > 2 ? Decimal.fromInt(1) : Decimal.fromInt(0);
+      } else {
+        statement.inputNumber = Decimal.parse(
+            showText.endsWith(".") ? showText.replaceAll(".", "") : showText);
       }
       caclulateStatement();
     });
@@ -340,7 +362,8 @@ class MyHomeScreen extends State<HomeScreen> {
           Icon(Icons.view_module, color: Colors.grey[800]), "点什么点，我还没写功能呢"),
       elevation: 0.0,
       actions: <Widget>[
-        Container(padding: EdgeInsets.only(right: 15.0),child: clickToShowScaffold(
+        Container(
+          padding: EdgeInsets.only(right: 15.0), child: clickToShowScaffold(
             Icon(Icons.swap_horiz, color: Colors.grey[800]), "点什么点，我还没写功能呢"),)
       ],
     );
