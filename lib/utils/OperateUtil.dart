@@ -1,30 +1,33 @@
 import 'package:calculator/viewmodel/Statement.dart';
 import 'package:decimal/decimal.dart';
+import 'package:flutter/material.dart';
+import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
 class OperateUtil {
-  static String getStatementOperator(int operator) {
-    String operatorText = " ";
+  
+  static IconData getStatementOperatorIcon(int operator) {
+    IconData operatorIcon;
     switch (operator) {
       case 1:
-        operatorText = "+";
+        operatorIcon = Icons.add;
         break;
       case 2:
-        operatorText = "-";
+        operatorIcon = Icons.remove;
         break;
       case 3:
-        operatorText = "*";
+        operatorIcon = Icons.clear;
         break;
       case 4:
-        operatorText = "/";
+        operatorIcon = MdiIcons.division;
         break;
       case 5:
-        operatorText = "=";
+        operatorIcon = MdiIcons.equal;
         break;
       default:
-        operatorText = " ";
+        operatorIcon;
         break;
     }
-    return operatorText;
+    return operatorIcon;
   }
 
   static Decimal calculateStatement(Decimal result, Statement statement) {

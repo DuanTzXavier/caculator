@@ -1,6 +1,7 @@
 import 'package:calculator/utils/OperateUtil.dart';
 import 'package:calculator/viewmodel/Statement.dart';
 import 'package:flutter/material.dart';
+import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:decimal/decimal.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -14,7 +15,7 @@ class MyHomeScreen extends State<HomeScreen> {
   List<Statement> statements = List();
   Statement statement = Statement();
   bool isShowResult = false;
-  bool isAllClear = false;
+  bool isAllClear = true;
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +25,7 @@ class MyHomeScreen extends State<HomeScreen> {
         children: <Widget>[
           initInputedView(),
           Expanded(
-            child: Container(color: Colors.white, child: initButtons(),),)
+            child: initButtons(),)
         ],
       ),
     );
@@ -50,20 +51,20 @@ class MyHomeScreen extends State<HomeScreen> {
             if (position == 0 && statements.length > 0) {
               bool isblock = statements[statements.length - 1].operator == 5;
               widget = Opacity(
-                opacity: isShowResult || isblock ? 0.0 : 1.0, child: initResult(),);
+                opacity: isShowResult || isblock ? 0.0 : 1.0,
+                child: initResult(),);
             } else
             if (position == 0 || (position == 1 && statements.length > 0)) {
-              String operator = OperateUtil.getStatementOperator(
+              IconData operatorIcon = OperateUtil.getStatementOperatorIcon(
                   statement.operator);
               String showNumber = isShowResult ? statement.inputNumber
                   .toString() : showText;
               widget = Row(
                 mainAxisAlignment: MainAxisAlignment.end, children: <Widget>[
                 Container(
-                  padding: EdgeInsets.only(right: 20.0),
+                  padding: EdgeInsets.only(right: 5.0),
                   alignment: Alignment.bottomRight,
-                  child: Text('$operator',
-                    style: TextStyle(fontSize: 40.0),),),
+                  child: Icon(operatorIcon, size: 32.0,),),
                 Align(
                   alignment: Alignment.bottomRight,
                   child: Text('$showNumber',
@@ -72,7 +73,7 @@ class MyHomeScreen extends State<HomeScreen> {
             } else {
               int index = statements.length + 1 - position;
               String number = statements[index].inputNumber.toString();
-              String operator = OperateUtil.getStatementOperator(
+              IconData operatorIcon = OperateUtil.getStatementOperatorIcon(
                   statements[index].operator);
               widget =
                   Column(children: <Widget>[
@@ -80,10 +81,9 @@ class MyHomeScreen extends State<HomeScreen> {
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: <Widget>[
                         Container(
-                          padding: EdgeInsets.only(right: 20.0),
-                          child: Text('$operator',
-                            style: TextStyle(
-                                fontSize: 30.0, color: Colors.grey[600]),),),
+                          alignment: Alignment.bottomRight,
+                          child: Icon(operatorIcon, size: 26.0,
+                            color: Colors.grey[600],),),
                         Align(
                           child: Text('$number',
                             style: TextStyle(
@@ -91,7 +91,9 @@ class MyHomeScreen extends State<HomeScreen> {
 
                       ],),
 
-                    Offstage(offstage: statements[index].operator == 5 ? false : true, child: Divider(color: Colors.grey,),),
+                    Offstage(
+                      offstage: statements[index].operator == 5 ? false : true,
+                      child: Divider(color: Colors.grey,),),
                   ],);
             }
 
@@ -104,7 +106,8 @@ class MyHomeScreen extends State<HomeScreen> {
       children: <Widget>[
         Expanded(child: Column(
             children: <Widget>[
-              initButton(isAllClear ? "AC" : "C", color: Colors.orange, callback: () {
+              initButton(
+                  isAllClear ? "AC" : "C", color: Colors.orange, callback: () {
                 clearNumber();
               }),
               initButton("7", callback: () {
@@ -116,14 +119,14 @@ class MyHomeScreen extends State<HomeScreen> {
               initButton("1", callback: () {
                 appendNumber("1");
               }),
-              initButton("%", callback: () {
+              initIconButton(MdiIcons.percent, size: 24.0, callback: () {
                 appendNumber("%");
               }),
             ])),
 
         Expanded(child: Column(
             children: <Widget>[
-              initButton("DEL", callback: () {
+              initIconButton(Icons.backspace, callback: () {
                 deleteNumber();
               }),
               initButton("8", callback: () {
@@ -142,7 +145,7 @@ class MyHomeScreen extends State<HomeScreen> {
 
         Expanded(child: Column(
             children: <Widget>[
-              initButton("/", callback: () {
+              initIconButton(MdiIcons.division, size: 32.0, callback: () {
                 addOperator(4);
               }),
               initButton("9", callback: () {
@@ -161,16 +164,16 @@ class MyHomeScreen extends State<HomeScreen> {
 
         Expanded(child: Column(
             children: <Widget>[
-              initButton("*", callback: () {
+              initIconButton(Icons.clear, size: 28.0, callback: () {
                 addOperator(3);
               }),
-              initButton("-", callback: () {
+              initIconButton(Icons.remove, size: 28.0, callback: () {
                 addOperator(2);
               }),
-              initButton("+", callback: () {
+              initIconButton(Icons.add, size: 28.0, callback: () {
                 addOperator(1);
               }),
-              initBigButton("=", callback: () {
+              initBigButton(MdiIcons.equal, callback: () {
                 showResult();
               }),
             ])),
@@ -235,7 +238,9 @@ class MyHomeScreen extends State<HomeScreen> {
         statement.inputNumber = lastResult;
         isShowResult = false;
       }
-      if (statement.inputNumber == null && (statements.length == 0 || (statements.length > 0 && statements[statements.length - 1].operator == 5))) {
+      if (statement.inputNumber == null && (statements.length == 0 ||
+          (statements.length > 0 &&
+              statements[statements.length - 1].operator == 5))) {
         statement.inputNumber = Decimal.fromInt(0);
       }
       if (!statements.contains(statement) && statement.inputNumber != null) {
@@ -244,13 +249,15 @@ class MyHomeScreen extends State<HomeScreen> {
       statement = Statement();
       statement.operator = operator;
       showText = "";
+      isAllClear = false;
       calculateResult();
     });
   }
 
   void calculateResult() {
     setState(() {
-      if (statements.length > 0 && statements[statements.length - 1].operator == 5){
+      if (statements.length > 0 &&
+          statements[statements.length - 1].operator == 5) {
         return;
       }
 
@@ -271,8 +278,13 @@ class MyHomeScreen extends State<HomeScreen> {
 
   void showResult() {
     setState(() {
-      statements.add(statement);
-      statement = Statement();
+      if (statement.operator == 5){
+        return;
+      }
+      if (statement.inputNumber != null){
+        statements.add(statement);
+        statement = Statement();
+      }
       statement.inputNumber = Decimal.parse(resultNumber);
       statement.operator = 5;
       isShowResult = true;
@@ -284,14 +296,14 @@ class MyHomeScreen extends State<HomeScreen> {
     showText = "0";
     statement = Statement();
 
-    if (isAllClear){
+    if (isAllClear) {
       statements.clear();
-    }else{
+    } else {
       isAllClear = true;
-      for (int i = statements.length;i > 0;i --){
-        if (statements[i-1].operator != 5){
-          statements.remove(statements[i-1]);
-        }else{
+      for (int i = statements.length; i > 0; i --) {
+        if (statements[i - 1].operator != 5) {
+          statements.remove(statements[i - 1]);
+        } else {
           break;
         }
       }
@@ -325,9 +337,12 @@ class MyHomeScreen extends State<HomeScreen> {
     calculateResult();
   }
 
-  Widget initButton(String text, {GestureTapCallback callback, Color color}) {
+  Widget initButton(String text,
+      {GestureTapCallback callback, double size: 26.0, Color color: const Color(
+          0xFF303030)}) {
     return Expanded(
       child: new Material(
+        color: Colors.white,
         child: new InkWell(onTap: callback,
           child: Container(
             decoration: new BoxDecoration(
@@ -337,21 +352,28 @@ class MyHomeScreen extends State<HomeScreen> {
             child: Center(
               child: Text(
                 text,
-                style: TextStyle(fontSize: 22.0, color: color),),),),),),);
+                style: TextStyle(fontSize: size, color: color),),),),),),);
   }
 
-  Widget initIconButton(String text, GestureTapCallback callback) {
+  Widget initIconButton(IconData icon,
+      {GestureTapCallback callback, double size: 22.0, Color color: const Color(
+          0xFF303030)}) {
     return Expanded(
-        child: Container(
-          decoration: new BoxDecoration(
-            border: new Border.all(
-                width: 0.5,
-                color: Colors.black38),),
-          child: GestureDetector(onTap: () {}, child: Center(
-            child: Icon(Icons.add),),),));
+      child: new Material(
+        color: Colors.white,
+        child: new InkWell(onTap: callback,
+          child: Container(
+            decoration: new BoxDecoration(
+              border: new Border.all(
+                  width: 0.1,
+                  color: Colors.black38),),
+            child: Center(
+              child: Icon(
+                icon,
+                size: size, color: color,),),),),),);
   }
 
-  Widget initBigButton(String text, {GestureTapCallback callback}) {
+  Widget initBigButton(IconData icon, {GestureTapCallback callback}) {
     return Expanded(
       flex: 2,
       child: new Material(
@@ -362,9 +384,8 @@ class MyHomeScreen extends State<HomeScreen> {
               border: new Border.all(
                   width: 0.1, color: Colors.black38),),
             child: Center(
-              child: Text(text,
-                style: TextStyle(
-                    fontSize: 40.0, color: Colors.white),),),),),),);
+              child: Icon(icon,
+                size: 35.0, color: Colors.white,),),),),),);
   }
 
   String getShowNumber(double number) {
