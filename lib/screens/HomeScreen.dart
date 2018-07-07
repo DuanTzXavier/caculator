@@ -63,12 +63,9 @@ class MyHomeScreen extends State<HomeScreen> {
                 mainAxisAlignment: MainAxisAlignment.end, children: <Widget>[
                 Container(
                   padding: EdgeInsets.only(right: 5.0),
-                  alignment: Alignment.bottomRight,
                   child: Icon(operatorIcon, size: 32.0,),),
-                Align(
-                  alignment: Alignment.bottomRight,
-                  child: Text('$showNumber',
-                    style: TextStyle(fontSize: 40.0),),),
+                Text('$showNumber',
+                  style: TextStyle(fontSize: 40.0),),
               ],);
             } else {
               int index = statements.length + 1 - position;
@@ -81,14 +78,12 @@ class MyHomeScreen extends State<HomeScreen> {
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: <Widget>[
                         Container(
-                          alignment: Alignment.bottomRight,
+                          padding: EdgeInsets.only(right: 5.0),
                           child: Icon(operatorIcon, size: 26.0,
                             color: Colors.grey[600],),),
-                        Align(
-                          child: Text('$number',
-                            style: TextStyle(
-                                fontSize: 30.0, color: Colors.grey[600]),),),
-
+                        Text('$number',
+                          style: TextStyle(
+                              fontSize: 30.0, color: Colors.grey[600]),),
                       ],),
 
                     Offstage(
@@ -186,6 +181,7 @@ class MyHomeScreen extends State<HomeScreen> {
       if (statement.operator == 5) {
         statements.add(statement);
         statement = Statement();
+        showText = "0";
         isShowResult = false;
       }
       isAllClear = false;
@@ -256,16 +252,17 @@ class MyHomeScreen extends State<HomeScreen> {
 
   void calculateResult() {
     setState(() {
-      if (statements.length > 0 &&
-          statements[statements.length - 1].operator == 5) {
-        return;
-      }
-
       Decimal result = Decimal.fromInt(0);
       try {
-        for (var statement in statements) {
-          result = OperateUtil.calculateStatement(result, statement);
+        for (int i = statements.length - 1;i > 0;i --) {
+          if (statements[i].operator != 5){
+            result = OperateUtil.calculateStatement(result,statements[i]);
+            print("123");
+          }else {
+            break;
+          }
         }
+        print(statement.inputNumber);
         result = OperateUtil.calculateStatement(result, statement);
         resultNumber = result.toString();
       } on Exception catch (_) {
@@ -278,10 +275,10 @@ class MyHomeScreen extends State<HomeScreen> {
 
   void showResult() {
     setState(() {
-      if (statement.operator == 5){
+      if (statement.operator == 5) {
         return;
       }
-      if (statement.inputNumber != null){
+      if (statement.inputNumber != null) {
         statements.add(statement);
         statement = Statement();
       }
@@ -294,6 +291,7 @@ class MyHomeScreen extends State<HomeScreen> {
   void initCalculateValue() {
     isShowResult = false;
     showText = "0";
+    resultNumber = "0";
     statement = Statement();
 
     if (isAllClear) {
