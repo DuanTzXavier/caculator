@@ -10,6 +10,16 @@ dependencies:
   cupertino_icons: ^0.1.2
   decimal: ^0.2.0
   material_design_icons_flutter: 2.3.50
+  flutter_launcher_icons: ^0.5.2
+
+flutter_icons:
+  android: true
+  ios: "Example-Icon"
+  image_path: "assets/icon/icon.png"
+  image_path_android: "assets/icon/icon.png"
+  image_path_ios: "assets/icon/icon.png"
+  adaptive_icon_background: "#FFFAFAFA"
+#  adaptive_icon_foreground: "assets/icon/icon-foreground.png"
 
 dev_dependencies:
   flutter_test:
