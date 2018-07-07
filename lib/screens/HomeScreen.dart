@@ -32,9 +32,17 @@ class MyHomeScreen extends State<HomeScreen> {
   }
 
   Widget initResult() {
-    return Align(alignment: Alignment.bottomRight, child: Text(
-      "=" + "$resultNumber",
-      style: TextStyle(fontSize: 23.0, color: Colors.grey),),);
+    return Align(alignment: Alignment.bottomRight, child: Row(
+      mainAxisAlignment: MainAxisAlignment.end,
+      children: <Widget>[
+        Container(
+          padding: EdgeInsets.only(right: 5.0),
+          child: Icon(MdiIcons.equal, size: 20.0,
+            color: Colors.grey,),),
+        Text('$resultNumber',
+          style: TextStyle(
+              fontSize: 25.0, color: Colors.grey),),
+      ],),);
   }
 
   Widget initInputedView() {
@@ -63,9 +71,9 @@ class MyHomeScreen extends State<HomeScreen> {
                 mainAxisAlignment: MainAxisAlignment.end, children: <Widget>[
                 Container(
                   padding: EdgeInsets.only(right: 5.0),
-                  child: Icon(operatorIcon, size: 32.0,),),
+                  child: Icon(operatorIcon, size: 40.0,),),
                 Text('$showNumber',
-                  style: TextStyle(fontSize: 40.0),),
+                  style: TextStyle(fontSize: 50.0),),
               ],);
             } else {
               int index = statements.length + 1 - position;
@@ -79,16 +87,16 @@ class MyHomeScreen extends State<HomeScreen> {
                       children: <Widget>[
                         Container(
                           padding: EdgeInsets.only(right: 5.0),
-                          child: Icon(operatorIcon, size: 26.0,
+                          child: Icon(operatorIcon, size: 20.0,
                             color: Colors.grey[600],),),
                         Text('$number',
                           style: TextStyle(
-                              fontSize: 30.0, color: Colors.grey[600]),),
+                              fontSize: 25.0, color: Colors.grey[600]),),
                       ],),
 
                     Offstage(
                       offstage: statements[index].operator == 5 ? false : true,
-                      child: Divider(color: Colors.grey,),),
+                      child: Padding(padding: EdgeInsets.only(top: 8.0, bottom: 8.0), child: Divider(color: Colors.grey,),),),
                   ],);
             }
 
