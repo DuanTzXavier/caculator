@@ -5,4 +5,3 @@ class HomeScreen extends StatefulWidget {
   @override
   State<StatefulWidget> createState() => CalculatorPage();
 }
-

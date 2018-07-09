@@ -1,3 +1,4 @@
+import 'package:calculator/screens/CategaryCalcuatorScreen.dart';
 import 'package:calculator/screens/HomeScreen.dart';
 import 'package:calculator/utils/OperateUtil.dart';
 import 'package:calculator/viewmodel/Statement.dart';
@@ -92,7 +93,9 @@ class CalculatorPage extends State<HomeScreen> {
 
                     Offstage(
                       offstage: statements[index].operator == 5 ? false : true,
-                      child: Padding(padding: EdgeInsets.only(top: 8.0, bottom: 8.0), child: Divider(color: Colors.grey,),),),
+                      child: Padding(
+                        padding: EdgeInsets.only(top: 8.0, bottom: 8.0),
+                        child: Divider(color: Colors.grey,),),),
                   ],);
             }
 
@@ -258,13 +261,11 @@ class CalculatorPage extends State<HomeScreen> {
     setState(() {
       Decimal result = Decimal.fromInt(0);
       try {
-        for (int i = statements.length - 1;i > 0;i --) {
-          if (statements[i].operator != 5){
-            result = OperateUtil.calculateStatement(result,statements[i]);
-          }else {
-            break;
-          }
+        for (int i = 0; i < statements.length; i ++) {
+//          print("status" + statements[i].operator.toString() + "x" + i.toString() + "   " + statements[i].inputNumber.toString());
+          result = OperateUtil.calculateStatement(result, statements[i]);
         }
+//        print("result pre" + statement.operator.toString() + " x  " + result.toString() + "   " + statement.inputNumber.toString());
         result = OperateUtil.calculateStatement(result, statement);
         resultNumber = result.toString();
       } on Exception catch (_) {
@@ -277,7 +278,8 @@ class CalculatorPage extends State<HomeScreen> {
 
   void showResult() {
     setState(() {
-      if (statement.operator == 5) {
+      if (statement.operator == 5 ||
+          (statement.inputNumber == null && showText == "0")) {
         return;
       }
       if (statement.inputNumber != null) {
@@ -399,13 +401,15 @@ class CalculatorPage extends State<HomeScreen> {
   Widget initAppBar() {
     return AppBar(
       backgroundColor: Colors.grey[100],
-//      leading: clickToShowScaffold(Icon(Icons.view_module, color: Colors.grey[800]), "点什么点，我还没写功能呢"),
+      leading: clickToShowScaffold(
+          Icon(Icons.view_module, color: Colors.grey[800]), "点什么点，我还没写功能呢"),
       elevation: 0.0,
       actions: <Widget>[
         Container(
-          padding: EdgeInsets.only(right: 15.0), child: null
-//          clickToShowScaffold(Icon(Icons.swap_horiz, color: Colors.grey[800]), "点什么点，我还没写功能呢")
-    ,)
+          padding: EdgeInsets.only(right: 15.0), child:
+        clickToShowScaffold(
+            Icon(Icons.swap_horiz, color: Colors.grey[800]), "点什么点，我还没写功能呢")
+          ,)
       ],
     );
   }
@@ -413,8 +417,44 @@ class CalculatorPage extends State<HomeScreen> {
   Builder clickToShowScaffold(Widget widget, String message) {
     return new Builder(builder: (BuildContext context) {
       return GestureDetector(child: widget, onTap: () {
-        Scaffold.of(context).showSnackBar(new SnackBar(
-          content: new Text(message),
+
+//        Navigator.push(context, new MaterialPageRoute<void>(
+//            builder: (BuildContext context) {
+//          return new Scaffold(
+//            appBar: new AppBar(title: new Text('My Page')),
+//            body: new Center(
+//              child: new FlatButton(
+//                child: new Text('POP'),
+//                onPressed: () {
+//                  Navigator.pop(context);
+//                },
+//              ),
+//            ),
+//          );
+//        },
+//        ));
+
+//        var router = MaterialApp().onGenerateRoute;
+//        Navigato
+//        Navigator.push(context, new MaterialPageRoute<void>(
+//        builder: (_) => CategrayCalculatorScreen()));
+//        Scaffold.of(context).showSnackBar(new SnackBar(
+//          content: new Text(message),
+//        ));
+
+
+        Navigator.push(context, new PageRouteBuilder(
+            opaque: false,
+            pageBuilder: (BuildContext context, _, __) {
+              return CategrayCalculatorScreen();
+            },
+            transitionsBuilder: (___, Animation<double> animation, ____, Widget child) {
+              return new FadeTransition(
+                opacity: animation,
+                child: SizeTransition(child: child, sizeFactor: Tween().animate(CurvedAnimation(parent: null, curve: null)),),
+
+              );
+            }
         ));
       },);
     });

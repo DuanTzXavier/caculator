@@ -55,6 +55,9 @@ class OperateUtil {
       case 4:
         result /= operatorNumber;
         break;
+      case 5:
+        result = Decimal.fromInt(0);
+        break;
       default:
         result = operatorNumber;
         break;
