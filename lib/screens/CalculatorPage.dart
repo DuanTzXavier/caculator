@@ -402,12 +402,12 @@ class CalculatorPage extends State<HomeScreen> {
     return AppBar(
       backgroundColor: Colors.grey[100],
       leading: clickToShowScaffold(
-          Icon(Icons.view_module, color: Colors.grey[800]), "点什么点，我还没写功能呢"),
+          Icon(Icons.view_module, color: Colors.grey[800])),
       elevation: 0.0,
     );
   }
 
-  Builder clickToShowScaffold(Widget widget, String message) {
+  Builder clickToShowScaffold(Widget widget) {
     return new Builder(builder: (BuildContext context) {
       return GestureDetector(child: widget, onTap: () {
         Navigator.push(context, new PageRouteBuilder(

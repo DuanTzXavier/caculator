@@ -1,3 +1,4 @@
+import 'package:calculator/screens/ConvertCalculatorScreen.dart';
 import 'package:calculator/screens/SettingScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
@@ -21,7 +22,22 @@ class CategoryCalculatorScreenState extends State<CategoryCalculatorScreen> {
                       MdiIcons.calculator, name: "计算器", callback: () {
                     Navigator.pop(context);
                   }),
-                  initIconButton(null),
+                  initIconButton(
+                      MdiIcons.ruler, name: "长度转换", callback: () {
+                    Navigator.push(context, new PageRouteBuilder(
+                        opaque: false,
+                        pageBuilder: (BuildContext context, _, __) {
+                          return ConvertCalculatorScreen();
+                        },
+                        transitionsBuilder: (___, Animation<double> animation, ____,
+                            Widget child) {
+                          return new FadeTransition(
+                            opacity: animation,
+                            child: child,
+                          );
+                        }
+                    ));
+                  }),
                   initIconButton(null),
                 ])),
             Expanded(child: Row(
@@ -59,7 +75,9 @@ class CategoryCalculatorScreenState extends State<CategoryCalculatorScreen> {
                   Padding(padding: EdgeInsets.all(5.0), child: Icon(
                     icon,
                     size: size, color: Colors.white,),),
-                  Padding(padding: EdgeInsets.all(5.0), child: Text("$name", style: TextStyle(color: Colors.white),),),
+                  Padding(padding: EdgeInsets.all(5.0),
+                    child: Text(
+                      "$name", style: TextStyle(color: Colors.white),),),
                 ],),),),),),);
   }
 
