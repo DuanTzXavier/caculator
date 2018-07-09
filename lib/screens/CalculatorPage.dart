@@ -1,4 +1,4 @@
-import 'package:calculator/screens/CategaryCalcuatorScreen.dart';
+import 'package:calculator/screens/CategoryCalculatorScreen.dart';
 import 'package:calculator/screens/HomeScreen.dart';
 import 'package:calculator/utils/OperateUtil.dart';
 import 'package:calculator/viewmodel/Statement.dart';
@@ -404,55 +404,21 @@ class CalculatorPage extends State<HomeScreen> {
       leading: clickToShowScaffold(
           Icon(Icons.view_module, color: Colors.grey[800]), "点什么点，我还没写功能呢"),
       elevation: 0.0,
-      actions: <Widget>[
-        Container(
-          padding: EdgeInsets.only(right: 15.0), child:
-        clickToShowScaffold(
-            Icon(Icons.swap_horiz, color: Colors.grey[800]), "点什么点，我还没写功能呢")
-          ,)
-      ],
     );
   }
 
   Builder clickToShowScaffold(Widget widget, String message) {
     return new Builder(builder: (BuildContext context) {
       return GestureDetector(child: widget, onTap: () {
-
-//        Navigator.push(context, new MaterialPageRoute<void>(
-//            builder: (BuildContext context) {
-//          return new Scaffold(
-//            appBar: new AppBar(title: new Text('My Page')),
-//            body: new Center(
-//              child: new FlatButton(
-//                child: new Text('POP'),
-//                onPressed: () {
-//                  Navigator.pop(context);
-//                },
-//              ),
-//            ),
-//          );
-//        },
-//        ));
-
-//        var router = MaterialApp().onGenerateRoute;
-//        Navigato
-//        Navigator.push(context, new MaterialPageRoute<void>(
-//        builder: (_) => CategrayCalculatorScreen()));
-//        Scaffold.of(context).showSnackBar(new SnackBar(
-//          content: new Text(message),
-//        ));
-
-
         Navigator.push(context, new PageRouteBuilder(
             opaque: false,
             pageBuilder: (BuildContext context, _, __) {
-              return CategrayCalculatorScreen();
+              return CategoryCalculatorScreen();
             },
             transitionsBuilder: (___, Animation<double> animation, ____, Widget child) {
               return new FadeTransition(
                 opacity: animation,
-                child: SizeTransition(child: child, sizeFactor: Tween().animate(CurvedAnimation(parent: null, curve: null)),),
-
+                child: SizeTransition(child: child, sizeFactor: animation,),
               );
             }
         ));
