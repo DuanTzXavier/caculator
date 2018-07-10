@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:calculator/convert/ConvertModel.dart';
 import 'package:calculator/convert/LengthStatic.dart';
 import 'package:decimal/decimal.dart';
@@ -27,7 +29,8 @@ class ConvertCalculatorScreenState extends State<ConvertCalculatorScreen> {
     firstModel = LengthStatic.meter;
     secondModel = LengthStatic.kilometer;
 
-    ratio = Decimal.parse(secondModel.absValue) / Decimal.parse(firstModel.absValue);
+    ratio = Decimal.parse(secondModel.absValue) /
+        Decimal.parse(firstModel.absValue);
     setShowText(firstShowText);
   }
 
@@ -48,7 +51,9 @@ class ConvertCalculatorScreenState extends State<ConvertCalculatorScreen> {
     return AspectRatio(
       aspectRatio: 7 / 4,
       child: Column(children: <Widget>[
-        Expanded(child: Container(
+        Expanded(child: GestureDetector(onTap: () {
+          _askedToLead(true);
+        }, child: Container(
           color: Colors.grey[100],
           child: Row(
             children: <Widget>[
@@ -89,11 +94,13 @@ class ConvertCalculatorScreenState extends State<ConvertCalculatorScreen> {
                         ],),
                     ],),),)
                 ,),
-            ],),),),
+            ],),),),),
         Divider(
           height: 0.5,
         ),
-        Expanded(child: Container(
+        Expanded(child: GestureDetector(onTap: () {
+          _askedToLead(false);
+        }, child: Container(
           color: Colors.grey[100],
           child: Row(
             children: <Widget>[
@@ -139,7 +146,7 @@ class ConvertCalculatorScreenState extends State<ConvertCalculatorScreen> {
                       ],),)
                   ,)
                 ,),
-            ],),)),
+            ],),),),),
       ],),);
   }
 
@@ -382,5 +389,58 @@ class ConvertCalculatorScreenState extends State<ConvertCalculatorScreen> {
       showText = showText.substring(0, showText.length - 1);
     }
     setShowText(showText);
+  }
+
+  Future<Null> _askedToLead(bool isClickFirst) async {
+    var resultModel = await showDialog<ConvertModel>(
+        context: context,
+        builder: (BuildContext context) {
+          return new SimpleDialog(
+            title: Center(
+              child: Text("选择单位", style: TextStyle(fontSize: 14.0),),),
+            titlePadding: EdgeInsets.all(10.0),
+            children: getConvertList(),
+          );
+        }
+    );
+    if (resultModel != null) {
+      if (isClickFirst){
+        firstModel = resultModel;
+      }else{
+        secondModel = resultModel;
+      }
+      reloadData();
+    }
+  }
+
+  List<Widget> getConvertList() {
+    List<Widget> converts = List();
+    for (var convert in LengthStatic.lengths) {
+      converts.add(SimpleDialogOption(
+          onPressed: () {
+            Navigator.pop(context, convert);
+          },
+          child: Column(
+            children: <Widget>[
+              Row(children: <Widget>[
+                Text("${convert.name}", style: TextStyle(fontSize: 14.0),),
+                Text(
+                  " " + "${convert.unit}", style: TextStyle(fontSize: 12.0),),
+              ],),
+            ],
+          ))
+        ,
+      );
+    }
+    return
+      converts;
+  }
+
+  void reloadData() {
+    setState(() {
+      ratio = Decimal.parse(secondModel.absValue) /
+          Decimal.parse(firstModel.absValue);
+      setShowText(isEditFirst ? firstShowText : secondShowText);
+    });
   }
 }
