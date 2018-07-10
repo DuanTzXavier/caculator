@@ -404,9 +404,9 @@ class ConvertCalculatorScreenState extends State<ConvertCalculatorScreen> {
         }
     );
     if (resultModel != null) {
-      if (isClickFirst){
+      if (isClickFirst) {
         firstModel = resultModel;
-      }else{
+      } else {
         secondModel = resultModel;
       }
       reloadData();
@@ -432,8 +432,7 @@ class ConvertCalculatorScreenState extends State<ConvertCalculatorScreen> {
         ,
       );
     }
-    return
-      converts;
+    return converts;
   }
 
   void reloadData() {
