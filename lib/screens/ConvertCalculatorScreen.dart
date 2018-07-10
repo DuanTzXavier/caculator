@@ -274,11 +274,11 @@ class ConvertCalculatorScreenState extends State<ConvertCalculatorScreen> {
     setState(() {
       if (isEditFirst) {
         firstShowText = showText;
-        secondShowText = (Decimal.parse(showText.replaceAll(".", "")) * ratio).toString();
+        secondShowText = (Decimal.parse(showText.endsWith(".") ? showText.replaceAll(".", "") : showText) * ratio).toString();
         print(firstShowText);
       } else {
         secondShowText = showText;
-        firstShowText = (Decimal.parse(showText.replaceAll(".", "")) / ratio).toString();
+        firstShowText = (Decimal.parse(showText.endsWith(".") ? showText.replaceAll(".", "") : showText) / ratio).toString();
       }
     });
   }
