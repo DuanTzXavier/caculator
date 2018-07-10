@@ -1,3 +1,5 @@
+import 'package:calculator/convert/ConvertModel.dart';
+import 'package:calculator/convert/LengthStatic.dart';
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 
@@ -8,12 +10,26 @@ class ConvertCalculatorScreen extends StatefulWidget {
 
 class ConvertCalculatorScreenState extends State<ConvertCalculatorScreen> {
 
-  String editText = "1";
-  String firstShowText = "1";
-  String secondShowText = "2";
-  bool isEditFirst = true;
+  String firstShowText;
+  String secondShowText;
+  bool isEditFirst;
+  Decimal ratio;
 
-  Decimal ratio = Decimal.fromInt(100);
+  ConvertModel firstModel;
+  ConvertModel secondModel;
+
+  @override
+  void initState() {
+    super.initState();
+    firstShowText = "1";
+    isEditFirst = true;
+
+    firstModel = LengthStatic.meter;
+    secondModel = LengthStatic.kilometer;
+
+    ratio = Decimal.parse(secondModel.absValue) / Decimal.parse(firstModel.absValue);
+    setShowText(firstShowText);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -40,7 +56,7 @@ class ConvertCalculatorScreenState extends State<ConvertCalculatorScreen> {
                 child: Container(
                   padding: EdgeInsets.only(left: 25.0, right: 25.0),
                   child: Row(children: <Widget>[
-                    Text("米",
+                    Text("${firstModel.name}",
                       style: TextStyle(
                           fontSize: 24.0, color: Colors.grey[800]),),
                     Icon(Icons.arrow_drop_down, color: Colors.grey,),
@@ -67,7 +83,7 @@ class ConvertCalculatorScreenState extends State<ConvertCalculatorScreen> {
                         children: <Widget>[
                           Padding(
                             padding: EdgeInsets.only(right: 2.0),
-                            child: Text("m",
+                            child: Text("${firstModel.unit}",
                               style: TextStyle(
                                   fontSize: 12.0, color: Colors.grey[800]),),),
                         ],),
@@ -85,7 +101,7 @@ class ConvertCalculatorScreenState extends State<ConvertCalculatorScreen> {
                 child: Container(
                   padding: EdgeInsets.only(left: 25.0, right: 25.0),
                   child: Row(children: <Widget>[
-                    Text("厘米",
+                    Text("${secondModel.name}",
                       style: TextStyle(
                           fontSize: 24.0, color: Colors.grey[800]),),
                     Icon(Icons.arrow_drop_down, color: Colors.grey,),
@@ -115,7 +131,7 @@ class ConvertCalculatorScreenState extends State<ConvertCalculatorScreen> {
                           children: <Widget>[
                             Padding(
                               padding: EdgeInsets.only(right: 2.0),
-                              child: Text("cm",
+                              child: Text("${secondModel.unit}",
                                 style: TextStyle(
                                     fontSize: 12.0,
                                     color: Colors.grey[800]),),),
@@ -274,11 +290,15 @@ class ConvertCalculatorScreenState extends State<ConvertCalculatorScreen> {
     setState(() {
       if (isEditFirst) {
         firstShowText = showText;
-        secondShowText = (Decimal.parse(showText.endsWith(".") ? showText.replaceAll(".", "") : showText) * ratio).toString();
+        secondShowText = (Decimal.parse(
+            showText.endsWith(".") ? showText.replaceAll(".", "") : showText) *
+            ratio).toString();
         print(firstShowText);
       } else {
         secondShowText = showText;
-        firstShowText = (Decimal.parse(showText.endsWith(".") ? showText.replaceAll(".", "") : showText) / ratio).toString();
+        firstShowText = (Decimal.parse(
+            showText.endsWith(".") ? showText.replaceAll(".", "") : showText) /
+            ratio).toString();
       }
     });
   }
