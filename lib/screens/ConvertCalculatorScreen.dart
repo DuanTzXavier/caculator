@@ -1,3 +1,4 @@
+import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 
 class ConvertCalculatorScreen extends StatefulWidget {
@@ -11,6 +12,8 @@ class ConvertCalculatorScreenState extends State<ConvertCalculatorScreen> {
   String firstShowText = "1";
   String secondShowText = "2";
   bool isEditFirst = true;
+
+  Decimal ratio = Decimal.fromInt(100);
 
   @override
   Widget build(BuildContext context) {
@@ -30,6 +33,7 @@ class ConvertCalculatorScreenState extends State<ConvertCalculatorScreen> {
       aspectRatio: 7 / 4,
       child: Column(children: <Widget>[
         Expanded(child: Container(
+          color: Colors.grey[100],
           child: Row(
             children: <Widget>[
               Container(
@@ -44,7 +48,8 @@ class ConvertCalculatorScreenState extends State<ConvertCalculatorScreen> {
               Expanded(
                 child: GestureDetector(onTap: () {
                   setEditNumber(true);
-                }, child: Padding(padding: EdgeInsets.only(right: 25.0),
+                }, child: Container(padding: EdgeInsets.only(right: 25.0),
+                  color: Colors.grey[100],
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
@@ -73,6 +78,7 @@ class ConvertCalculatorScreenState extends State<ConvertCalculatorScreen> {
           height: 0.5,
         ),
         Expanded(child: Container(
+          color: Colors.grey[100],
           child: Row(
             children: <Widget>[
               Container(
@@ -87,28 +93,35 @@ class ConvertCalculatorScreenState extends State<ConvertCalculatorScreen> {
               Expanded(
                 child: GestureDetector(onTap: () {
                   setEditNumber(false);
-                }, child: Padding(padding: EdgeInsets.only(right: 25.0),
-                  child: Column(mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: <Widget>[
-                          Text("$secondShowText",
-                            style: TextStyle(
-                                fontSize: 28.0,
-                                color: isEditFirst ? Colors.grey[800] : Colors
-                                    .orange),),
-                        ],),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: <Widget>[
-                          Padding(
-                            padding: EdgeInsets.only(right: 2.0),
-                            child: Text("cm",
+                },
+                  child: Container(
+                    color: Colors.grey[100],
+                    padding: EdgeInsets.only(right: 25.0),
+                    child: Column(mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: <Widget>[
+                            Text("$secondShowText",
                               style: TextStyle(
-                                  fontSize: 12.0, color: Colors.grey[800]),),),
-                        ],),
-                    ],),),)
+                                  fontSize: 28.0,
+                                  color: isEditFirst
+                                      ? Colors.grey[800]
+                                      : Colors
+                                      .orange),),
+                          ],),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: <Widget>[
+                            Padding(
+                              padding: EdgeInsets.only(right: 2.0),
+                              child: Text("cm",
+                                style: TextStyle(
+                                    fontSize: 12.0,
+                                    color: Colors.grey[800]),),),
+                          ],),
+                      ],),)
+                  ,)
                 ,),
             ],),)),
       ],),);
@@ -126,34 +139,58 @@ class ConvertCalculatorScreenState extends State<ConvertCalculatorScreen> {
                         initButton("7", callback: () {
                           appendNumber("7");
                         }),
-                        initButton("8", callback: () {}),
-                        initButton("9", callback: () {}),
+                        initButton("8", callback: () {
+                          appendNumber("8");
+                        }),
+                        initButton("9", callback: () {
+                          appendNumber("9");
+                        }),
                       ])),
                   Expanded(child: Row(
                       children: <Widget>[
-                        initButton("4", callback: () {}),
-                        initButton("5", callback: () {}),
-                        initButton("6", callback: () {}),
+                        initButton("4", callback: () {
+                          appendNumber("4");
+                        }),
+                        initButton("5", callback: () {
+                          appendNumber("5");
+                        }),
+                        initButton("6", callback: () {
+                          appendNumber("6");
+                        }),
                       ])),
                   Expanded(child: Row(
                       children: <Widget>[
-                        initButton("1", callback: () {}),
-                        initButton("2", callback: () {}),
-                        initButton("3", callback: () {}),
+                        initButton("1", callback: () {
+                          appendNumber("1");
+                        }),
+                        initButton("2", callback: () {
+                          appendNumber("2");
+                        }),
+                        initButton("3", callback: () {
+                          appendNumber("3");
+                        }),
                       ])),
 
                   Expanded(child: Row(
                       children: <Widget>[
-                        initBig0TextButton("0", callback: () {}),
-                        initButton(".", callback: () {}),
+                        initBig0TextButton("0", callback: () {
+                          appendNumber("0");
+                        }),
+                        initButton(".", callback: () {
+                          appendNumber(".");
+                        }),
                       ])),
                 ])),
 
         Expanded(
             child: Column(
                 children: <Widget>[
-                  initBigTextButton("AC", callback: () {}),
-                  initBigButton(Icons.backspace, callback: () {}),
+                  initBigTextButton("AC", callback: () {
+                    clearNumber();
+                  }),
+                  initBigButton(Icons.backspace, callback: () {
+                    deleteNumber();
+                  }),
                 ])),
 
       ],);
@@ -201,14 +238,53 @@ class ConvertCalculatorScreenState extends State<ConvertCalculatorScreen> {
     });
   }
 
-  void appendNumber(String number) {
+  void appendNumber(String append) {
+    String showText = isEditFirst ? firstShowText : secondShowText;
+
+    switch (append) {
+      case "%":
+        if (showText.isEmpty) {
+          break;
+        }
+        showText =
+            (Decimal.parse(showText) / Decimal.fromInt(100)).toString();
+        break;
+      case ".":
+        if (showText.contains(".")) {
+          break;
+        }
+        if (showText.isEmpty) {
+          showText = "0";
+        }
+        showText += append;
+        break;
+      default:
+        if (showText == "0") {
+          showText = append;
+        } else {
+          showText += append;
+        }
+        break;
+    }
+
+    setShowText(showText);
+  }
+
+  void setShowText(String showText) {
     setState(() {
       if (isEditFirst) {
-        firstShowText += number;
+        firstShowText = showText;
+        secondShowText = (Decimal.parse(showText.replaceAll(".", "")) * ratio).toString();
+        print(firstShowText);
       } else {
-        secondShowText += number;
+        secondShowText = showText;
+        firstShowText = (Decimal.parse(showText.replaceAll(".", "")) / ratio).toString();
       }
     });
+  }
+
+  void clearNumber() {
+    setShowText("0");
   }
 
   Widget initBigButton(IconData icon, {GestureTapCallback callback}) {
@@ -278,4 +354,13 @@ class ConvertCalculatorScreenState extends State<ConvertCalculatorScreen> {
     });
   }
 
+  void deleteNumber() {
+    String showText = isEditFirst ? firstShowText : secondShowText;
+    if (showText.length < 2) {
+      showText = "0";
+    } else {
+      showText = showText.substring(0, showText.length - 1);
+    }
+    setShowText(showText);
+  }
 }
