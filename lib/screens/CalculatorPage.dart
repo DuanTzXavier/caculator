@@ -1,10 +1,12 @@
 import 'package:calculator/screens/CategoryCalculatorScreen.dart';
 import 'package:calculator/screens/HomeScreen.dart';
 import 'package:calculator/utils/OperateUtil.dart';
+import 'package:calculator/utils/SaveCacheUtil.dart';
 import 'package:calculator/viewmodel/Statement.dart';
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
+import 'package:intl/intl.dart';
 
 class CalculatorPage extends State<HomeScreen> {
   String showText = "0";
@@ -13,6 +15,49 @@ class CalculatorPage extends State<HomeScreen> {
   Statement statement = Statement();
   bool isShowResult = false;
   bool isAllClear = true;
+  NumberFormat format = NumberFormat();
+
+  @override
+  void initState() {
+    initStatements();
+    super.initState();
+    if (statements == null){
+      statements = List();
+    }
+  }
+
+  initStatements() async {
+    var stateList = await SaveCacheUtil.getStatements();
+    var showText = await SaveCacheUtil.getFromCache("showText");
+    var resultNumber = await SaveCacheUtil.getFromCache("resultNumber");
+    var isShowResult = await SaveCacheUtil.getFromCache("isShowResult");
+    var isAllClear = await SaveCacheUtil.getFromCache("isAllClear");
+    var operator = await SaveCacheUtil.getFromCache("statement.operator");
+    var inputNumber = await SaveCacheUtil.getFromCache("statement.inputNumber");
+    setState(() {
+      statements = stateList;
+      this.showText = showText;
+      this.resultNumber = resultNumber == null ? "0" : resultNumber;
+      this.isShowResult = isShowResult == null ? "0" : isShowResult;
+      this.isAllClear = isAllClear == null ? true : isAllClear;
+      this.statement.operator = operator;
+      this.statement.inputNumber = inputNumber == null ? null : Decimal.parse(inputNumber);
+    });
+  }
+
+  @override
+  void setState(VoidCallback fn) {
+    super.setState(fn);
+    SaveCacheUtil.saveStatements(statements);
+    SaveCacheUtil.saveToCache("showText", showText);
+    SaveCacheUtil.saveToCache("resultNumber", resultNumber);
+    SaveCacheUtil.saveToCache("isShowResult", isShowResult);
+    SaveCacheUtil.saveToCache("isAllClear", isAllClear);
+    SaveCacheUtil.saveToCache("statement.operator", statement.operator);
+    SaveCacheUtil.saveToCache("statement.inputNumber", statement.inputNumber.toString());
+  }
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -36,7 +81,7 @@ class CalculatorPage extends State<HomeScreen> {
           padding: EdgeInsets.only(right: 5.0),
           child: Icon(MdiIcons.equal, size: 20.0,
             color: Colors.grey,),),
-        Text('$resultNumber',
+        Text('${format.parse(resultNumber).toStringAsPrecision(9)}',
           style: TextStyle(
               fontSize: 25.0, color: Colors.grey),),
       ],),);
@@ -186,8 +231,7 @@ class CalculatorPage extends State<HomeScreen> {
   void appendNumber(String append) {
     setState(() {
       if (statement.operator == 5) {
-        statements.add(statement);
-        statement = Statement();
+        addStatement();
         showText = "0";
         isShowResult = false;
       }
@@ -235,10 +279,7 @@ class CalculatorPage extends State<HomeScreen> {
   void addOperator(int operator) {
     setState(() {
       if (statement.operator == 5) {
-        statements.add(statement);
-        Decimal lastResult = statement.inputNumber;
-        statement = new Statement();
-        statement.inputNumber = lastResult;
+        addStatement(inputNumber: statement.inputNumber);
         isShowResult = false;
       }
       if (statement.inputNumber == null && (statements.length == 0 ||
@@ -247,7 +288,7 @@ class CalculatorPage extends State<HomeScreen> {
         statement.inputNumber = Decimal.fromInt(0);
       }
       if (!statements.contains(statement) && statement.inputNumber != null) {
-        statements.add(statement);
+        addStatement();
       }
       statement = Statement();
       statement.operator = operator;
@@ -283,8 +324,7 @@ class CalculatorPage extends State<HomeScreen> {
         return;
       }
       if (statement.inputNumber != null) {
-        statements.add(statement);
-        statement = Statement();
+        addStatement();
       }
       statement.inputNumber = Decimal.parse(resultNumber);
       statement.operator = 5;
@@ -405,6 +445,13 @@ class CalculatorPage extends State<HomeScreen> {
           Icon(Icons.view_module, color: Colors.grey[800])),
       elevation: 0.0,
     );
+  }
+
+  addStatement({int operator, Decimal inputNumber}){
+    statements.add(statement);
+    statement = Statement();
+    statement.operator = operator;
+    statement.inputNumber = inputNumber;
   }
 
   Builder clickToShowScaffold(Widget widget) {
