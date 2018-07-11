@@ -29,8 +29,8 @@ class ConvertCalculatorScreenState extends State<ConvertCalculatorScreen> {
     firstModel = LengthStatic.meter;
     secondModel = LengthStatic.kilometer;
 
-    ratio = Decimal.parse(secondModel.absValue) /
-        Decimal.parse(firstModel.absValue);
+    ratio = Decimal.parse(firstModel.absValue) /
+        Decimal.parse(secondModel.absValue);
     setShowText(firstShowText);
   }
 
@@ -437,8 +437,8 @@ class ConvertCalculatorScreenState extends State<ConvertCalculatorScreen> {
 
   void reloadData() {
     setState(() {
-      ratio = Decimal.parse(secondModel.absValue) /
-          Decimal.parse(firstModel.absValue);
+      ratio = Decimal.parse(firstModel.absValue) /
+          Decimal.parse(secondModel.absValue);
       setShowText(isEditFirst ? firstShowText : secondShowText);
     });
   }
