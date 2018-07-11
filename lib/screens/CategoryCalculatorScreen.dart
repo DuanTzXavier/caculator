@@ -1,4 +1,5 @@
 import 'package:calculator/screens/ConvertCalculatorScreen.dart';
+import 'package:calculator/screens/ExchangeCalculatorScreen.dart';
 import 'package:calculator/screens/SettingScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
@@ -140,7 +141,22 @@ class CategoryCalculatorScreenState extends State<CategoryCalculatorScreen> {
                         }
                     ));
                   }),
-                  initIconButton(null),
+                  initIconButton(
+                      MdiIcons.ruler, name: "汇率转换", callback: () {
+                    Navigator.push(context, new PageRouteBuilder(
+                        opaque: false,
+                        pageBuilder: (BuildContext context, _, __) {
+                          return ExchangeCalculatorScreen();
+                        },
+                        transitionsBuilder: (___, Animation<double> animation, ____,
+                            Widget child) {
+                          return new FadeTransition(
+                            opacity: animation,
+                            child: child,
+                          );
+                        }
+                    ));
+                  }),
                 ])),
           ],
         ),),);
