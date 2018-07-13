@@ -13,10 +13,13 @@ class ShowTextNumberUtil {
     if (number.abs() < Decimal.parse("0.00001")) {
       result = format.parse(number.toString()).toString();
       print("123:" + result);
-    } else if (number > Decimal.parse("99999999999999")) {
+    } else if (number > Decimal.parse("9999999999")) {
       result = format.parse(number.toString()).toStringAsExponential();
-      if(result.length > 15){
+      if(result.length > 12){
         result = format.parse(number.toString()).toStringAsExponential(6);
+      }
+      if(result.length > 12){
+        result = format.parse(number.toString()).toStringAsExponential(4);
       }
       print("234:" + result);
     } else if(number > Decimal.parse("999")){
@@ -26,9 +29,10 @@ class ShowTextNumberUtil {
     }else {
       result = number.toString();
     }
-//    print(result);
     return result;
   }
+
+
 
   static String showTextInputNumber(Decimal number) {
     if (number == null) {
@@ -41,11 +45,8 @@ class ShowTextNumberUtil {
       if(result.length > 15){
         result = format.parse(number.toString()).toStringAsExponential(6);
       }
-      print("234:" + result.length.toString());
     }else if(number > Decimal.parse("999")){
       result = format.format(format.parse(number.toString()));
-      print("00123:" + result);
-      print("00123:" + number.toString());
     }else {
       result = number.toString();
     }
@@ -58,9 +59,15 @@ class ShowTextNumberUtil {
       return "";
     }
     bool isEndWithPoint = number.endsWith(".");
-    return showTextInputNumber(Decimal.parse(
-        isEndWithPoint ? number.substring(0, number.length - 1) : number)
-    ) + (isEndWithPoint ? "." : "");
+    var inputNumber = Decimal.parse(
+        isEndWithPoint ? number.substring(0, number.length - 1) : number);
+
+    var result = number;
+    if (!(result.endsWith("0") && result.contains("."))){
+      result = showTextInputNumber(inputNumber);
+    }
+
+    return result + (isEndWithPoint ? "." : "");
   }
 
   static String showTextNumberFromString(String number) {

@@ -109,8 +109,9 @@ class CalculatorPage extends State<HomeScreen> {
               IconData operatorIcon = OperateUtil.getStatementOperatorIcon(
                   statement.operator);
               var result = ShowTextNumberUtil.showTextNumber(statement.inputNumber);
+              print("result : " + result);
               String showNumber = isShowResult ? result
-                  .toString() : ShowTextNumberUtil.showTextInputNumberFromString(showText);
+                  .toString() : showText;
               widget = Row(
                 mainAxisAlignment: MainAxisAlignment.end, children: <Widget>[
                 Container(
