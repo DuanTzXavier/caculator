@@ -13,14 +13,9 @@ class SaveCacheUtil {
     numebrs = await getListFromCache("numbers");
     operators = await getListFromCache("operators");
 
-    print(numebrs);
-    print(operators);
-
     if (numebrs != null && operators != null && numebrs.length == operators.length){
       for(int i = 0;i < numebrs.length;i ++){
         Statement statement = Statement();
-        print(operators[i]);
-        print(operators[i] == null);
         statement.operator = operators[i] == null ? 0 : int.parse(operators[i]);
         statement.inputNumber = Decimal.parse(numebrs[i]);
         statements.add(statement);

@@ -14,7 +14,6 @@ class ShowTextNumberUtil {
       result = "0";
     } else if (number.abs() < Decimal.parse("0.00001")) {
       result = format.parse(number.toString()).toString();
-      print("123:" + result);
     } else if (number > Decimal.parse("9999999999")) {
       result = format.parse(number.toString()).toStringAsExponential();
       if(result.length > 12){
@@ -23,11 +22,8 @@ class ShowTextNumberUtil {
       if(result.length > 12){
         result = format.parse(number.toString()).toStringAsExponential(4);
       }
-      print("234:" + result);
     } else if(number > Decimal.parse("999")){
       result = format.format(format.parse(number.toString()));
-      print("00123:" + result);
-      print("00123:" + number.toString());
     }else {
       result = number.toString();
     }

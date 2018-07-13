@@ -349,7 +349,6 @@ class ExchangeCalculatorScreenState extends State<ExchangeCalculatorScreen> {
         secondShowText = (Decimal.parse(
             showText.endsWith(".") ? showText.replaceAll(".", "") : showText) *
             ratio).toString();
-        print(firstShowText);
       } else {
         secondShowText = showText;
         firstShowText = (Decimal.parse(

@@ -300,7 +300,6 @@ class ConvertCalculatorScreenState extends State<ConvertCalculatorScreen> {
         secondShowText = (Decimal.parse(
             showText.endsWith(".") ? showText.replaceAll(".", "") : showText) *
             ratio).toString();
-        print(firstShowText);
       } else {
         secondShowText = showText;
         firstShowText = (Decimal.parse(

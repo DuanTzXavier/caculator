@@ -338,7 +338,6 @@ class CalculatorPage extends State<HomeScreen> {
         resultNumber = "Error";
       }
 
-      print("result" + result.toString());
     });
   }
 
