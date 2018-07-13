@@ -1,6 +1,7 @@
 import 'package:calculator/screens/CategoryCalculatorScreen.dart';
 import 'package:calculator/screens/HomeScreen.dart';
 import 'package:calculator/static/MyColors.dart';
+import 'package:calculator/static/MyDoubleSize.dart';
 import 'package:calculator/utils/OperateUtil.dart';
 import 'package:calculator/utils/SaveCacheUtil.dart';
 import 'package:calculator/utils/ShowTextNumberUtil.dart';
@@ -70,7 +71,9 @@ class CalculatorPage extends State<HomeScreen> {
         children: <Widget>[
           initInputedView(),
           Expanded(
-            child: Container(padding: EdgeInsets.only(bottom: 20.0),color: MyColors.colorfefefe, child: initButtons(),),)
+            child: Container(padding: EdgeInsets.only(bottom: 20.0),
+              color: MyColors.colorfefefe,
+              child: initButtons(),),)
         ],
       ),
     );
@@ -166,7 +169,7 @@ class CalculatorPage extends State<HomeScreen> {
         Expanded(child: Row(
             children: <Widget>[
               initBGButton(
-                  isAllClear ? "AC" : "C", color: Colors.orange, callback: () {
+                  isAllClear ? "AC" : "C", callback: () {
                 clearNumber();
               }),
               initIconButton(MdiIcons.percent, size: 24.0, callback: () {
@@ -402,9 +405,11 @@ class CalculatorPage extends State<HomeScreen> {
   }
 
   Widget initButton(String text,
-      {GestureTapCallback callback, double size: 26.0, Color color}) {
+      {GestureTapCallback callback, double size: MyDoubleSize
+          .double26, Color color}) {
     return Expanded(
-      child: Container(padding: EdgeInsets.all(5.0), child: new Material(
+      child: Container(
+        padding: EdgeInsets.all(MyDoubleSize.double5), child: new Material(
         shape: CircleBorder(),
         color: MyColors.colorfefefe,
         child: new InkWell(onTap: callback,
@@ -417,9 +422,10 @@ class CalculatorPage extends State<HomeScreen> {
   }
 
   Widget initBGButton(String text,
-      {GestureTapCallback callback, double size: 26.0, Color color}) {
+      {GestureTapCallback callback, double size: MyDoubleSize.double26}) {
     return Expanded(
-      child: Container(padding: EdgeInsets.all(5.0), child: new Material(
+      child: Container(
+        padding: EdgeInsets.all(MyDoubleSize.double5), child: new Material(
         shape: CircleBorder(),
         color: MyColors.colorf9f9f9,
         child: new InkWell(onTap: callback,
@@ -428,15 +434,15 @@ class CalculatorPage extends State<HomeScreen> {
               child: Text(
                 text,
                 style: TextStyle(
-                  fontWeight: FontWeight.bold,
+                    fontWeight: FontWeight.bold,
                     fontSize: size, color: MyColors.color757c87),),),),),),),);
   }
 
   Widget initIconButton(IconData icon,
-      {GestureTapCallback callback, double size: 22.0, Color color: const Color(
-          0xFF303030)}) {
+      {GestureTapCallback callback, double size: MyDoubleSize.double22,}) {
     return Expanded(
-      child: Container(padding: EdgeInsets.all(5.0),child: new Material(
+      child: Container(
+        padding: EdgeInsets.all(MyDoubleSize.double5), child: new Material(
         shape: CircleBorder(),
         color: MyColors.colorf9f9f9,
         child: new InkWell(onTap: callback,
@@ -450,14 +456,18 @@ class CalculatorPage extends State<HomeScreen> {
   Widget initBigButton(IconData icon, {GestureTapCallback callback}) {
     return Expanded(
       flex: 2,
-      child: Container(padding: EdgeInsets.only(left: 15.0, right: 15.0, top: 5.0, bottom: 5.0),child: new Material(
+      child: Container(padding: EdgeInsets.only(
+          left: MyDoubleSize.double15,
+          right: MyDoubleSize.double15,
+          top: MyDoubleSize.double5,
+          bottom: MyDoubleSize.double5), child: new Material(
         borderRadius: BorderRadius.all(Radius.circular(1000.0)),
         color: MyColors.color757c87,
         child: new InkWell(onTap: callback,
           child: Container(
             child: Center(
               child: Icon(icon,
-                size: 35.0, color: MyColors.colorfefefe,),),),),),),);
+                size: MyDoubleSize.double35, color: MyColors.colorfefefe,),),),),),),);
   }
 
   String getShowNumber(double number) {
