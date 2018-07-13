@@ -495,9 +495,6 @@ class ExchangeCalculatorScreenState extends State<ExchangeCalculatorScreen> {
     String dataURL = "http://op.juhe.cn/onebox/exchange/currency?from=CNY&to=USD&key=adb5c331c4588dc32c72332e86b99cfb";
     http.Response response = await http.get(dataURL);
     print(response.body);
-//    setState(() {
-//
-//    });
   }
 
 }

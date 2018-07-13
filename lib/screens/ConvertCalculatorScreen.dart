@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:calculator/convert/ConvertModel.dart';
 import 'package:calculator/convert/LengthStatic.dart';
+import 'package:calculator/utils/ShowTextNumberUtil.dart';
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 
@@ -68,7 +69,9 @@ class ConvertCalculatorScreenState extends State<ConvertCalculatorScreen> {
                   ],),),),
               Expanded(
                 child: GestureDetector(onTap: () {
-                  setEditNumber(true);
+                  if(!isEditFirst){
+                    setEditNumber(true);
+                  }
                 }, child: Container(padding: EdgeInsets.only(right: 25.0),
                   color: Colors.grey[100],
                   child: Column(
@@ -77,7 +80,7 @@ class ConvertCalculatorScreenState extends State<ConvertCalculatorScreen> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: <Widget>[
-                          Text("$firstShowText",
+                          Text("${ShowTextNumberUtil.showTextNumberFromString(firstShowText)}",
                             style: TextStyle(
                                 fontSize: 28.0,
                                 color: isEditFirst ? Colors.orange : Colors
@@ -115,7 +118,9 @@ class ConvertCalculatorScreenState extends State<ConvertCalculatorScreen> {
                   ],),),),
               Expanded(
                 child: GestureDetector(onTap: () {
-                  setEditNumber(false);
+                  if(isEditFirst){
+                    setEditNumber(false);
+                  }
                 },
                   child: Container(
                     color: Colors.grey[100],
@@ -125,7 +130,7 @@ class ConvertCalculatorScreenState extends State<ConvertCalculatorScreen> {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.end,
                           children: <Widget>[
-                            Text("$secondShowText",
+                            Text("${ShowTextNumberUtil.showTextNumberFromString(secondShowText)}",
                               style: TextStyle(
                                   fontSize: 28.0,
                                   color: isEditFirst
@@ -258,6 +263,7 @@ class ConvertCalculatorScreenState extends State<ConvertCalculatorScreen> {
   void setEditNumber(bool isFirst) {
     setState(() {
       isEditFirst = isFirst;
+      setShowText("1");
     });
   }
 
