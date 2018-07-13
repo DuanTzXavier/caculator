@@ -2,6 +2,7 @@ import 'package:calculator/screens/CategoryCalculatorScreen.dart';
 import 'package:calculator/screens/HomeScreen.dart';
 import 'package:calculator/utils/OperateUtil.dart';
 import 'package:calculator/utils/SaveCacheUtil.dart';
+import 'package:calculator/utils/ShowTextNumberUtil.dart';
 import 'package:calculator/viewmodel/Statement.dart';
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
@@ -81,7 +82,7 @@ class CalculatorPage extends State<HomeScreen> {
           padding: EdgeInsets.only(right: 5.0),
           child: Icon(MdiIcons.equal, size: 20.0,
             color: Colors.grey,),),
-        Text('${format.parse(resultNumber).toStringAsPrecision(9)}',
+        Text('${ShowTextNumberUtil.showTextNumberFromString(resultNumber)}',
           style: TextStyle(
               fontSize: 25.0, color: Colors.grey),),
       ],),);
@@ -107,8 +108,9 @@ class CalculatorPage extends State<HomeScreen> {
             if (position == 0 || (position == 1 && statements.length > 0)) {
               IconData operatorIcon = OperateUtil.getStatementOperatorIcon(
                   statement.operator);
-              String showNumber = isShowResult ? statement.inputNumber
-                  .toString() : showText;
+              var result = ShowTextNumberUtil.showTextNumber(statement.inputNumber);
+              String showNumber = isShowResult ? result
+                  .toString() : ShowTextNumberUtil.showTextInputNumberFromString(showText);
               widget = Row(
                 mainAxisAlignment: MainAxisAlignment.end, children: <Widget>[
                 Container(
@@ -131,7 +133,7 @@ class CalculatorPage extends State<HomeScreen> {
                           padding: EdgeInsets.only(right: 5.0),
                           child: Icon(operatorIcon, size: 20.0,
                             color: Colors.grey[600],),),
-                        Text('$number',
+                        Text('${ShowTextNumberUtil.showTextNumberFromString(number)}',
                           style: TextStyle(
                               fontSize: 25.0, color: Colors.grey[600]),),
                       ],),
@@ -237,6 +239,10 @@ class CalculatorPage extends State<HomeScreen> {
       }
       isAllClear = false;
 
+      if (showText != null && showText.isNotEmpty && showText.length > 9){
+        return;
+      }
+
       switch (append) {
         case "%":
           if (showText.isEmpty) {
@@ -314,6 +320,8 @@ class CalculatorPage extends State<HomeScreen> {
       } catch (_) {
         resultNumber = "Error";
       }
+
+      print("result" + result.toString());
     });
   }
 
