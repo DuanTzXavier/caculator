@@ -1,5 +1,6 @@
 import 'package:calculator/screens/CategoryCalculatorScreen.dart';
 import 'package:calculator/screens/HomeScreen.dart';
+import 'package:calculator/static/MyColors.dart';
 import 'package:calculator/utils/OperateUtil.dart';
 import 'package:calculator/utils/SaveCacheUtil.dart';
 import 'package:calculator/utils/ShowTextNumberUtil.dart';
@@ -43,7 +44,7 @@ class CalculatorPage extends State<HomeScreen> {
       this.isAllClear = isAllClear == null ? true : isAllClear;
       this.statement.operator = operator;
       this.statement.inputNumber =
-      inputNumber == null ? null : Decimal.parse(inputNumber);
+      inputNumber == "null" ? null : Decimal.parse(inputNumber);
     });
   }
 
@@ -69,7 +70,7 @@ class CalculatorPage extends State<HomeScreen> {
         children: <Widget>[
           initInputedView(),
           Expanded(
-            child: initButtons(),)
+            child: Container(padding: EdgeInsets.only(bottom: 20.0),color: MyColors.colorfefefe, child: initButtons(),),)
         ],
       ),
     );
@@ -82,17 +83,17 @@ class CalculatorPage extends State<HomeScreen> {
         Container(
           padding: EdgeInsets.only(right: 5.0),
           child: Icon(MdiIcons.equal, size: 20.0,
-            color: Colors.grey,),),
+            color: MyColors.colorbfbfbf,),),
         Text('${ShowTextNumberUtil.showTextNumberFromString(resultNumber)}',
           style: TextStyle(
-              fontSize: 25.0, color: Colors.grey),),
+              fontSize: 25.0, color: MyColors.colorbfbfbf),),
       ],),);
   }
 
   Widget initInputedView() {
     return AspectRatio(
-      aspectRatio: 6 / 4,
-      child: Container(color: Colors.grey[100],
+      aspectRatio: 8 / 4,
+      child: Container(color: MyColors.colorfefefe,
         padding: EdgeInsets.only(right: 20.0, left: 20.0, bottom: 10.0),
         child: ListView.builder(
           reverse: true,
@@ -111,22 +112,21 @@ class CalculatorPage extends State<HomeScreen> {
                   statement.operator);
               var result = ShowTextNumberUtil.showTextNumber(
                   statement.inputNumber);
-//              var result = statement.inputNumber.toString();
 
               String showNumber = isShowResult ? result
                   .toString() : ShowTextNumberUtil
                   .showTextInputNumberFromString(showText);
-              print(showNumber);
-              print("lenth : " + showNumber.length.toString());
               widget = Row(
                 mainAxisAlignment: MainAxisAlignment.end, children: <Widget>[
                 Container(
                   padding: EdgeInsets.only(right: 5.0),
                   child: Icon(operatorIcon,
-                    size: showNumber.length > 12 ? 22.0 : 40.0,),),
+                    color: MyColors.color757c87,
+                    size: showNumber.length > 12 ? 22.0 : 45.0,),),
                 Text('$showNumber',
                   style: TextStyle(
-                      fontSize: showNumber.length > 12 ? 32.0 : 50.0),),
+                      color: MyColors.color757c87,
+                      fontSize: showNumber.length > 12 ? 32.0 : 45.0),),
               ],);
             } else {
               int index = statements.length + 1 - position;
@@ -140,19 +140,19 @@ class CalculatorPage extends State<HomeScreen> {
                       children: <Widget>[
                         Container(
                           padding: EdgeInsets.only(right: 5.0),
-                          child: Icon(operatorIcon, size: 20.0,
-                            color: Colors.grey[600],),),
+                          child: Icon(operatorIcon, size: 24.0,
+                            color: MyColors.color757c87,),),
                         Text('${ShowTextNumberUtil.showTextNumberFromString(
                             number)}',
                           style: TextStyle(
-                              fontSize: 25.0, color: Colors.grey[600]),),
+                              fontSize: 24.0, color: MyColors.color757c87),),
                       ],),
 
                     Offstage(
                       offstage: statements[index].operator == 5 ? false : true,
                       child: Padding(
                         padding: EdgeInsets.only(top: 8.0, bottom: 8.0),
-                        child: Divider(color: Colors.grey,),),),
+                        child: Divider(color: MyColors.colore3e5e7,),),),
                   ],);
             }
 
@@ -161,76 +161,82 @@ class CalculatorPage extends State<HomeScreen> {
   }
 
   Widget initButtons() {
-    return Row(
+    return Column(
       children: <Widget>[
-        Expanded(child: Column(
+        Expanded(child: Row(
             children: <Widget>[
-              initButton(
+              initBGButton(
                   isAllClear ? "AC" : "C", color: Colors.orange, callback: () {
                 clearNumber();
-              }),
-              initButton("7", callback: () {
-                appendNumber("7");
-              }),
-              initButton("4", callback: () {
-                appendNumber("4");
-              }),
-              initButton("1", callback: () {
-                appendNumber("1");
               }),
               initIconButton(MdiIcons.percent, size: 24.0, callback: () {
                 appendNumber("%");
               }),
-            ])),
-
-        Expanded(child: Column(
-            children: <Widget>[
+              initIconButton(MdiIcons.division, size: 32.0, callback: () {
+                addOperator(4);
+              }),
               initIconButton(Icons.backspace, callback: () {
                 deleteNumber();
+              }),
+            ])),
+
+        Expanded(child: Row(
+            children: <Widget>[
+              initButton("7", callback: () {
+                appendNumber("7");
               }),
               initButton("8", callback: () {
                 appendNumber("8");
               }),
-              initButton("5", callback: () {
-                appendNumber("5");
-              }),
-              initButton("2", callback: () {
-                appendNumber("2");
-              }),
-              initButton("0", callback: () {
-                appendNumber("0");
-              }),
-            ])),
-
-        Expanded(child: Column(
-            children: <Widget>[
-              initIconButton(MdiIcons.division, size: 32.0, callback: () {
-                addOperator(4);
-              }),
               initButton("9", callback: () {
                 appendNumber("9");
+              }),
+              initIconButton(Icons.clear, size: 28.0, callback: () {
+                addOperator(3);
+              }),
+
+            ])),
+
+        Expanded(child: Row(
+            children: <Widget>[
+              initButton("4", callback: () {
+                appendNumber("4");
+              }),
+              initButton("5", callback: () {
+                appendNumber("5");
               }),
               initButton("6", callback: () {
                 appendNumber("6");
               }),
-              initButton("3", callback: () {
-                appendNumber("3");
-              }),
-              initButton(".", callback: () {
-                appendNumber(".");
-              }),
-            ])),
-
-        Expanded(child: Column(
-            children: <Widget>[
-              initIconButton(Icons.clear, size: 28.0, callback: () {
-                addOperator(3);
-              }),
               initIconButton(Icons.remove, size: 28.0, callback: () {
                 addOperator(2);
               }),
+
+            ])),
+
+        Expanded(child: Row(
+            children: <Widget>[
+              initButton("1", callback: () {
+                appendNumber("1");
+              }),
+              initButton("2", callback: () {
+                appendNumber("2");
+              }),
+              initButton("3", callback: () {
+                appendNumber("3");
+              }),
               initIconButton(Icons.add, size: 28.0, callback: () {
                 addOperator(1);
+              }),
+            ])),
+
+        Expanded(child: Row(
+            children: <Widget>[
+              initButton("0", callback: () {
+                appendNumber("0");
+              }),
+              initButton(".", callback: () {
+                appendNumber(".");
               }),
               initBigButton(MdiIcons.equal, callback: () {
                 showResult();
@@ -396,54 +402,62 @@ class CalculatorPage extends State<HomeScreen> {
   }
 
   Widget initButton(String text,
-      {GestureTapCallback callback, double size: 26.0, Color color: const Color(
-          0xFF303030)}) {
+      {GestureTapCallback callback, double size: 26.0, Color color}) {
     return Expanded(
-      child: new Material(
-        color: Colors.white,
+      child: Container(padding: EdgeInsets.all(5.0), child: new Material(
+        shape: CircleBorder(),
+        color: MyColors.colorfefefe,
         child: new InkWell(onTap: callback,
           child: Container(
-            decoration: new BoxDecoration(
-              border: new Border.all(
-                  width: 0.1,
-                  color: Colors.black38),),
             child: Center(
               child: Text(
                 text,
-                style: TextStyle(fontSize: size, color: color),),),),),),);
+                style: TextStyle(
+                    fontSize: size, color: MyColors.color757c87),),),),),),),);
+  }
+
+  Widget initBGButton(String text,
+      {GestureTapCallback callback, double size: 26.0, Color color}) {
+    return Expanded(
+      child: Container(padding: EdgeInsets.all(5.0), child: new Material(
+        shape: CircleBorder(),
+        color: MyColors.colorf9f9f9,
+        child: new InkWell(onTap: callback,
+          child: Container(
+            child: Center(
+              child: Text(
+                text,
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                    fontSize: size, color: MyColors.color757c87),),),),),),),);
   }
 
   Widget initIconButton(IconData icon,
       {GestureTapCallback callback, double size: 22.0, Color color: const Color(
           0xFF303030)}) {
     return Expanded(
-      child: new Material(
-        color: Colors.white,
+      child: Container(padding: EdgeInsets.all(5.0),child: new Material(
+        shape: CircleBorder(),
+        color: MyColors.colorf9f9f9,
         child: new InkWell(onTap: callback,
           child: Container(
-            decoration: new BoxDecoration(
-              border: new Border.all(
-                  width: 0.1,
-                  color: Colors.black38),),
             child: Center(
               child: Icon(
                 icon,
-                size: size, color: color,),),),),),);
+                size: size, color: MyColors.color757c87,),),),),),),);
   }
 
   Widget initBigButton(IconData icon, {GestureTapCallback callback}) {
     return Expanded(
       flex: 2,
-      child: new Material(
-        color: Colors.orange,
+      child: Container(padding: EdgeInsets.only(left: 15.0, right: 15.0, top: 5.0, bottom: 5.0),child: new Material(
+        borderRadius: BorderRadius.all(Radius.circular(1000.0)),
+        color: MyColors.color757c87,
         child: new InkWell(onTap: callback,
           child: Container(
-            decoration: new BoxDecoration(
-              border: new Border.all(
-                  width: 0.1, color: Colors.black38),),
             child: Center(
               child: Icon(icon,
-                size: 35.0, color: Colors.white,),),),),),);
+                size: 35.0, color: MyColors.colorfefefe,),),),),),),);
   }
 
   String getShowNumber(double number) {
@@ -456,9 +470,9 @@ class CalculatorPage extends State<HomeScreen> {
 
   Widget initAppBar() {
     return AppBar(
-      backgroundColor: Colors.grey[100],
+      backgroundColor: MyColors.colorfefefe,
       leading: clickToShowScaffold(
-          Icon(Icons.view_module, color: Colors.grey[800])),
+          Icon(Icons.view_module, color: MyColors.color757c87)),
       elevation: 0.0,
     );
   }

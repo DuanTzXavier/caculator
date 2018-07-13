@@ -10,7 +10,9 @@ class ShowTextNumberUtil {
     }
     var result = number.toString();
 
-    if (number.abs() < Decimal.parse("0.00001")) {
+    if (number == Decimal.fromInt(0)){
+      result = "0";
+    } else if (number.abs() < Decimal.parse("0.00001")) {
       result = format.parse(number.toString()).toString();
       print("123:" + result);
     } else if (number > Decimal.parse("9999999999")) {
@@ -65,6 +67,8 @@ class ShowTextNumberUtil {
       if(numbers!= null && numbers.length == 2){
         result = showTextInputNumber(Decimal.parse(numbers[0]));
         result += "." + numbers[1].toString();
+      }else{
+        result = number;
       }
     }else{
       result = showTextInputNumber(Decimal.parse(number));
