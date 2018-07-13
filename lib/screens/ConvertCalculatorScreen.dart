@@ -30,8 +30,8 @@ class ConvertCalculatorScreenState extends State<ConvertCalculatorScreen> {
     firstModel = LengthStatic.meter;
     secondModel = LengthStatic.kilometer;
 
-    ratio = Decimal.parse(firstModel.absValue) /
-        Decimal.parse(secondModel.absValue);
+    ratio = firstModel.absValue /
+        secondModel.absValue;
     setShowText(firstShowText);
   }
 
@@ -69,7 +69,7 @@ class ConvertCalculatorScreenState extends State<ConvertCalculatorScreen> {
                   ],),),),
               Expanded(
                 child: GestureDetector(onTap: () {
-                  if(!isEditFirst){
+                  if (!isEditFirst) {
                     setEditNumber(true);
                   }
                 }, child: Container(padding: EdgeInsets.only(right: 25.0),
@@ -80,7 +80,8 @@ class ConvertCalculatorScreenState extends State<ConvertCalculatorScreen> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: <Widget>[
-                          Text("${ShowTextNumberUtil.showTextNumberFromString(firstShowText)}",
+                          Text("${ShowTextNumberUtil.showTextNumberFromString(
+                              firstShowText, maxValue: "9999999999999")}",
                             style: TextStyle(
                                 fontSize: 28.0,
                                 color: isEditFirst ? Colors.orange : Colors
@@ -118,7 +119,7 @@ class ConvertCalculatorScreenState extends State<ConvertCalculatorScreen> {
                   ],),),),
               Expanded(
                 child: GestureDetector(onTap: () {
-                  if(isEditFirst){
+                  if (isEditFirst) {
                     setEditNumber(false);
                   }
                 },
@@ -130,7 +131,8 @@ class ConvertCalculatorScreenState extends State<ConvertCalculatorScreen> {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.end,
                           children: <Widget>[
-                            Text("${ShowTextNumberUtil.showTextNumberFromString(secondShowText)}",
+                            Text("${ShowTextNumberUtil.showTextNumberFromString(
+                                secondShowText, maxValue: "9999999999999")}",
                               style: TextStyle(
                                   fontSize: 28.0,
                                   color: isEditFirst
@@ -442,8 +444,8 @@ class ConvertCalculatorScreenState extends State<ConvertCalculatorScreen> {
 
   void reloadData() {
     setState(() {
-      ratio = Decimal.parse(firstModel.absValue) /
-          Decimal.parse(secondModel.absValue);
+      ratio = (firstModel.absValue) /
+          (secondModel.absValue);
       setShowText(isEditFirst ? firstShowText : secondShowText);
     });
   }

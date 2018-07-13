@@ -29,8 +29,8 @@ class ExchangeCalculatorScreenState extends State<ExchangeCalculatorScreen> {
     firstModel = LengthStatic.meter;
     secondModel = LengthStatic.kilometer;
 
-    ratio = Decimal.parse(firstModel.absValue) /
-        Decimal.parse(secondModel.absValue);
+    ratio = (firstModel.absValue) /
+        (secondModel.absValue);
     setShowText(firstShowText);
   }
 
@@ -485,8 +485,8 @@ class ExchangeCalculatorScreenState extends State<ExchangeCalculatorScreen> {
 
   void reloadData() {
     setState(() {
-      ratio = Decimal.parse(firstModel.absValue) /
-          Decimal.parse(secondModel.absValue);
+      ratio = (firstModel.absValue) /
+          (secondModel.absValue);
       setShowText(isEditFirst ? firstShowText : secondShowText);
     });
   }

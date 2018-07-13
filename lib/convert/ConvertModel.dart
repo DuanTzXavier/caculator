@@ -5,7 +5,7 @@ class ConvertModel {
   String key;
   String name;
   String unit = "㎡";
-  String absValue;
+  Decimal absValue;
 
   ConvertModel({
     @required this.key,

@@ -4,32 +4,32 @@ import 'package:intl/intl.dart';
 class ShowTextNumberUtil {
   static NumberFormat format = NumberFormat();
 
-  static String showTextNumber(Decimal number) {
+  static String showTextNumber(Decimal number,
+      {String maxValue: "9999999999"}) {
     if (number == null) {
       return "";
     }
     var result = number.toString();
 
-    if (number == Decimal.fromInt(0)){
+    if (number == Decimal.fromInt(0)) {
       result = "0";
     } else if (number.abs() < Decimal.parse("0.00001")) {
       result = format.parse(number.toString()).toString();
-    } else if (number > Decimal.parse("9999999999")) {
+    } else if (number > Decimal.parse(maxValue)) {
       result = format.parse(number.toString()).toStringAsExponential();
-      if(result.length > 12){
+      if (result.length > 12) {
         result = format.parse(number.toString()).toStringAsExponential(6);
       }
-      if(result.length > 12){
+      if (result.length > 12) {
         result = format.parse(number.toString()).toStringAsExponential(4);
       }
-    } else if(number > Decimal.parse("999")){
+    } else if (number > Decimal.parse("999")) {
       result = format.format(format.parse(number.toString()));
-    }else {
+    } else {
       result = number.toString();
     }
     return result;
   }
-
 
 
   static String showTextInputNumber(Decimal number) {
@@ -40,12 +40,12 @@ class ShowTextNumberUtil {
 
     if (number > Decimal.parse("999999999999999")) {
       result = format.parse(number.toString()).toStringAsExponential();
-      if(result.length > 15){
+      if (result.length > 15) {
         result = format.parse(number.toString()).toStringAsExponential(6);
       }
-    }else if(number > Decimal.parse("999")){
+    } else if (number > Decimal.parse("999")) {
       result = format.format(format.parse(number.toString()));
-    }else {
+    } else {
       result = number.toString();
     }
 
@@ -56,24 +56,25 @@ class ShowTextNumberUtil {
     if (number == null || number.isEmpty) {
       return "";
     }
-    var result= "";
+    var result = "";
 
-    if (number.contains(".")){
+    if (number.contains(".")) {
       var numbers = number.split(".");
-      if(numbers!= null && numbers.length == 2){
+      if (numbers != null && numbers.length == 2) {
         result = showTextInputNumber(Decimal.parse(numbers[0]));
         result += "." + numbers[1].toString();
-      }else{
+      } else {
         result = number;
       }
-    }else{
+    } else {
       result = showTextInputNumber(Decimal.parse(number));
     }
 
     return result;
   }
 
-  static String showTextNumberFromString(String number) {
-    return showTextNumber(Decimal.parse(number));
+  static String showTextNumberFromString(String number,
+      {String maxValue: "9999999999"}) {
+    return showTextNumber(Decimal.parse(number), maxValue: maxValue);
   }
 }
