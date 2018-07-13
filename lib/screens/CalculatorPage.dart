@@ -22,7 +22,7 @@ class CalculatorPage extends State<HomeScreen> {
   void initState() {
     initStatements();
     super.initState();
-    if (statements == null){
+    if (statements == null) {
       statements = List();
     }
   }
@@ -42,7 +42,8 @@ class CalculatorPage extends State<HomeScreen> {
       this.isShowResult = isShowResult == null ? "0" : isShowResult;
       this.isAllClear = isAllClear == null ? true : isAllClear;
       this.statement.operator = operator;
-      this.statement.inputNumber = inputNumber == null ? null : Decimal.parse(inputNumber);
+      this.statement.inputNumber =
+      inputNumber == null ? null : Decimal.parse(inputNumber);
     });
   }
 
@@ -55,9 +56,9 @@ class CalculatorPage extends State<HomeScreen> {
     SaveCacheUtil.saveToCache("isShowResult", isShowResult);
     SaveCacheUtil.saveToCache("isAllClear", isAllClear);
     SaveCacheUtil.saveToCache("statement.operator", statement.operator);
-    SaveCacheUtil.saveToCache("statement.inputNumber", statement.inputNumber.toString());
+    SaveCacheUtil.saveToCache(
+        "statement.inputNumber", statement.inputNumber.toString());
   }
-
 
 
   @override
@@ -108,17 +109,24 @@ class CalculatorPage extends State<HomeScreen> {
             if (position == 0 || (position == 1 && statements.length > 0)) {
               IconData operatorIcon = OperateUtil.getStatementOperatorIcon(
                   statement.operator);
-              var result = ShowTextNumberUtil.showTextNumber(statement.inputNumber);
-              print("result : " + result);
+              var result = ShowTextNumberUtil.showTextNumber(
+                  statement.inputNumber);
+//              var result = statement.inputNumber.toString();
+
               String showNumber = isShowResult ? result
-                  .toString() : showText;
+                  .toString() : ShowTextNumberUtil
+                  .showTextInputNumberFromString(showText);
+              print(showNumber);
+              print("lenth : " + showNumber.length.toString());
               widget = Row(
                 mainAxisAlignment: MainAxisAlignment.end, children: <Widget>[
                 Container(
                   padding: EdgeInsets.only(right: 5.0),
-                  child: Icon(operatorIcon, size: 40.0,),),
+                  child: Icon(operatorIcon,
+                    size: showNumber.length > 12 ? 22.0 : 40.0,),),
                 Text('$showNumber',
-                  style: TextStyle(fontSize: 50.0),),
+                  style: TextStyle(
+                      fontSize: showNumber.length > 12 ? 32.0 : 50.0),),
               ],);
             } else {
               int index = statements.length + 1 - position;
@@ -134,7 +142,8 @@ class CalculatorPage extends State<HomeScreen> {
                           padding: EdgeInsets.only(right: 5.0),
                           child: Icon(operatorIcon, size: 20.0,
                             color: Colors.grey[600],),),
-                        Text('${ShowTextNumberUtil.showTextNumberFromString(number)}',
+                        Text('${ShowTextNumberUtil.showTextNumberFromString(
+                            number)}',
                           style: TextStyle(
                               fontSize: 25.0, color: Colors.grey[600]),),
                       ],),
@@ -240,7 +249,7 @@ class CalculatorPage extends State<HomeScreen> {
       }
       isAllClear = false;
 
-      if (showText != null && showText.isNotEmpty && showText.length > 9){
+      if (showText != null && showText.isNotEmpty && showText.length > 14) {
         return;
       }
 
@@ -310,10 +319,8 @@ class CalculatorPage extends State<HomeScreen> {
       Decimal result = Decimal.fromInt(0);
       try {
         for (int i = 0; i < statements.length; i ++) {
-//          print("status" + statements[i].operator.toString() + "x" + i.toString() + "   " + statements[i].inputNumber.toString());
           result = OperateUtil.calculateStatement(result, statements[i]);
         }
-//        print("result pre" + statement.operator.toString() + " x  " + result.toString() + "   " + statement.inputNumber.toString());
         result = OperateUtil.calculateStatement(result, statement);
         resultNumber = result.toString();
       } on Exception catch (_) {
@@ -456,7 +463,7 @@ class CalculatorPage extends State<HomeScreen> {
     );
   }
 
-  addStatement({int operator, Decimal inputNumber}){
+  addStatement({int operator, Decimal inputNumber}) {
     statements.add(statement);
     statement = Statement();
     statement.operator = operator;
@@ -471,7 +478,8 @@ class CalculatorPage extends State<HomeScreen> {
             pageBuilder: (BuildContext context, _, __) {
               return CategoryCalculatorScreen();
             },
-            transitionsBuilder: (___, Animation<double> animation, ____, Widget child) {
+            transitionsBuilder: (___, Animation<double> animation, ____,
+                Widget child) {
               return new FadeTransition(
                 opacity: animation,
                 child: SizeTransition(child: child, sizeFactor: animation,),

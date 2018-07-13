@@ -40,7 +40,7 @@ class ShowTextNumberUtil {
     }
     var result = number.toString();
 
-    if (number > Decimal.parse("999999999999")) {
+    if (number > Decimal.parse("999999999999999")) {
       result = format.parse(number.toString()).toStringAsExponential();
       if(result.length > 15){
         result = format.parse(number.toString()).toStringAsExponential(6);
@@ -58,16 +58,19 @@ class ShowTextNumberUtil {
     if (number == null || number.isEmpty) {
       return "";
     }
-    bool isEndWithPoint = number.endsWith(".");
-    var inputNumber = Decimal.parse(
-        isEndWithPoint ? number.substring(0, number.length - 1) : number);
+    var result= "";
 
-    var result = number;
-    if (!(result.endsWith("0") && result.contains("."))){
-      result = showTextInputNumber(inputNumber);
+    if (number.contains(".")){
+      var numbers = number.split(".");
+      if(numbers!= null && numbers.length == 2){
+        result = showTextInputNumber(Decimal.parse(numbers[0]));
+        result += "." + numbers[1].toString();
+      }
+    }else{
+      result = showTextInputNumber(Decimal.parse(number));
     }
 
-    return result + (isEndWithPoint ? "." : "");
+    return result;
   }
 
   static String showTextNumberFromString(String number) {
