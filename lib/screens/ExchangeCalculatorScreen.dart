@@ -1,7 +1,12 @@
 import 'dart:async';
+import 'dart:convert';
 
 import 'package:calculator/convert/ConvertModel.dart';
+import 'package:calculator/convert/CurrencyConvertModel.dart';
+import 'package:calculator/convert/CurrencyModel.dart';
+import 'package:calculator/convert/CurrencyStatic.dart';
 import 'package:calculator/convert/LengthStatic.dart';
+import 'package:calculator/static/AppData.dart';
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -17,8 +22,8 @@ class ExchangeCalculatorScreenState extends State<ExchangeCalculatorScreen> {
   bool isEditFirst;
   Decimal ratio;
 
-  ConvertModel firstModel;
-  ConvertModel secondModel;
+  CurrencyModel firstModel;
+  CurrencyModel secondModel;
 
   @override
   void initState() {
@@ -26,11 +31,10 @@ class ExchangeCalculatorScreenState extends State<ExchangeCalculatorScreen> {
     firstShowText = "1";
     isEditFirst = true;
 
-    firstModel = LengthStatic.meter;
-    secondModel = LengthStatic.kilometer;
+    firstModel = CurrencyStatic.cny;
+    secondModel = CurrencyStatic.usd;
 
-    ratio = (firstModel.absValue) /
-        (secondModel.absValue);
+    ratio = Decimal.fromInt(1);
     setShowText(firstShowText);
   }
 
@@ -61,8 +65,9 @@ class ExchangeCalculatorScreenState extends State<ExchangeCalculatorScreen> {
                 child: Container(
                   padding: EdgeInsets.only(left: 25.0, right: 25.0),
                   child: Row(children: <Widget>[
-                    Padding(padding: EdgeInsets.only(right: 4.0), child: Icon(Icons.print),),
-                    Text("${firstModel.name}",
+                    Padding(padding: EdgeInsets.only(right: 4.0),
+                      child: Icon(Icons.print),),
+                    Text("${firstModel.currencyName}",
                       style: TextStyle(
                           fontSize: 24.0, color: Colors.grey[800]),),
                     Icon(Icons.arrow_drop_down, color: Colors.grey,),
@@ -89,7 +94,7 @@ class ExchangeCalculatorScreenState extends State<ExchangeCalculatorScreen> {
                         children: <Widget>[
                           Padding(
                             padding: EdgeInsets.only(right: 2.0),
-                            child: Text("${firstModel.unit}",
+                            child: Text("${firstModel.currency}",
                               style: TextStyle(
                                   fontSize: 12.0, color: Colors.grey[800]),),),
                         ],),
@@ -109,8 +114,9 @@ class ExchangeCalculatorScreenState extends State<ExchangeCalculatorScreen> {
                 child: Container(
                   padding: EdgeInsets.only(left: 25.0, right: 25.0),
                   child: Row(children: <Widget>[
-                    Padding(padding: EdgeInsets.only(right: 4.0), child: Icon(Icons.print),),
-                    Text("${secondModel.name}",
+                    Padding(padding: EdgeInsets.only(right: 4.0),
+                      child: Icon(Icons.print),),
+                    Text("${secondModel.currencyName}",
                       style: TextStyle(
                           fontSize: 24.0, color: Colors.grey[800]),),
                     Icon(Icons.arrow_drop_down, color: Colors.grey,),
@@ -140,7 +146,7 @@ class ExchangeCalculatorScreenState extends State<ExchangeCalculatorScreen> {
                           children: <Widget>[
                             Padding(
                               padding: EdgeInsets.only(right: 2.0),
-                              child: Text("${secondModel.unit}",
+                              child: Text("${secondModel.currency}",
                                 style: TextStyle(
                                     fontSize: 12.0,
                                     color: Colors.grey[800]),),),
@@ -149,52 +155,6 @@ class ExchangeCalculatorScreenState extends State<ExchangeCalculatorScreen> {
                   ,)
                 ,),
 
-            ],),),),),
-        Divider(height: 0.5,),
-        Expanded(child: GestureDetector(onTap: () {
-          _askedToLead(true);
-        }, child: Container(
-          color: Colors.grey[100],
-          child: Row(
-            children: <Widget>[
-              Container(
-                child: Container(
-                  padding: EdgeInsets.only(left: 25.0, right: 25.0),
-                  child: Row(children: <Widget>[
-                    Padding(padding: EdgeInsets.only(right: 4.0), child: Icon(Icons.nature),),
-                    Text("${firstModel.name}",
-                      style: TextStyle(
-                          fontSize: 24.0, color: Colors.grey[800]),),
-                    Icon(Icons.arrow_drop_down, color: Colors.grey,),
-                  ],),),),
-              Expanded(
-                child: GestureDetector(onTap: () {
-                  setEditNumber(true);
-                }, child: Container(padding: EdgeInsets.only(right: 25.0),
-                  color: Colors.grey[100],
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: <Widget>[
-                          Text("$firstShowText",
-                            style: TextStyle(
-                                fontSize: 28.0,
-                                color: isEditFirst ? Colors.orange : Colors
-                                    .grey[800]),),
-                        ],),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: <Widget>[
-                          Padding(
-                            padding: EdgeInsets.only(right: 2.0),
-                            child: Text("${firstModel.unit}",
-                              style: TextStyle(
-                                  fontSize: 12.0, color: Colors.grey[800]),),),
-                        ],),
-                    ],),),)
-                ,),
             ],),),),),
       ],),);
   }
@@ -440,7 +400,7 @@ class ExchangeCalculatorScreenState extends State<ExchangeCalculatorScreen> {
   }
 
   Future<Null> _askedToLead(bool isClickFirst) async {
-    var resultModel = await showDialog<ConvertModel>(
+    var resultModel = await showDialog<CurrencyModel>(
         context: context,
         builder: (BuildContext context) {
           return new SimpleDialog(
@@ -457,13 +417,13 @@ class ExchangeCalculatorScreenState extends State<ExchangeCalculatorScreen> {
       } else {
         secondModel = resultModel;
       }
-      reloadData();
+      loadData();
     }
   }
 
   List<Widget> getConvertList() {
     List<Widget> converts = List();
-    for (var convert in LengthStatic.lengths) {
+    for (var convert in CurrencyStatic.currencyList) {
       converts.add(SimpleDialogOption(
           onPressed: () {
             Navigator.pop(context, convert);
@@ -471,9 +431,11 @@ class ExchangeCalculatorScreenState extends State<ExchangeCalculatorScreen> {
           child: Column(
             children: <Widget>[
               Row(children: <Widget>[
-                Text("${convert.name}", style: TextStyle(fontSize: 14.0),),
                 Text(
-                  " " + "${convert.unit}", style: TextStyle(fontSize: 12.0),),
+                  "${convert.currencyName}", style: TextStyle(fontSize: 14.0),),
+                Text(
+                  " " + "${convert.currency}",
+                  style: TextStyle(fontSize: 12.0),),
               ],),
             ],
           ))
@@ -485,16 +447,23 @@ class ExchangeCalculatorScreenState extends State<ExchangeCalculatorScreen> {
 
   void reloadData() {
     setState(() {
-      ratio = (firstModel.absValue) /
-          (secondModel.absValue);
+      ratio = Decimal.fromInt(1);
       setShowText(isEditFirst ? firstShowText : secondShowText);
     });
   }
 
   loadData() async {
-    String dataURL = "http://op.juhe.cn/onebox/exchange/currency?from=CNY&to=USD&key=adb5c331c4588dc32c72332e86b99cfb";
-    http.Response response = await http.get(dataURL);
-    print(response.body);
+    String dataURL = "http://api.k780.com?app=finance.rate" + "&scur=" + firstModel.currency + "&tcur=" +
+        secondModel.currency + "&appkey=" +
+        AppData.exchangeAppKey + "&sign=" + AppData.exchangeSign +
+        "&format=json";
+    print(dataURL);
+    var response = await http.get(
+        dataURL);
+    print(response.statusCode);
+    print(response.headers);
+    print(Utf8Codec().decode(response.bodyBytes));
   }
+
 
 }

@@ -67,4 +67,9 @@ class SaveCacheUtil {
     SharedPreferences cache = await SharedPreferences.getInstance();
     return cache.get(key);
   }
+
+  static Future<String> getExchangeConvert(key) async{
+    SharedPreferences cache = await SharedPreferences.getInstance();
+    return cache.getString(key);
+  }
 }
