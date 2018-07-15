@@ -5,6 +5,7 @@ class CurrencyConvertModel{
   CurrencyModel fromCurrency;
   CurrencyModel toCurrency;
   String retio;
+  String updateTime;
 
   CurrencyConvertModel({
     @required this.fromCurrency,

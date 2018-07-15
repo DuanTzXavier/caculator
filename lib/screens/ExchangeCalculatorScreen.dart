@@ -1,8 +1,11 @@
 import 'dart:async';
 import 'dart:convert';
 
+import 'package:calculator/api/exchange/ExchangeResponse.dart';
+import 'package:calculator/api/exchange/ExchangeResult.dart';
 import 'package:calculator/convert/ConvertModel.dart';
 import 'package:calculator/convert/CurrencyConvertModel.dart';
+import 'package:calculator/convert/CurrencyConvertStatic.dart';
 import 'package:calculator/convert/CurrencyModel.dart';
 import 'package:calculator/convert/CurrencyStatic.dart';
 import 'package:calculator/convert/LengthStatic.dart';
@@ -20,10 +23,8 @@ class ExchangeCalculatorScreenState extends State<ExchangeCalculatorScreen> {
   String firstShowText;
   String secondShowText;
   bool isEditFirst;
-  Decimal ratio;
 
-  CurrencyModel firstModel;
-  CurrencyModel secondModel;
+  CurrencyConvertModel exchangeViewModel;
 
   @override
   void initState() {
@@ -31,10 +32,8 @@ class ExchangeCalculatorScreenState extends State<ExchangeCalculatorScreen> {
     firstShowText = "1";
     isEditFirst = true;
 
-    firstModel = CurrencyStatic.cny;
-    secondModel = CurrencyStatic.usd;
+    exchangeViewModel = CurrencyConvertStatic.cny2usd;
 
-    ratio = Decimal.fromInt(1);
     setShowText(firstShowText);
   }
 
@@ -67,7 +66,7 @@ class ExchangeCalculatorScreenState extends State<ExchangeCalculatorScreen> {
                   child: Row(children: <Widget>[
                     Padding(padding: EdgeInsets.only(right: 4.0),
                       child: Icon(Icons.print),),
-                    Text("${firstModel.currencyName}",
+                    Text("${exchangeViewModel.fromCurrency.currencyName}",
                       style: TextStyle(
                           fontSize: 24.0, color: Colors.grey[800]),),
                     Icon(Icons.arrow_drop_down, color: Colors.grey,),
@@ -94,7 +93,7 @@ class ExchangeCalculatorScreenState extends State<ExchangeCalculatorScreen> {
                         children: <Widget>[
                           Padding(
                             padding: EdgeInsets.only(right: 2.0),
-                            child: Text("${firstModel.currency}",
+                            child: Text("${exchangeViewModel.fromCurrency.currency}",
                               style: TextStyle(
                                   fontSize: 12.0, color: Colors.grey[800]),),),
                         ],),
@@ -116,7 +115,7 @@ class ExchangeCalculatorScreenState extends State<ExchangeCalculatorScreen> {
                   child: Row(children: <Widget>[
                     Padding(padding: EdgeInsets.only(right: 4.0),
                       child: Icon(Icons.print),),
-                    Text("${secondModel.currencyName}",
+                    Text("${exchangeViewModel.toCurrency.currencyName}",
                       style: TextStyle(
                           fontSize: 24.0, color: Colors.grey[800]),),
                     Icon(Icons.arrow_drop_down, color: Colors.grey,),
@@ -146,7 +145,7 @@ class ExchangeCalculatorScreenState extends State<ExchangeCalculatorScreen> {
                           children: <Widget>[
                             Padding(
                               padding: EdgeInsets.only(right: 2.0),
-                              child: Text("${secondModel.currency}",
+                              child: Text("${exchangeViewModel.toCurrency.currency}",
                                 style: TextStyle(
                                     fontSize: 12.0,
                                     color: Colors.grey[800]),),),
@@ -308,12 +307,12 @@ class ExchangeCalculatorScreenState extends State<ExchangeCalculatorScreen> {
         firstShowText = showText;
         secondShowText = (Decimal.parse(
             showText.endsWith(".") ? showText.replaceAll(".", "") : showText) *
-            ratio).toString();
+            Decimal.parse(exchangeViewModel.retio)).toString();
       } else {
         secondShowText = showText;
         firstShowText = (Decimal.parse(
             showText.endsWith(".") ? showText.replaceAll(".", "") : showText) /
-            ratio).toString();
+            Decimal.parse(exchangeViewModel.retio)).toString();
       }
     });
   }
@@ -413,9 +412,9 @@ class ExchangeCalculatorScreenState extends State<ExchangeCalculatorScreen> {
     );
     if (resultModel != null) {
       if (isClickFirst) {
-        firstModel = resultModel;
+        exchangeViewModel.fromCurrency = resultModel;
       } else {
-        secondModel = resultModel;
+        exchangeViewModel.toCurrency = resultModel;
       }
       loadData();
     }
@@ -447,22 +446,27 @@ class ExchangeCalculatorScreenState extends State<ExchangeCalculatorScreen> {
 
   void reloadData() {
     setState(() {
-      ratio = Decimal.fromInt(1);
       setShowText(isEditFirst ? firstShowText : secondShowText);
     });
   }
 
   loadData() async {
-    String dataURL = "http://api.k780.com?app=finance.rate" + "&scur=" + firstModel.currency + "&tcur=" +
-        secondModel.currency + "&appkey=" +
+    String dataURL = "http://api.k780.com?app=finance.rate" + "&scur=" + exchangeViewModel.fromCurrency.currency + "&tcur=" +
+        exchangeViewModel.toCurrency.currency + "&appkey=" +
         AppData.exchangeAppKey + "&sign=" + AppData.exchangeSign +
         "&format=json";
     print(dataURL);
     var response = await http.get(
         dataURL);
-    print(response.statusCode);
-    print(response.headers);
-    print(Utf8Codec().decode(response.bodyBytes));
+
+    Map exchangeMap = json.decode(Utf8Codec().decode(response.bodyBytes));
+    var resultModel = new ExchangeResponse.fromJson(exchangeMap);
+
+    setState(() {
+      exchangeViewModel.retio = resultModel.result.rate;
+      reloadData();
+    });
+
   }
 
 
