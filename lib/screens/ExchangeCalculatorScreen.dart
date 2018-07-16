@@ -411,11 +411,15 @@ class ExchangeCalculatorScreenState extends State<ExchangeCalculatorScreen> {
         }
     );
     if (resultModel != null) {
-      if (isClickFirst) {
-        exchangeViewModel.fromCurrency = resultModel;
-      } else {
-        exchangeViewModel.toCurrency = resultModel;
-      }
+      setState(() {
+        if (isClickFirst) {
+          exchangeViewModel.fromCurrency = resultModel;
+        } else {
+          exchangeViewModel.toCurrency = resultModel;
+        }
+
+        exchangeViewModel.retio = (Decimal.parse(exchangeViewModel.toCurrency.absValue)/ Decimal.parse(exchangeViewModel.fromCurrency.absValue)).toString();
+      });
       loadData();
     }
   }
