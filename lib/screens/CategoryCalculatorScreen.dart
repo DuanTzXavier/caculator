@@ -1,6 +1,7 @@
 import 'package:calculator/screens/ConvertCalculatorScreen.dart';
 import 'package:calculator/screens/ExchangeCalculatorScreen.dart';
 import 'package:calculator/screens/SettingScreen.dart';
+import 'package:calculator/static/MyColors.dart';
 import 'package:flutter/material.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
@@ -167,7 +168,7 @@ class CategoryCalculatorScreenState extends State<CategoryCalculatorScreen> {
           0xFF303030), String name: ""}) {
     return Expanded(
       child: new Material(
-        color: Colors.brown[400],
+        color: MyColors.color757c87,
         child: new InkWell(onTap: callback,
           child: Container(
             decoration: new BoxDecoration(
@@ -189,7 +190,7 @@ class CategoryCalculatorScreenState extends State<CategoryCalculatorScreen> {
 
   Widget initAppBar() {
     return AppBar(
-      backgroundColor: Colors.brown[400],
+      backgroundColor: MyColors.color757c87,
       automaticallyImplyLeading: false,
       elevation: 0.0,
       leading: null,

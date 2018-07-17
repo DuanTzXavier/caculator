@@ -1,7 +1,8 @@
 import 'package:calculator/convert/CurrencyModel.dart';
+import 'package:decimal/decimal.dart';
 import 'package:meta/meta.dart';
 
-class CurrencyConvertModel{
+class CurrencyConvertModel {
   CurrencyModel fromCurrency;
   CurrencyModel toCurrency;
   String retio;
@@ -10,10 +11,12 @@ class CurrencyConvertModel{
   CurrencyConvertModel({
     @required this.fromCurrency,
     @required this.toCurrency,
-    @required this.retio,
-  });
+  }) {
+    this.retio = (Decimal.parse(toCurrency.absValue) /
+        Decimal.parse(fromCurrency.absValue)).toString();
+  }
 
-  setRetio(String retio){
+  setRetio(String retio) {
     this.retio = retio;
   }
 }
