@@ -2,6 +2,7 @@ import 'package:calculator/screens/ConvertCalculatorScreen.dart';
 import 'package:calculator/screens/ExchangeCalculatorScreen.dart';
 import 'package:calculator/screens/SettingScreen.dart';
 import 'package:calculator/static/MyColors.dart';
+import 'package:calculator/static/MyStrings.dart';
 import 'package:flutter/material.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
@@ -21,52 +22,80 @@ class CategoryCalculatorScreenState extends State<CategoryCalculatorScreen> {
             Expanded(child: Row(
                 children: <Widget>[
                   initIconButton(
-                      MdiIcons.calculator, name: "计算器", callback: () {
-                    Navigator.pop(context);
-                  }),
+                      MdiIcons.calculator, name: MyStrings.category_calculator,
+                      callback: () {
+                        Navigator.pop(context);
+                      }),
                   initIconButton(
-                      MdiIcons.ruler, name: "长度转换", callback: () {
-                    Navigator.push(context, new PageRouteBuilder(
-                        opaque: false,
-                        pageBuilder: (BuildContext context, _, __) {
-                          return ConvertCalculatorScreen();
-                        },
-                        transitionsBuilder: (___, Animation<double> animation, ____,
-                            Widget child) {
-                          return new FadeTransition(
-                            opacity: animation,
-                            child: child,
-                          );
-                        }
-                    ));
-                  }),
+                      MdiIcons.ruler, name: MyStrings.category_lenth,
+                      callback: () {
+                        Navigator.push(context, new PageRouteBuilder(
+                            opaque: false,
+                            pageBuilder: (BuildContext context, _, __) {
+                              return ConvertCalculatorScreen();
+                            },
+                            transitionsBuilder: (___,
+                                Animation<double> animation,
+                                ____,
+                                Widget child) {
+                              return new FadeTransition(
+                                opacity: animation,
+                                child: child,
+                              );
+                            }
+                        ));
+                      }),
                   initIconButton(
-                      MdiIcons.timer, name: "时间转换", callback: () {
-                    Navigator.push(context, new PageRouteBuilder(
-                        opaque: false,
-                        pageBuilder: (BuildContext context, _, __) {
-                          return ConvertCalculatorScreen();
-                        },
-                        transitionsBuilder: (___, Animation<double> animation, ____,
-                            Widget child) {
-                          return new FadeTransition(
-                            opacity: animation,
-                            child: child,
-                          );
-                        }
-                    ));
-                  }),
+                      MdiIcons.timer, name: MyStrings.category_time,
+                      callback: () {
+                        Navigator.push(context, new PageRouteBuilder(
+                            opaque: false,
+                            pageBuilder: (BuildContext context, _, __) {
+                              return ConvertCalculatorScreen();
+                            },
+                            transitionsBuilder: (___,
+                                Animation<double> animation,
+                                ____,
+                                Widget child) {
+                              return new FadeTransition(
+                                opacity: animation,
+                                child: child,
+                              );
+                            }
+                        ));
+                      }),
                 ])),
             Expanded(child: Row(
                 children: <Widget>[
                   initIconButton(
-                      Icons.format_size, name: "面积转换", callback: () {
+                      Icons.format_size, name: MyStrings.category_area,
+                      callback: () {
+                        Navigator.push(context, new PageRouteBuilder(
+                            opaque: false,
+                            pageBuilder: (BuildContext context, _, __) {
+                              return ConvertCalculatorScreen();
+                            },
+                            transitionsBuilder: (___,
+                                Animation<double> animation,
+                                ____,
+                                Widget child) {
+                              return new FadeTransition(
+                                opacity: animation,
+                                child: child,
+                              );
+                            }
+                        ));
+                      }),
+                  initIconButton(
+                      MdiIcons.oilTemperature,
+                      name: MyStrings.category_temperature, callback: () {
                     Navigator.push(context, new PageRouteBuilder(
                         opaque: false,
                         pageBuilder: (BuildContext context, _, __) {
                           return ConvertCalculatorScreen();
                         },
-                        transitionsBuilder: (___, Animation<double> animation, ____,
+                        transitionsBuilder: (___, Animation<double> animation,
+                            ____,
                             Widget child) {
                           return new FadeTransition(
                             opacity: animation,
@@ -76,88 +105,90 @@ class CategoryCalculatorScreenState extends State<CategoryCalculatorScreen> {
                     ));
                   }),
                   initIconButton(
-                      MdiIcons.oilTemperature, name: "温度转换", callback: () {
-                    Navigator.push(context, new PageRouteBuilder(
-                        opaque: false,
-                        pageBuilder: (BuildContext context, _, __) {
-                          return ConvertCalculatorScreen();
-                        },
-                        transitionsBuilder: (___, Animation<double> animation, ____,
-                            Widget child) {
-                          return new FadeTransition(
-                            opacity: animation,
-                            child: child,
-                          );
-                        }
-                    ));
-                  }),
-                  initIconButton(
-                      Icons.gamepad, name: "速度转换", callback: () {
-                    Navigator.push(context, new PageRouteBuilder(
-                        opaque: false,
-                        pageBuilder: (BuildContext context, _, __) {
-                          return ConvertCalculatorScreen();
-                        },
-                        transitionsBuilder: (___, Animation<double> animation, ____,
-                            Widget child) {
-                          return new FadeTransition(
-                            opacity: animation,
-                            child: child,
-                          );
-                        }
-                    ));
-                  }),
+                      Icons.gamepad, name: MyStrings.category_speed,
+                      callback: () {
+                        Navigator.push(context, new PageRouteBuilder(
+                            opaque: false,
+                            pageBuilder: (BuildContext context, _, __) {
+                              return ConvertCalculatorScreen();
+                            },
+                            transitionsBuilder: (___,
+                                Animation<double> animation,
+                                ____,
+                                Widget child) {
+                              return new FadeTransition(
+                                opacity: animation,
+                                child: child,
+                              );
+                            }
+                        ));
+                      }),
                 ])),
             Expanded(child: Row(
                 children: <Widget>[
                   initIconButton(
-                      MdiIcons.ruler, name: "重量转换", callback: () {
-                    Navigator.push(context, new PageRouteBuilder(
-                        opaque: false,
-                        pageBuilder: (BuildContext context, _, __) {
-                          return ConvertCalculatorScreen();
-                        },
-                        transitionsBuilder: (___, Animation<double> animation, ____,
-                            Widget child) {
-                          return new FadeTransition(
-                            opacity: animation,
-                            child: child,
-                          );
-                        }
-                    ));
-                  }),
+                      MdiIcons.ruler, name: MyStrings.category_weight,
+                      callback: () {
+                        Navigator.push(context, new PageRouteBuilder(
+                            opaque: false,
+                            pageBuilder: (BuildContext context, _, __) {
+                              return ConvertCalculatorScreen();
+                            },
+                            transitionsBuilder: (___,
+                                Animation<double> animation,
+                                ____,
+                                Widget child) {
+                              return new FadeTransition(
+                                opacity: animation,
+                                child: child,
+                              );
+                            }
+                        ));
+                      }),
                   initIconButton(
-                      MdiIcons.ruler, name: "体积转换", callback: () {
-                    Navigator.push(context, new PageRouteBuilder(
-                        opaque: false,
-                        pageBuilder: (BuildContext context, _, __) {
-                          return ConvertCalculatorScreen();
-                        },
-                        transitionsBuilder: (___, Animation<double> animation, ____,
-                            Widget child) {
-                          return new FadeTransition(
-                            opacity: animation,
-                            child: child,
-                          );
-                        }
-                    ));
-                  }),
+                      MdiIcons.ruler, name: MyStrings.category_size,
+                      callback: () {
+                        Navigator.push(context, new PageRouteBuilder(
+                            opaque: false,
+                            pageBuilder: (BuildContext context, _, __) {
+                              return ConvertCalculatorScreen();
+                            },
+                            transitionsBuilder: (___,
+                                Animation<double> animation,
+                                ____,
+                                Widget child) {
+                              return new FadeTransition(
+                                opacity: animation,
+                                child: child,
+                              );
+                            }
+                        ));
+                      }),
                   initIconButton(
-                      MdiIcons.ruler, name: "汇率转换", callback: () {
-                    Navigator.push(context, new PageRouteBuilder(
-                        opaque: false,
-                        pageBuilder: (BuildContext context, _, __) {
-                          return ExchangeCalculatorScreen();
-                        },
-                        transitionsBuilder: (___, Animation<double> animation, ____,
-                            Widget child) {
-                          return new FadeTransition(
-                            opacity: animation,
-                            child: child,
-                          );
-                        }
-                    ));
-                  }),
+                      MdiIcons.ruler, name: MyStrings.category_exchange,
+                      callback: () {
+                        Navigator.push(context, new PageRouteBuilder(
+                            opaque: false,
+                            pageBuilder: (BuildContext context, _, __) {
+                              return ExchangeCalculatorScreen();
+                            },
+                            transitionsBuilder: (___,
+                                Animation<double> animation,
+                                ____,
+                                Widget child) {
+                              return new FadeTransition(
+                                opacity: animation,
+                                child: child,
+                              );
+                            }
+                        ));
+                      }),
+                ])),
+            Expanded(child: Row(
+                children: <Widget>[
+                  initIconButton(null),
+                  initIconButton(null),
+                  initIconButton(null),
                 ])),
           ],
         ),),);
@@ -194,7 +225,7 @@ class CategoryCalculatorScreenState extends State<CategoryCalculatorScreen> {
       automaticallyImplyLeading: false,
       elevation: 0.0,
       leading: null,
-      title: Text("计算与换算"),
+      title: Text(MyStrings.category_title),
       centerTitle: true,
       actions: <Widget>[
         Container(

@@ -27,6 +27,8 @@ class CalculatorPage extends State<HomeScreen> {
     if (statements == null) {
       statements = List();
     }
+
+
   }
 
   initStatements() async {
@@ -40,9 +42,9 @@ class CalculatorPage extends State<HomeScreen> {
     setState(() {
       statements = stateList;
       this.showText = showText;
-      this.resultNumber = resultNumber == null ? "0" : resultNumber;
-      this.isShowResult = isShowResult == null ? "0" : isShowResult;
-      this.isAllClear = isAllClear == null ? true : isAllClear;
+      this.resultNumber = resultNumber == "null" ? "0" : resultNumber;
+      this.isShowResult = isShowResult == "null" ? "0" : isShowResult;
+      this.isAllClear = isAllClear == "null" ? true : isAllClear;
       this.statement.operator = operator;
       this.statement.inputNumber =
       inputNumber == "null" ? null : Decimal.parse(inputNumber);
