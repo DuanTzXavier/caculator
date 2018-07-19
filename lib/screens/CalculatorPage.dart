@@ -22,13 +22,11 @@ class CalculatorPage extends State<HomeScreen> {
 
   @override
   void initState() {
-    initStatements();
+//    initStatements();
     super.initState();
     if (statements == null) {
       statements = List();
     }
-
-
   }
 
   initStatements() async {
@@ -174,13 +172,13 @@ class CalculatorPage extends State<HomeScreen> {
                   isAllClear ? "AC" : "C", callback: () {
                 clearNumber();
               }),
-              initIconButton(MdiIcons.percent, size: 24.0, callback: () {
+              initIconButton('assets/images/percent.png', callback: () {
                 appendNumber("%");
               }),
-              initIconButton(MdiIcons.division, size: 32.0, callback: () {
+              initIconButton('assets/images/division.png', callback: () {
                 addOperator(4);
               }),
-              initIconButton(Icons.backspace, callback: () {
+              initIconButton('assets/images/backspace.png', size: 32.0, callback: () {
                 deleteNumber();
               }),
             ])),
@@ -196,7 +194,7 @@ class CalculatorPage extends State<HomeScreen> {
               initButton("9", callback: () {
                 appendNumber("9");
               }),
-              initIconButton(Icons.clear, size: 28.0, callback: () {
+              initIconButton('assets/images/times.png', size: 19.0, callback: () {
                 addOperator(3);
               }),
 
@@ -213,7 +211,7 @@ class CalculatorPage extends State<HomeScreen> {
               initButton("6", callback: () {
                 appendNumber("6");
               }),
-              initIconButton(Icons.remove, size: 28.0, callback: () {
+              initIconButton('assets/images/minus.png', callback: () {
                 addOperator(2);
               }),
 
@@ -230,7 +228,7 @@ class CalculatorPage extends State<HomeScreen> {
               initButton("3", callback: () {
                 appendNumber("3");
               }),
-              initIconButton(Icons.add, size: 28.0, callback: () {
+              initIconButton('assets/images/add.png', callback: () {
                 addOperator(1);
               }),
             ])),
@@ -243,7 +241,7 @@ class CalculatorPage extends State<HomeScreen> {
               initButton(".", callback: () {
                 appendNumber(".");
               }),
-              initBigButton(MdiIcons.equal, callback: () {
+              initBigButton(callback: () {
                 showResult();
               }),
             ])),
@@ -339,7 +337,6 @@ class CalculatorPage extends State<HomeScreen> {
       } catch (_) {
         resultNumber = "Error";
       }
-
     });
   }
 
@@ -439,8 +436,8 @@ class CalculatorPage extends State<HomeScreen> {
                     fontSize: size, color: MyColors.color757c87),),),),),),),);
   }
 
-  Widget initIconButton(IconData icon,
-      {GestureTapCallback callback, double size: MyDoubleSize.double22,}) {
+  Widget initIconButton(String assertName,
+      {GestureTapCallback callback, double size : 25.0,}) {
     return Expanded(
       child: Container(
         padding: EdgeInsets.all(MyDoubleSize.double5), child: new Material(
@@ -449,12 +446,10 @@ class CalculatorPage extends State<HomeScreen> {
         child: new InkWell(onTap: callback,
           child: Container(
             child: Center(
-              child: Icon(
-                icon,
-                size: size, color: MyColors.color757c87,),),),),),),);
+              child: Image.asset(assertName, width: size, height: size,),),),),),),);
   }
 
-  Widget initBigButton(IconData icon, {GestureTapCallback callback}) {
+  Widget initBigButton({GestureTapCallback callback}) {
     return Expanded(
       flex: 2,
       child: Container(padding: EdgeInsets.only(
@@ -467,8 +462,7 @@ class CalculatorPage extends State<HomeScreen> {
         child: new InkWell(onTap: callback,
           child: Container(
             child: Center(
-              child: Icon(icon,
-                size: MyDoubleSize.double35, color: MyColors.colorfefefe,),),),),),),);
+              child: Image.asset('assets/images/equal.png',width: 25.0,),),),),),),);
   }
 
   String getShowNumber(double number) {
@@ -483,7 +477,11 @@ class CalculatorPage extends State<HomeScreen> {
     return AppBar(
       backgroundColor: MyColors.colorfefefe,
       leading: clickToShowScaffold(
-          Icon(Icons.view_module, color: MyColors.color757c87)),
+          Padding(padding: EdgeInsets.all(13.0), child: Image.asset(
+            'assets/images/left_icon.png',
+            fit: BoxFit.fill,
+          ),)
+      ),
       elevation: 0.0,
     );
   }

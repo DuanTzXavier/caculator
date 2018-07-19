@@ -22,12 +22,12 @@ class CategoryCalculatorScreenState extends State<CategoryCalculatorScreen> {
             Expanded(child: Row(
                 children: <Widget>[
                   initIconButton(
-                      MdiIcons.calculator, name: MyStrings.category_calculator,
+                      'assets/images/category_calculator.png', name: MyStrings.category_calculator,
                       callback: () {
                         Navigator.pop(context);
                       }),
                   initIconButton(
-                      MdiIcons.ruler, name: MyStrings.category_lenth,
+                      'assets/images/category_length.png', name: MyStrings.category_lenth,
                       callback: () {
                         Navigator.push(context, new PageRouteBuilder(
                             opaque: false,
@@ -46,7 +46,7 @@ class CategoryCalculatorScreenState extends State<CategoryCalculatorScreen> {
                         ));
                       }),
                   initIconButton(
-                      MdiIcons.timer, name: MyStrings.category_time,
+                      'assets/images/category_time.png', name: MyStrings.category_time,
                       callback: () {
                         Navigator.push(context, new PageRouteBuilder(
                             opaque: false,
@@ -68,7 +68,7 @@ class CategoryCalculatorScreenState extends State<CategoryCalculatorScreen> {
             Expanded(child: Row(
                 children: <Widget>[
                   initIconButton(
-                      Icons.format_size, name: MyStrings.category_area,
+                      'assets/images/category_area.png', name: MyStrings.category_area,
                       callback: () {
                         Navigator.push(context, new PageRouteBuilder(
                             opaque: false,
@@ -87,7 +87,7 @@ class CategoryCalculatorScreenState extends State<CategoryCalculatorScreen> {
                         ));
                       }),
                   initIconButton(
-                      MdiIcons.oilTemperature,
+                      'assets/images/category_temperature.png',
                       name: MyStrings.category_temperature, callback: () {
                     Navigator.push(context, new PageRouteBuilder(
                         opaque: false,
@@ -105,7 +105,7 @@ class CategoryCalculatorScreenState extends State<CategoryCalculatorScreen> {
                     ));
                   }),
                   initIconButton(
-                      Icons.gamepad, name: MyStrings.category_speed,
+                      'assets/images/category_speed.png', name: MyStrings.category_speed,
                       callback: () {
                         Navigator.push(context, new PageRouteBuilder(
                             opaque: false,
@@ -127,7 +127,7 @@ class CategoryCalculatorScreenState extends State<CategoryCalculatorScreen> {
             Expanded(child: Row(
                 children: <Widget>[
                   initIconButton(
-                      MdiIcons.ruler, name: MyStrings.category_weight,
+                      'assets/images/category_weight.png', name: MyStrings.category_weight,
                       callback: () {
                         Navigator.push(context, new PageRouteBuilder(
                             opaque: false,
@@ -146,7 +146,7 @@ class CategoryCalculatorScreenState extends State<CategoryCalculatorScreen> {
                         ));
                       }),
                   initIconButton(
-                      MdiIcons.ruler, name: MyStrings.category_size,
+                      'assets/images/category_size.png', name: MyStrings.category_size,
                       callback: () {
                         Navigator.push(context, new PageRouteBuilder(
                             opaque: false,
@@ -165,7 +165,7 @@ class CategoryCalculatorScreenState extends State<CategoryCalculatorScreen> {
                         ));
                       }),
                   initIconButton(
-                      MdiIcons.ruler, name: MyStrings.category_exchange,
+                      'assets/images/category_exchange.png', name: MyStrings.category_exchange,
                       callback: () {
                         Navigator.push(context, new PageRouteBuilder(
                             opaque: false,
@@ -186,15 +186,15 @@ class CategoryCalculatorScreenState extends State<CategoryCalculatorScreen> {
                 ])),
             Expanded(child: Row(
                 children: <Widget>[
-                  initIconButton(null),
-                  initIconButton(null),
-                  initIconButton(null),
+//                  initIconButton(null),
+//                  initIconButton(null),
+//                  initIconButton(null),
                 ])),
           ],
         ),),);
   }
 
-  Widget initIconButton(IconData icon,
+  Widget initIconButton(String assetName,
       {GestureTapCallback callback, double size: 22.0, Color color: const Color(
           0xFF303030), String name: ""}) {
     return Expanded(
@@ -210,9 +210,7 @@ class CategoryCalculatorScreenState extends State<CategoryCalculatorScreen> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
-                  Padding(padding: EdgeInsets.all(5.0), child: Icon(
-                    icon,
-                    size: size, color: Colors.white,),),
+                  Padding(padding: EdgeInsets.all(5.0), child: Image.asset(assetName, width: 25.0,),),
                   Padding(padding: EdgeInsets.all(5.0),
                     child: Text(
                       "$name", style: TextStyle(color: Colors.white),),),
