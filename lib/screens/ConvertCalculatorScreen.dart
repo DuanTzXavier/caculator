@@ -2,6 +2,8 @@ import 'dart:async';
 
 import 'package:calculator/convert/ConvertModel.dart';
 import 'package:calculator/convert/LengthStatic.dart';
+import 'package:calculator/static/MyColors.dart';
+import 'package:calculator/static/MyDoubleSize.dart';
 import 'package:calculator/utils/ShowTextNumberUtil.dart';
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
@@ -43,19 +45,21 @@ class ConvertCalculatorScreenState extends State<ConvertCalculatorScreen> {
         children: <Widget>[
           initInputedView(),
           Expanded(
-            child: initButtons(),)
+            child: Container(
+              padding: EdgeInsets.only(bottom: 20.0),
+              color: MyColors.colorfefefe, child: initButtons(),),)
         ],
       ),);
   }
 
   Widget initInputedView() {
     return AspectRatio(
-      aspectRatio: 7 / 4,
+      aspectRatio: 7 / 5,
       child: Column(children: <Widget>[
         Expanded(child: GestureDetector(onTap: () {
           _askedToLead(true);
         }, child: Container(
-          color: Colors.grey[100],
+          color: MyColors.colorfefefe,
           child: Row(
             children: <Widget>[
               Container(
@@ -73,7 +77,7 @@ class ConvertCalculatorScreenState extends State<ConvertCalculatorScreen> {
                     setEditNumber(true);
                   }
                 }, child: Container(padding: EdgeInsets.only(right: 25.0),
-                  color: Colors.grey[100],
+                  color: MyColors.colorfefefe,
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
@@ -105,7 +109,7 @@ class ConvertCalculatorScreenState extends State<ConvertCalculatorScreen> {
         Expanded(child: GestureDetector(onTap: () {
           _askedToLead(false);
         }, child: Container(
-          color: Colors.grey[100],
+          color: MyColors.colorfefefe,
           child: Row(
             children: <Widget>[
               Container(
@@ -124,7 +128,7 @@ class ConvertCalculatorScreenState extends State<ConvertCalculatorScreen> {
                   }
                 },
                   child: Container(
-                    color: Colors.grey[100],
+                    color: MyColors.colorfefefe,
                     padding: EdgeInsets.only(right: 25.0),
                     child: Column(mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
@@ -203,12 +207,14 @@ class ConvertCalculatorScreenState extends State<ConvertCalculatorScreen> {
 
                   Expanded(child: Row(
                       children: <Widget>[
-                        initBig0TextButton("0", callback: () {
+                        initButton("0", callback: () {
                           appendNumber("0");
                         }),
                         initButton(".", callback: () {
                           appendNumber(".");
                         }),
+                        Expanded(
+                            child: Container()),
                       ])),
                 ])),
 
@@ -218,7 +224,7 @@ class ConvertCalculatorScreenState extends State<ConvertCalculatorScreen> {
                   initBigTextButton("AC", callback: () {
                     clearNumber();
                   }),
-                  initBigButton(Icons.backspace, callback: () {
+                  initBigButton(callback: () {
                     deleteNumber();
                   }),
                 ])),
@@ -227,39 +233,20 @@ class ConvertCalculatorScreenState extends State<ConvertCalculatorScreen> {
   }
 
   Widget initButton(String text,
-      {GestureTapCallback callback, double size: 26.0, Color color: const Color(
-          0xFF303030)}) {
+      {GestureTapCallback callback, double size: MyDoubleSize
+          .double26, Color color}) {
     return Expanded(
-      child: new Material(
-        color: Colors.white,
+      child: Container(
+        padding: EdgeInsets.all(MyDoubleSize.double5), child: new Material(
+        shape: CircleBorder(),
+        color: MyColors.colorfefefe,
         child: new InkWell(onTap: callback,
           child: Container(
-            decoration: new BoxDecoration(
-              border: new Border.all(
-                  width: 0.1,
-                  color: Colors.black38),),
             child: Center(
               child: Text(
                 text,
-                style: TextStyle(fontSize: size, color: color),),),),),),);
-  }
-
-  Widget initIconButton(IconData icon,
-      {GestureTapCallback callback, double size: 22.0, Color color: const Color(
-          0xFF303030)}) {
-    return Expanded(
-      child: new Material(
-        color: Colors.white,
-        child: new InkWell(onTap: callback,
-          child: Container(
-            decoration: new BoxDecoration(
-              border: new Border.all(
-                  width: 0.1,
-                  color: Colors.black38),),
-            child: Center(
-              child: Icon(
-                icon,
-                size: size, color: color,),),),),),);
+                style: TextStyle(
+                    fontSize: size, color: MyColors.color757c87),),),),),),),);
   }
 
   void setEditNumber(bool isFirst) {
@@ -321,58 +308,49 @@ class ConvertCalculatorScreenState extends State<ConvertCalculatorScreen> {
     setShowText("0");
   }
 
-  Widget initBigButton(IconData icon, {GestureTapCallback callback}) {
+  Widget initBigButton({GestureTapCallback callback}) {
     return Expanded(
       flex: 2,
-      child: new Material(
-        color: Colors.white,
+      child: Container(padding: EdgeInsets.only(
+          left: 20.0,
+          right: 20.0,
+          top: MyDoubleSize.double5,
+          bottom: MyDoubleSize.double5), child: new Material(
+        borderRadius: BorderRadius.all(Radius.circular(1000.0)),
+        color: MyColors.colorf9f9f9,
         child: new InkWell(onTap: callback,
           child: Container(
-            decoration: new BoxDecoration(
-              border: new Border.all(
-                  width: 0.1, color: Colors.black38),),
             child: Center(
-              child: Icon(icon,
-                size: 26.0, color: Colors.grey[800],),),),),),);
+              child: Image.asset(
+                'assets/images/backspace.png', width: 28.0,),),),),),),);
   }
 
   Widget initBigTextButton(String text, {GestureTapCallback callback}) {
     return Expanded(
       flex: 2,
-      child: new Material(
-        color: Colors.white,
+      child: Container(padding: EdgeInsets.only(
+          left: 20.0,
+          right: 20.0,
+          top: MyDoubleSize.double5,
+          bottom: MyDoubleSize.double5), child: new Material(
+        borderRadius: BorderRadius.all(Radius.circular(1000.0)),
+        color: MyColors.colorf9f9f9,
         child: new InkWell(onTap: callback,
           child: Container(
-            decoration: new BoxDecoration(
-              border: new Border.all(
-                  width: 0.1, color: Colors.black38),),
             child: Center(
               child: Text(text, style: TextStyle(
-                  fontSize: 22.0, color: Colors.orange),),),),),),);
-  }
-
-  Widget initBig0TextButton(String text, {GestureTapCallback callback}) {
-    return Expanded(
-      flex: 2,
-      child: new Material(
-        color: Colors.white,
-        child: new InkWell(onTap: callback,
-          child: Container(
-            decoration: new BoxDecoration(
-              border: new Border.all(
-                  width: 0.1, color: Colors.black38),),
-            child: Row(children: <Widget>[
-              Expanded(child: Center(child: Text(text, style: TextStyle(
-                  fontSize: 22.0, color: Colors.grey[800]),),),),
-              Expanded(child: Center(),),
-            ],),),),),);
+                  fontSize: 22.0, color: MyColors.color757c87),),),),),),),);
   }
 
   Widget initAppBar() {
     return AppBar(
-      backgroundColor: Colors.grey[100],
+      backgroundColor: MyColors.colorfefefe,
       leading: clickToShowScaffold(
-          Icon(Icons.view_module, color: Colors.grey[800])),
+          Padding(padding: EdgeInsets.all(13.0), child: Image.asset(
+            'assets/images/left_icon.png',
+            fit: BoxFit.fill,
+          ),)
+      ),
       automaticallyImplyLeading: false,
       centerTitle: true,
       title: Text("长度单位换算", style: TextStyle(color: Colors.grey[800]),),
