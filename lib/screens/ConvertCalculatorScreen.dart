@@ -68,7 +68,7 @@ class ConvertCalculatorScreenState extends State<ConvertCalculatorScreen> {
                   child: Row(children: <Widget>[
                     Text("${firstModel.name}",
                       style: TextStyle(
-                          fontSize: 24.0, color: Colors.grey[800]),),
+                          fontSize: 18.0, color: Colors.grey[800]),),
                     Icon(Icons.arrow_drop_down, color: Colors.grey,),
                   ],),),),
               Expanded(
@@ -87,9 +87,10 @@ class ConvertCalculatorScreenState extends State<ConvertCalculatorScreen> {
                           Text("${ShowTextNumberUtil.showTextNumberFromString(
                               firstShowText, maxValue: "9999999999999")}",
                             style: TextStyle(
-                                fontSize: 28.0,
-                                color: isEditFirst ? Colors.orange : Colors
-                                    .grey[800]),),
+                                fontSize: 24.0,
+                                color: isEditFirst
+                                    ? MyColors.color333333
+                                    : MyColors.color757c87),),
                         ],),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.end,
@@ -118,7 +119,7 @@ class ConvertCalculatorScreenState extends State<ConvertCalculatorScreen> {
                   child: Row(children: <Widget>[
                     Text("${secondModel.name}",
                       style: TextStyle(
-                          fontSize: 24.0, color: Colors.grey[800]),),
+                          fontSize: 18.0, color: Colors.grey[800]),),
                     Icon(Icons.arrow_drop_down, color: Colors.grey,),
                   ],),),),
               Expanded(
@@ -138,11 +139,10 @@ class ConvertCalculatorScreenState extends State<ConvertCalculatorScreen> {
                             Text("${ShowTextNumberUtil.showTextNumberFromString(
                                 secondShowText, maxValue: "9999999999999")}",
                               style: TextStyle(
-                                  fontSize: 28.0,
+                                  fontSize: 24.0,
                                   color: isEditFirst
-                                      ? Colors.grey[800]
-                                      : Colors
-                                      .orange),),
+                                      ? MyColors.color757c87
+                                      : MyColors.color333333),),
                           ],),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.end,
@@ -312,8 +312,8 @@ class ConvertCalculatorScreenState extends State<ConvertCalculatorScreen> {
     return Expanded(
       flex: 2,
       child: Container(padding: EdgeInsets.only(
-          left: 20.0,
-          right: 20.0,
+          left: 15.0,
+          right: 15.0,
           top: MyDoubleSize.double5,
           bottom: MyDoubleSize.double5), child: new Material(
         borderRadius: BorderRadius.all(Radius.circular(1000.0)),
@@ -329,8 +329,8 @@ class ConvertCalculatorScreenState extends State<ConvertCalculatorScreen> {
     return Expanded(
       flex: 2,
       child: Container(padding: EdgeInsets.only(
-          left: 20.0,
-          right: 20.0,
+          left: 15.0,
+          right: 15.0,
           top: MyDoubleSize.double5,
           bottom: MyDoubleSize.double5), child: new Material(
         borderRadius: BorderRadius.all(Radius.circular(1000.0)),
@@ -353,7 +353,7 @@ class ConvertCalculatorScreenState extends State<ConvertCalculatorScreen> {
       ),
       automaticallyImplyLeading: false,
       centerTitle: true,
-      title: Text("长度单位换算", style: TextStyle(color: Colors.grey[800]),),
+      title: Text("长度单位换算", style: TextStyle(color: MyColors.color333333),),
       elevation: 0.0,
     );
   }

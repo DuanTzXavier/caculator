@@ -5,6 +5,7 @@ import 'package:calculator/static/MyDoubleSize.dart';
 import 'package:calculator/utils/OperateUtil.dart';
 import 'package:calculator/utils/SaveCacheUtil.dart';
 import 'package:calculator/utils/ShowTextNumberUtil.dart';
+import 'package:calculator/utils/UIUtil.dart';
 import 'package:calculator/viewmodel/Statement.dart';
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
@@ -19,10 +20,12 @@ class CalculatorPage extends State<HomeScreen> {
   bool isShowResult = false;
   bool isAllClear = true;
   NumberFormat format = NumberFormat();
+  double bigSize = 45.0;
+  double smallSize = 22.0;
 
   @override
   void initState() {
-//    initStatements();
+    initStatements();
     super.initState();
     if (statements == null) {
       statements = List();
@@ -65,6 +68,9 @@ class CalculatorPage extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    var screenWidth = UIUtil.getScreenWidth(context);
+    bigSize = screenWidth / 8;
+    smallSize = screenWidth / 12;
     return Scaffold(
       appBar: initAppBar(),
       body: Column(
@@ -125,11 +131,11 @@ class CalculatorPage extends State<HomeScreen> {
                   padding: EdgeInsets.only(right: 5.0),
                   child: Icon(operatorIcon,
                     color: MyColors.color757c87,
-                    size: showNumber.length > 12 ? 22.0 : 45.0,),),
+                    size: showNumber.length > 12 ? smallSize : bigSize,),),
                 Text('$showNumber',
                   style: TextStyle(
                       color: MyColors.color757c87,
-                      fontSize: showNumber.length > 12 ? 32.0 : 45.0),),
+                      fontSize: showNumber.length > 12 ? smallSize : bigSize),),
               ],);
             } else {
               int index = statements.length + 1 - position;
@@ -178,7 +184,8 @@ class CalculatorPage extends State<HomeScreen> {
               initIconButton('assets/images/division.png', callback: () {
                 addOperator(4);
               }),
-              initIconButton('assets/images/backspace.png', size: 32.0, callback: () {
+              initIconButton(
+                  'assets/images/backspace.png', size: 32.0, callback: () {
                 deleteNumber();
               }),
             ])),
@@ -194,7 +201,8 @@ class CalculatorPage extends State<HomeScreen> {
               initButton("9", callback: () {
                 appendNumber("9");
               }),
-              initIconButton('assets/images/times.png', size: 19.0, callback: () {
+              initIconButton(
+                  'assets/images/times.png', size: 19.0, callback: () {
                 addOperator(3);
               }),
 
@@ -437,7 +445,7 @@ class CalculatorPage extends State<HomeScreen> {
   }
 
   Widget initIconButton(String assertName,
-      {GestureTapCallback callback, double size : 25.0,}) {
+      {GestureTapCallback callback, double size: 25.0,}) {
     return Expanded(
       child: Container(
         padding: EdgeInsets.all(MyDoubleSize.double5), child: new Material(
@@ -446,7 +454,8 @@ class CalculatorPage extends State<HomeScreen> {
         child: new InkWell(onTap: callback,
           child: Container(
             child: Center(
-              child: Image.asset(assertName, width: size, height: size,),),),),),),);
+              child: Image.asset(
+                assertName, width: size, height: size,),),),),),),);
   }
 
   Widget initBigButton({GestureTapCallback callback}) {
@@ -462,7 +471,8 @@ class CalculatorPage extends State<HomeScreen> {
         child: new InkWell(onTap: callback,
           child: Container(
             child: Center(
-              child: Image.asset('assets/images/equal.png',width: 25.0,),),),),),),);
+              child: Image.asset(
+                'assets/images/equal.png', width: 25.0,),),),),),),);
   }
 
   String getShowNumber(double number) {

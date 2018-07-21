@@ -22,12 +22,14 @@ class CategoryCalculatorScreenState extends State<CategoryCalculatorScreen> {
             Expanded(child: Row(
                 children: <Widget>[
                   initIconButton(
-                      'assets/images/category_calculator.png', name: MyStrings.category_calculator,
+                      'assets/images/category_calculator.png',
+                      name: MyStrings.category_calculator,
                       callback: () {
                         Navigator.pop(context);
                       }),
                   initIconButton(
-                      'assets/images/category_length.png', name: MyStrings.category_lenth,
+                      'assets/images/category_length.png',
+                      name: MyStrings.category_lenth,
                       callback: () {
                         Navigator.push(context, new PageRouteBuilder(
                             opaque: false,
@@ -46,7 +48,8 @@ class CategoryCalculatorScreenState extends State<CategoryCalculatorScreen> {
                         ));
                       }),
                   initIconButton(
-                      'assets/images/category_time.png', name: MyStrings.category_time,
+                      'assets/images/category_time.png',
+                      name: MyStrings.category_time,
                       callback: () {
                         Navigator.push(context, new PageRouteBuilder(
                             opaque: false,
@@ -68,7 +71,8 @@ class CategoryCalculatorScreenState extends State<CategoryCalculatorScreen> {
             Expanded(child: Row(
                 children: <Widget>[
                   initIconButton(
-                      'assets/images/category_area.png', name: MyStrings.category_area,
+                      'assets/images/category_area.png',
+                      name: MyStrings.category_area,
                       callback: () {
                         Navigator.push(context, new PageRouteBuilder(
                             opaque: false,
@@ -105,7 +109,8 @@ class CategoryCalculatorScreenState extends State<CategoryCalculatorScreen> {
                     ));
                   }),
                   initIconButton(
-                      'assets/images/category_speed.png', name: MyStrings.category_speed,
+                      'assets/images/category_speed.png',
+                      name: MyStrings.category_speed,
                       callback: () {
                         Navigator.push(context, new PageRouteBuilder(
                             opaque: false,
@@ -127,7 +132,8 @@ class CategoryCalculatorScreenState extends State<CategoryCalculatorScreen> {
             Expanded(child: Row(
                 children: <Widget>[
                   initIconButton(
-                      'assets/images/category_weight.png', name: MyStrings.category_weight,
+                      'assets/images/category_weight.png',
+                      name: MyStrings.category_weight,
                       callback: () {
                         Navigator.push(context, new PageRouteBuilder(
                             opaque: false,
@@ -146,7 +152,8 @@ class CategoryCalculatorScreenState extends State<CategoryCalculatorScreen> {
                         ));
                       }),
                   initIconButton(
-                      'assets/images/category_size.png', name: MyStrings.category_size,
+                      'assets/images/category_size.png',
+                      name: MyStrings.category_size,
                       callback: () {
                         Navigator.push(context, new PageRouteBuilder(
                             opaque: false,
@@ -165,7 +172,8 @@ class CategoryCalculatorScreenState extends State<CategoryCalculatorScreen> {
                         ));
                       }),
                   initIconButton(
-                      'assets/images/category_exchange.png', name: MyStrings.category_exchange,
+                      'assets/images/category_exchange.png',
+                      name: MyStrings.category_exchange,
                       callback: () {
                         Navigator.push(context, new PageRouteBuilder(
                             opaque: false,
@@ -210,7 +218,8 @@ class CategoryCalculatorScreenState extends State<CategoryCalculatorScreen> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
-                  Padding(padding: EdgeInsets.all(5.0), child: Image.asset(assetName, width: 25.0,),),
+                  Padding(padding: EdgeInsets.all(5.0),
+                    child: Image.asset(assetName, width: 25.0,),),
                   Padding(padding: EdgeInsets.all(5.0),
                     child: Text(
                       "$name", style: TextStyle(color: Colors.white),),),
