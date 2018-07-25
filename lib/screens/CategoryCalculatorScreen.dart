@@ -219,7 +219,7 @@ class CategoryCalculatorScreenState extends State<CategoryCalculatorScreen> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   Padding(padding: EdgeInsets.all(5.0),
-                    child: Image.asset(assetName, width: 25.0,),),
+                    child: Image.asset(assetName, width: 25.0, height: 25.0,),),
                   Padding(padding: EdgeInsets.all(5.0),
                     child: Text(
                       "$name", style: TextStyle(color: Colors.white),),),
