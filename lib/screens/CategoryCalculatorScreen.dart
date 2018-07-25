@@ -1,10 +1,11 @@
+import 'package:calculator/convert/LengthStatic.dart';
+import 'package:calculator/convert/TimeStatic.dart';
 import 'package:calculator/screens/ConvertCalculatorScreen.dart';
 import 'package:calculator/screens/ExchangeCalculatorScreen.dart';
 import 'package:calculator/screens/SettingScreen.dart';
 import 'package:calculator/static/MyColors.dart';
 import 'package:calculator/static/MyStrings.dart';
 import 'package:flutter/material.dart';
-import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
 class CategoryCalculatorScreen extends StatefulWidget {
   @override
@@ -34,7 +35,7 @@ class CategoryCalculatorScreenState extends State<CategoryCalculatorScreen> {
                         Navigator.push(context, new PageRouteBuilder(
                             opaque: false,
                             pageBuilder: (BuildContext context, _, __) {
-                              return ConvertCalculatorScreen();
+                              return ConvertCalculatorScreen(titleName: "长度单位转换", convertList: LengthStatic.lengths,);
                             },
                             transitionsBuilder: (___,
                                 Animation<double> animation,
@@ -54,7 +55,7 @@ class CategoryCalculatorScreenState extends State<CategoryCalculatorScreen> {
                         Navigator.push(context, new PageRouteBuilder(
                             opaque: false,
                             pageBuilder: (BuildContext context, _, __) {
-                              return ConvertCalculatorScreen();
+                              return ConvertCalculatorScreen(titleName: "时间单位转换", convertList: TimeStatic.times,);
                             },
                             transitionsBuilder: (___,
                                 Animation<double> animation,
@@ -77,7 +78,7 @@ class CategoryCalculatorScreenState extends State<CategoryCalculatorScreen> {
                         Navigator.push(context, new PageRouteBuilder(
                             opaque: false,
                             pageBuilder: (BuildContext context, _, __) {
-                              return ConvertCalculatorScreen();
+                              return ConvertCalculatorScreen(titleName: "面积单位转换", convertList: LengthStatic.lengths,);
                             },
                             transitionsBuilder: (___,
                                 Animation<double> animation,
@@ -96,7 +97,7 @@ class CategoryCalculatorScreenState extends State<CategoryCalculatorScreen> {
                     Navigator.push(context, new PageRouteBuilder(
                         opaque: false,
                         pageBuilder: (BuildContext context, _, __) {
-                          return ConvertCalculatorScreen();
+                          return ConvertCalculatorScreen(titleName: "温度单位转换", convertList: LengthStatic.lengths,);
                         },
                         transitionsBuilder: (___, Animation<double> animation,
                             ____,
@@ -115,7 +116,7 @@ class CategoryCalculatorScreenState extends State<CategoryCalculatorScreen> {
                         Navigator.push(context, new PageRouteBuilder(
                             opaque: false,
                             pageBuilder: (BuildContext context, _, __) {
-                              return ConvertCalculatorScreen();
+                              return ConvertCalculatorScreen(titleName: "速度单位转换", convertList: LengthStatic.lengths,);
                             },
                             transitionsBuilder: (___,
                                 Animation<double> animation,
@@ -138,7 +139,7 @@ class CategoryCalculatorScreenState extends State<CategoryCalculatorScreen> {
                         Navigator.push(context, new PageRouteBuilder(
                             opaque: false,
                             pageBuilder: (BuildContext context, _, __) {
-                              return ConvertCalculatorScreen();
+                              return ConvertCalculatorScreen(titleName: "重量单位转换", convertList: LengthStatic.lengths,);
                             },
                             transitionsBuilder: (___,
                                 Animation<double> animation,
@@ -158,7 +159,7 @@ class CategoryCalculatorScreenState extends State<CategoryCalculatorScreen> {
                         Navigator.push(context, new PageRouteBuilder(
                             opaque: false,
                             pageBuilder: (BuildContext context, _, __) {
-                              return ConvertCalculatorScreen();
+                              return ConvertCalculatorScreen(titleName: "体积单位转换", convertList: LengthStatic.lengths,);
                             },
                             transitionsBuilder: (___,
                                 Animation<double> animation,

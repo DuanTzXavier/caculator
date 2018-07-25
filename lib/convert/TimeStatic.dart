@@ -29,4 +29,17 @@ class TimeStatic {
       name: "纳秒", absValue: Decimal.parse("0.000001"), key: "", unit: "μs");
   static final picoscond = ConvertModel(
       name: "皮秒", absValue: Decimal.parse("0.000000001"), key: "", unit: "ps");
+
+  static List<ConvertModel> times = List.castFrom(
+      [
+        year,
+        week,
+        day,
+        hour,
+        min,
+        second,
+        milliscond,
+        micronscond,
+        picoscond,
+      ]);
 }

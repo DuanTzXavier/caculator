@@ -9,11 +9,20 @@ import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 
 class ConvertCalculatorScreen extends StatefulWidget {
+  String titleName;
+  List<ConvertModel> convertList;
+
+  ConvertCalculatorScreen({@required this.titleName, @required this.convertList});
+
   @override
-  State<StatefulWidget> createState() => ConvertCalculatorScreenState();
+  State<StatefulWidget> createState() =>
+      ConvertCalculatorScreenState(titleName: titleName, convertList: convertList);
 }
 
 class ConvertCalculatorScreenState extends State<ConvertCalculatorScreen> {
+
+  List<ConvertModel> convertList;
+  String titleName;
 
   String firstShowText;
   String secondShowText;
@@ -23,14 +32,17 @@ class ConvertCalculatorScreenState extends State<ConvertCalculatorScreen> {
   ConvertModel firstModel;
   ConvertModel secondModel;
 
+
+  ConvertCalculatorScreenState({@required this.titleName, @required this.convertList});
+
   @override
   void initState() {
     super.initState();
     firstShowText = "1";
     isEditFirst = true;
 
-    firstModel = LengthStatic.meter;
-    secondModel = LengthStatic.kilometer;
+    firstModel = convertList[0];
+    secondModel = convertList[1];
 
     ratio = firstModel.absValue /
         secondModel.absValue;
@@ -352,7 +364,7 @@ class ConvertCalculatorScreenState extends State<ConvertCalculatorScreen> {
       ),
       automaticallyImplyLeading: false,
       centerTitle: true,
-      title: Text("长度单位换算", style: TextStyle(color: MyColors.color333333),),
+      title: Text("$titleName", style: TextStyle(color: MyColors.color333333),),
       elevation: 0.0,
     );
   }
@@ -399,7 +411,7 @@ class ConvertCalculatorScreenState extends State<ConvertCalculatorScreen> {
 
   List<Widget> getConvertList() {
     List<Widget> converts = List();
-    for (var convert in LengthStatic.lengths) {
+    for (var convert in convertList) {
       converts.add(SimpleDialogOption(
           onPressed: () {
             Navigator.pop(context, convert);
