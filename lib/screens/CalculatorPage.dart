@@ -25,7 +25,7 @@ class CalculatorPage extends State<HomeScreen> {
 
   @override
   void initState() {
-    initStatements();
+//    initStatements();
     super.initState();
     if (statements == null) {
       statements = List();
@@ -473,6 +473,7 @@ class CalculatorPage extends State<HomeScreen> {
             child: Center(
               child: Image.asset(
                 'assets/images/equal.png', width: 25.0,),),),),),),);
+
   }
 
   String getShowNumber(double number) {

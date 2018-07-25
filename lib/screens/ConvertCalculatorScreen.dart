@@ -154,11 +154,10 @@ class ConvertCalculatorScreenState extends State<ConvertCalculatorScreen> {
                                     fontSize: 12.0,
                                     color: Colors.grey[800]),),),
                           ],),
-                      ],),)
-                  ,)
-                ,),
+                      ],),),),),
             ],),),),),
-      ],),);
+      ],),
+    );
   }
 
   Widget initButtons() {
