@@ -440,7 +440,6 @@ class CalculatorPage extends State<HomeScreen> {
               child: Text(
                 text,
                 style: TextStyle(
-                    fontWeight: FontWeight.bold,
                     fontSize: size, color: MyColors.color757c87),),),),),),),);
   }
 

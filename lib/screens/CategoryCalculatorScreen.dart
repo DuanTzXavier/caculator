@@ -194,23 +194,22 @@ class CategoryCalculatorScreenState extends State<CategoryCalculatorScreen> {
                 ])),
             Expanded(child: Row(
                 children: <Widget>[
-//                  initIconButton(null),
-//                  initIconButton(null),
-//                  initIconButton(null),
+                  initnNllButton(),
+                  initnNllButton(),
+                  initnNllButton(),
                 ])),
           ],
         ),),);
   }
 
   Widget initIconButton(String assetName,
-      {GestureTapCallback callback, double size: 22.0, Color color: const Color(
-          0xFF303030), String name: ""}) {
+      {GestureTapCallback callback, String name: ""}) {
     return Expanded(
       child: new Material(
-        color: MyColors.color757c87,
         child: new InkWell(onTap: callback,
           child: Container(
             decoration: new BoxDecoration(
+              color: MyColors.color757c87,
               border: new Border.all(
                   width: 0.2,
                   color: Colors.grey[400]),),
@@ -226,13 +225,24 @@ class CategoryCalculatorScreenState extends State<CategoryCalculatorScreen> {
                 ],),),),),),);
   }
 
+  Widget initnNllButton() {
+    return Expanded(
+      child: Container(
+        decoration: new BoxDecoration(
+          color: MyColors.color757c87,
+          border: new Border.all(
+              width: 0.2,
+              color: Colors.grey[400]),),
+        child: null,),);
+  }
+
   Widget initAppBar() {
     return AppBar(
       backgroundColor: MyColors.color757c87,
       automaticallyImplyLeading: false,
       elevation: 0.0,
       leading: null,
-      title: Text(MyStrings.category_title),
+      title: Text(MyStrings.category_title, style: TextStyle(color: Colors.white, fontSize: 20.0),),
       centerTitle: true,
       actions: <Widget>[
         Container(
