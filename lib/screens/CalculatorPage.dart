@@ -69,7 +69,7 @@ class CalculatorPage extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     var screenWidth = UIUtil.getScreenWidth(context);
-    bigSize = screenWidth / 8;
+    bigSize = screenWidth / 9;
     smallSize = screenWidth / 12;
     return Scaffold(
       appBar: initAppBar(),
@@ -131,11 +131,11 @@ class CalculatorPage extends State<HomeScreen> {
                   padding: EdgeInsets.only(right: 5.0),
                   child: Icon(operatorIcon,
                     color: MyColors.color757c87,
-                    size: showNumber.length > 12 ? smallSize : bigSize,),),
+                    size: showNumber.length > 13 ? smallSize : bigSize,),),
                 Text('$showNumber',
                   style: TextStyle(
                       color: MyColors.color757c87,
-                      fontSize: showNumber.length > 12 ? smallSize : bigSize),),
+                      fontSize: showNumber.length > 13 ? smallSize : bigSize),),
               ],);
             } else {
               int index = statements.length + 1 - position;
