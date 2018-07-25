@@ -6,6 +6,9 @@ import 'package:calculator/convert/CurrencyConvertModel.dart';
 import 'package:calculator/convert/CurrencyModel.dart';
 import 'package:calculator/convert/CurrencyStatic.dart';
 import 'package:calculator/static/AppData.dart';
+import 'package:calculator/static/MyColors.dart';
+import 'package:calculator/static/MyDoubleSize.dart';
+import 'package:calculator/utils/ShowTextNumberUtil.dart';
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -42,19 +45,21 @@ class ExchangeCalculatorScreenState extends State<ExchangeCalculatorScreen> {
         children: <Widget>[
           initInputedView(),
           Expanded(
-            child: initButtons(),)
+            child: Container(
+              padding: EdgeInsets.only(bottom: 20.0),
+              color: MyColors.colorfefefe, child: initButtons(),),)
         ],
       ),);
   }
 
   Widget initInputedView() {
     return AspectRatio(
-      aspectRatio: 7 / 4,
+      aspectRatio: 7 / 5,
       child: Column(children: <Widget>[
         Expanded(child: GestureDetector(onTap: () {
           _askedToLead(true);
         }, child: Container(
-          color: Colors.grey[100],
+          color: MyColors.colorfefefe,
           child: Row(
             children: <Widget>[
               Container(
@@ -65,25 +70,29 @@ class ExchangeCalculatorScreenState extends State<ExchangeCalculatorScreen> {
                       child: Icon(Icons.print),),
                     Text("${exchangeViewModel.fromCurrency.currencyName}",
                       style: TextStyle(
-                          fontSize: 24.0, color: Colors.grey[800]),),
+                          fontSize: 18.0, color: Colors.grey[800]),),
                     Icon(Icons.arrow_drop_down, color: Colors.grey,),
                   ],),),),
               Expanded(
                 child: GestureDetector(onTap: () {
-                  setEditNumber(true);
+                  if (!isEditFirst) {
+                    setEditNumber(true);
+                  }
                 }, child: Container(padding: EdgeInsets.only(right: 25.0),
-                  color: Colors.grey[100],
+                  color: MyColors.colorfefefe,
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
                       Row(
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: <Widget>[
-                          Text("$firstShowText",
+                          Text("${ShowTextNumberUtil.showTextNumberFromString(
+                              firstShowText, maxValue: "9999999999999")}",
                             style: TextStyle(
-                                fontSize: 28.0,
-                                color: isEditFirst ? Colors.orange : Colors
-                                    .grey[800]),),
+                                fontSize: 24.0,
+                                color: isEditFirst
+                                    ? MyColors.color333333
+                                    : MyColors.color757c87),),
                         ],),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.end,
@@ -104,7 +113,7 @@ class ExchangeCalculatorScreenState extends State<ExchangeCalculatorScreen> {
         Expanded(child: GestureDetector(onTap: () {
           _askedToLead(false);
         }, child: Container(
-          color: Colors.grey[100],
+          color: MyColors.colorfefefe,
           child: Row(
             children: <Widget>[
               Container(
@@ -115,28 +124,30 @@ class ExchangeCalculatorScreenState extends State<ExchangeCalculatorScreen> {
                       child: Icon(Icons.print),),
                     Text("${exchangeViewModel.toCurrency.currencyName}",
                       style: TextStyle(
-                          fontSize: 24.0, color: Colors.grey[800]),),
+                          fontSize: 18.0, color: Colors.grey[800]),),
                     Icon(Icons.arrow_drop_down, color: Colors.grey,),
                   ],),),),
               Expanded(
                 child: GestureDetector(onTap: () {
-                  setEditNumber(false);
+                  if (isEditFirst) {
+                    setEditNumber(false);
+                  }
                 },
                   child: Container(
-                    color: Colors.grey[100],
+                    color: MyColors.colorfefefe,
                     padding: EdgeInsets.only(right: 25.0),
                     child: Column(mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
                         Row(
                           mainAxisAlignment: MainAxisAlignment.end,
                           children: <Widget>[
-                            Text("$secondShowText",
+                            Text("${ShowTextNumberUtil.showTextNumberFromString(
+                                secondShowText, maxValue: "9999999999999")}",
                               style: TextStyle(
-                                  fontSize: 28.0,
+                                  fontSize: 24.0,
                                   color: isEditFirst
-                                      ? Colors.grey[800]
-                                      : Colors
-                                      .orange),),
+                                      ? MyColors.color757c87
+                                      : MyColors.color333333),),
                           ],),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.end,
@@ -149,12 +160,65 @@ class ExchangeCalculatorScreenState extends State<ExchangeCalculatorScreen> {
                                     fontSize: 12.0,
                                     color: Colors.grey[800]),),),
                           ],),
-                      ],),)
-                  ,)
-                ,),
-
+                      ],),),),),
             ],),),),),
-      ],),);
+        Divider(
+          height: 0.5,
+        ),
+        Expanded(child: GestureDetector(onTap: () {
+          _askedToLead(false);
+        }, child: Container(
+          color: MyColors.colorfefefe,
+          child: Row(
+            children: <Widget>[
+              Container(
+                child: Container(
+                  padding: EdgeInsets.only(left: 25.0, right: 25.0),
+                  child: Row(children: <Widget>[
+                    Padding(padding: EdgeInsets.only(right: 4.0),
+                      child: Icon(Icons.print),),
+                    Text("${exchangeViewModel.toCurrency.currencyName}",
+                      style: TextStyle(
+                          fontSize: 18.0, color: Colors.grey[800]),),
+                    Icon(Icons.arrow_drop_down, color: Colors.grey,),
+                  ],),),),
+              Expanded(
+                child: GestureDetector(onTap: () {
+                  if (isEditFirst) {
+                    setEditNumber(false);
+                  }
+                },
+                  child: Container(
+                    color: MyColors.colorfefefe,
+                    padding: EdgeInsets.only(right: 25.0),
+                    child: Column(mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: <Widget>[
+                            Text("${ShowTextNumberUtil.showTextNumberFromString(
+                                secondShowText, maxValue: "9999999999999")}",
+                              style: TextStyle(
+                                  fontSize: 24.0,
+                                  color: isEditFirst
+                                      ? MyColors.color757c87
+                                      : MyColors.color333333),),
+                          ],),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: <Widget>[
+                            Padding(
+                              padding: EdgeInsets.only(right: 2.0),
+                              child: Text(
+                                "${exchangeViewModel.toCurrency.currency}",
+                                style: TextStyle(
+                                    fontSize: 12.0,
+                                    color: Colors.grey[800]),),),
+                          ],),
+                      ],),),),),
+            ],),),),),
+      ],),
+    );
   }
 
   Widget initButtons() {
@@ -203,12 +267,14 @@ class ExchangeCalculatorScreenState extends State<ExchangeCalculatorScreen> {
 
                   Expanded(child: Row(
                       children: <Widget>[
-                        initBig0TextButton("0", callback: () {
+                        initButton("0", callback: () {
                           appendNumber("0");
                         }),
                         initButton(".", callback: () {
                           appendNumber(".");
                         }),
+                        Expanded(
+                            child: Container()),
                       ])),
                 ])),
 
@@ -218,7 +284,7 @@ class ExchangeCalculatorScreenState extends State<ExchangeCalculatorScreen> {
                   initBigTextButton("AC", callback: () {
                     clearNumber();
                   }),
-                  initBigButton(Icons.backspace, callback: () {
+                  initBigButton(callback: () {
                     deleteNumber();
                   }),
                 ])),
@@ -227,39 +293,20 @@ class ExchangeCalculatorScreenState extends State<ExchangeCalculatorScreen> {
   }
 
   Widget initButton(String text,
-      {GestureTapCallback callback, double size: 26.0, Color color: const Color(
-          0xFF303030)}) {
+      {GestureTapCallback callback, double size: MyDoubleSize
+          .double26, Color color}) {
     return Expanded(
-      child: new Material(
-        color: Colors.white,
+      child: Container(
+        padding: EdgeInsets.all(MyDoubleSize.double5), child: new Material(
+        shape: CircleBorder(),
+        color: MyColors.colorfefefe,
         child: new InkWell(onTap: callback,
           child: Container(
-            decoration: new BoxDecoration(
-              border: new Border.all(
-                  width: 0.1,
-                  color: Colors.black38),),
             child: Center(
               child: Text(
                 text,
-                style: TextStyle(fontSize: size, color: color),),),),),),);
-  }
-
-  Widget initIconButton(IconData icon,
-      {GestureTapCallback callback, double size: 22.0, Color color: const Color(
-          0xFF303030)}) {
-    return Expanded(
-      child: new Material(
-        color: Colors.white,
-        child: new InkWell(onTap: callback,
-          child: Container(
-            decoration: new BoxDecoration(
-              border: new Border.all(
-                  width: 0.1,
-                  color: Colors.black38),),
-            child: Center(
-              child: Icon(
-                icon,
-                size: size, color: color,),),),),),);
+                style: TextStyle(
+                    fontSize: size, color: MyColors.color757c87),),),),),),),);
   }
 
   void setEditNumber(bool isFirst) {
@@ -320,61 +367,52 @@ class ExchangeCalculatorScreenState extends State<ExchangeCalculatorScreen> {
     setShowText("0");
   }
 
-  Widget initBigButton(IconData icon, {GestureTapCallback callback}) {
+  Widget initBigButton({GestureTapCallback callback}) {
     return Expanded(
       flex: 2,
-      child: new Material(
-        color: Colors.white,
+      child: Container(padding: EdgeInsets.only(
+          left: 15.0,
+          right: 15.0,
+          top: MyDoubleSize.double5,
+          bottom: MyDoubleSize.double5), child: new Material(
+        borderRadius: BorderRadius.all(Radius.circular(1000.0)),
+        color: MyColors.colorf9f9f9,
         child: new InkWell(onTap: callback,
           child: Container(
-            decoration: new BoxDecoration(
-              border: new Border.all(
-                  width: 0.1, color: Colors.black38),),
             child: Center(
-              child: Icon(icon,
-                size: 26.0, color: Colors.grey[800],),),),),),);
+              child: Image.asset(
+                'assets/images/backspace.png', width: 28.0,),),),),),),);
   }
 
   Widget initBigTextButton(String text, {GestureTapCallback callback}) {
     return Expanded(
       flex: 2,
-      child: new Material(
-        color: Colors.white,
+      child: Container(padding: EdgeInsets.only(
+          left: 15.0,
+          right: 15.0,
+          top: MyDoubleSize.double5,
+          bottom: MyDoubleSize.double5), child: new Material(
+        borderRadius: BorderRadius.all(Radius.circular(1000.0)),
+        color: MyColors.colorf9f9f9,
         child: new InkWell(onTap: callback,
           child: Container(
-            decoration: new BoxDecoration(
-              border: new Border.all(
-                  width: 0.1, color: Colors.black38),),
             child: Center(
               child: Text(text, style: TextStyle(
-                  fontSize: 22.0, color: Colors.orange),),),),),),);
-  }
-
-  Widget initBig0TextButton(String text, {GestureTapCallback callback}) {
-    return Expanded(
-      flex: 2,
-      child: new Material(
-        color: Colors.white,
-        child: new InkWell(onTap: callback,
-          child: Container(
-            decoration: new BoxDecoration(
-              border: new Border.all(
-                  width: 0.1, color: Colors.black38),),
-            child: Row(children: <Widget>[
-              Expanded(child: Center(child: Text(text, style: TextStyle(
-                  fontSize: 22.0, color: Colors.grey[800]),),),),
-              Expanded(child: Center(),),
-            ],),),),),);
+                  fontSize: 22.0, color: MyColors.color757c87),),),),),),),);
   }
 
   Widget initAppBar() {
     return AppBar(
-      backgroundColor: Colors.grey[100],
+      backgroundColor: MyColors.colorfefefe,
       leading: clickToShowScaffold(
-          Icon(Icons.view_module, color: Colors.grey[800])),
+          Padding(padding: EdgeInsets.all(13.0), child: Image.asset(
+            'assets/images/left_icon.png',
+            fit: BoxFit.fill,
+          ),)
+      ),
       automaticallyImplyLeading: false,
       centerTitle: true,
-      title: Text("长度单位换算", style: TextStyle(color: Colors.grey[800]),),
+      title: Text("汇率换算", style: TextStyle(color: MyColors.color333333),),
       elevation: 0.0,
     );
   }
