@@ -75,6 +75,10 @@ class ShowTextNumberUtil {
 
   static String showTextNumberFromString(String number,
       {String maxValue: "9999999999"}) {
-    return showTextNumber(Decimal.parse(number), maxValue: maxValue);
+    var isEndWithPoint = number.endsWith(".");
+    if(isEndWithPoint){
+      number = number.replaceAll(".", "");
+    }
+    return showTextNumber(Decimal.parse(number), maxValue: maxValue) + (isEndWithPoint ? "." : "");
   }
 }

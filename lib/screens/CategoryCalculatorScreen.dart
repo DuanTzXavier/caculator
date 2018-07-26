@@ -1,5 +1,9 @@
+import 'package:calculator/convert/AreaStatic.dart';
 import 'package:calculator/convert/LengthStatic.dart';
+import 'package:calculator/convert/SizeStatic.dart';
+import 'package:calculator/convert/SpeedStatic.dart';
 import 'package:calculator/convert/TimeStatic.dart';
+import 'package:calculator/convert/WeightStatic.dart';
 import 'package:calculator/screens/ConvertCalculatorScreen.dart';
 import 'package:calculator/screens/ExchangeCalculatorScreen.dart';
 import 'package:calculator/screens/SettingScreen.dart';
@@ -78,88 +82,7 @@ class CategoryCalculatorScreenState extends State<CategoryCalculatorScreen> {
                         Navigator.push(context, new PageRouteBuilder(
                             opaque: false,
                             pageBuilder: (BuildContext context, _, __) {
-                              return ConvertCalculatorScreen(titleName: "面积单位转换", convertList: LengthStatic.lengths,);
-                            },
-                            transitionsBuilder: (___,
-                                Animation<double> animation,
-                                ____,
-                                Widget child) {
-                              return new FadeTransition(
-                                opacity: animation,
-                                child: child,
-                              );
-                            }
-                        ));
-                      }),
-                  initIconButton(
-                      'assets/images/category_temperature.png',
-                      name: MyStrings.category_temperature, callback: () {
-                    Navigator.push(context, new PageRouteBuilder(
-                        opaque: false,
-                        pageBuilder: (BuildContext context, _, __) {
-                          return ConvertCalculatorScreen(titleName: "温度单位转换", convertList: LengthStatic.lengths,);
-                        },
-                        transitionsBuilder: (___, Animation<double> animation,
-                            ____,
-                            Widget child) {
-                          return new FadeTransition(
-                            opacity: animation,
-                            child: child,
-                          );
-                        }
-                    ));
-                  }),
-                  initIconButton(
-                      'assets/images/category_speed.png',
-                      name: MyStrings.category_speed,
-                      callback: () {
-                        Navigator.push(context, new PageRouteBuilder(
-                            opaque: false,
-                            pageBuilder: (BuildContext context, _, __) {
-                              return ConvertCalculatorScreen(titleName: "速度单位转换", convertList: LengthStatic.lengths,);
-                            },
-                            transitionsBuilder: (___,
-                                Animation<double> animation,
-                                ____,
-                                Widget child) {
-                              return new FadeTransition(
-                                opacity: animation,
-                                child: child,
-                              );
-                            }
-                        ));
-                      }),
-                ])),
-            Expanded(child: Row(
-                children: <Widget>[
-                  initIconButton(
-                      'assets/images/category_weight.png',
-                      name: MyStrings.category_weight,
-                      callback: () {
-                        Navigator.push(context, new PageRouteBuilder(
-                            opaque: false,
-                            pageBuilder: (BuildContext context, _, __) {
-                              return ConvertCalculatorScreen(titleName: "重量单位转换", convertList: LengthStatic.lengths,);
-                            },
-                            transitionsBuilder: (___,
-                                Animation<double> animation,
-                                ____,
-                                Widget child) {
-                              return new FadeTransition(
-                                opacity: animation,
-                                child: child,
-                              );
-                            }
-                        ));
-                      }),
-                  initIconButton(
-                      'assets/images/category_size.png',
-                      name: MyStrings.category_size,
-                      callback: () {
-                        Navigator.push(context, new PageRouteBuilder(
-                            opaque: false,
-                            pageBuilder: (BuildContext context, _, __) {
-                              return ConvertCalculatorScreen(titleName: "体积单位转换", convertList: LengthStatic.lengths,);
+                              return ConvertCalculatorScreen(titleName: "面积单位转换", convertList: AeraStatic.aeras,);
                             },
                             transitionsBuilder: (___,
                                 Animation<double> animation,
@@ -192,6 +115,88 @@ class CategoryCalculatorScreenState extends State<CategoryCalculatorScreen> {
                             }
                         ));
                       }),
+                  initIconButton(
+                      'assets/images/category_speed.png',
+                      name: MyStrings.category_speed,
+                      callback: () {
+                        Navigator.push(context, new PageRouteBuilder(
+                            opaque: false,
+                            pageBuilder: (BuildContext context, _, __) {
+                              return ConvertCalculatorScreen(titleName: "速度单位转换", convertList: SpeedStatic.speeds,);
+                            },
+                            transitionsBuilder: (___,
+                                Animation<double> animation,
+                                ____,
+                                Widget child) {
+                              return new FadeTransition(
+                                opacity: animation,
+                                child: child,
+                              );
+                            }
+                        ));
+                      }),
+                ])),
+            Expanded(child: Row(
+                children: <Widget>[
+                  initIconButton(
+                      'assets/images/category_weight.png',
+                      name: MyStrings.category_weight,
+                      callback: () {
+                        Navigator.push(context, new PageRouteBuilder(
+                            opaque: false,
+                            pageBuilder: (BuildContext context, _, __) {
+                              return ConvertCalculatorScreen(titleName: "重量单位转换", convertList: WeightStatic.weights,);
+                            },
+                            transitionsBuilder: (___,
+                                Animation<double> animation,
+                                ____,
+                                Widget child) {
+                              return new FadeTransition(
+                                opacity: animation,
+                                child: child,
+                              );
+                            }
+                        ));
+                      }),
+                  initIconButton(
+                      'assets/images/category_size.png',
+                      name: MyStrings.category_size,
+                      callback: () {
+                        Navigator.push(context, new PageRouteBuilder(
+                            opaque: false,
+                            pageBuilder: (BuildContext context, _, __) {
+                              return ConvertCalculatorScreen(titleName: "体积单位转换", convertList: SizeStatic.sizes,);
+                            },
+                            transitionsBuilder: (___,
+                                Animation<double> animation,
+                                ____,
+                                Widget child) {
+                              return new FadeTransition(
+                                opacity: animation,
+                                child: child,
+                              );
+                            }
+                        ));
+                      }),
+//                  initIconButton(
+//                      'assets/images/category_temperature.png',
+//                      name: MyStrings.category_temperature, callback: () {
+//                    Navigator.push(context, new PageRouteBuilder(
+//                        opaque: false,
+//                        pageBuilder: (BuildContext context, _, __) {
+//                          return ConvertCalculatorScreen(titleName: "温度单位转换", convertList: LengthStatic.lengths,);
+//                        },
+//                        transitionsBuilder: (___, Animation<double> animation,
+//                            ____,
+//                            Widget child) {
+//                          return new FadeTransition(
+//                            opacity: animation,
+//                            child: child,
+//                          );
+//                        }
+//                    ));
+//                  }),
+                  initnNllButton(),
                 ])),
             Expanded(child: Row(
                 children: <Widget>[
@@ -207,10 +212,10 @@ class CategoryCalculatorScreenState extends State<CategoryCalculatorScreen> {
       {GestureTapCallback callback, String name: ""}) {
     return Expanded(
       child: new Material(
+        color: MyColors.color757c87,
         child: new InkWell(onTap: callback,
           child: Container(
             decoration: new BoxDecoration(
-              color: MyColors.color757c87,
               border: new Border.all(
                   width: 0.2,
                   color: Colors.grey[400]),),

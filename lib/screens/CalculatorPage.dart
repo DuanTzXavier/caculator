@@ -25,7 +25,7 @@ class CalculatorPage extends State<HomeScreen> {
 
   @override
   void initState() {
-//    initStatements();
+    initStatements();
     super.initState();
     if (statements == null) {
       statements = List();
@@ -70,7 +70,7 @@ class CalculatorPage extends State<HomeScreen> {
   Widget build(BuildContext context) {
     var screenWidth = UIUtil.getScreenWidth(context);
     bigSize = screenWidth / 9;
-    smallSize = screenWidth / 12;
+    smallSize = screenWidth / 13;
     return Scaffold(
       appBar: initAppBar(),
       body: Column(
