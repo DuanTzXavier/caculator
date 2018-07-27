@@ -95,7 +95,7 @@ class CalculatorPage extends State<HomeScreen> {
             color: MyColors.colorbfbfbf,),),
         Text('${ShowTextNumberUtil.showTextNumberFromString(resultNumber)}',
           style: TextStyle(
-              fontSize: 25.0, color: MyColors.colorbfbfbf),),
+              fontSize: 25.0, color: MyColors.colorbfbfbf),key: Key("result")),
       ],),);
   }
 
@@ -135,7 +135,7 @@ class CalculatorPage extends State<HomeScreen> {
                 Text('$showNumber',
                   style: TextStyle(
                       color: MyColors.color757c87,
-                      fontSize: showNumber.length > 13 ? smallSize : bigSize),),
+                      fontSize: showNumber.length > 13 ? smallSize : bigSize), key: Key("showNumber"),),
               ],);
             } else {
               int index = statements.length + 1 - position;
@@ -420,6 +420,7 @@ class CalculatorPage extends State<HomeScreen> {
         color: MyColors.colorfefefe,
         child: new InkWell(onTap: callback,
           child: Container(
+            key: Key(text),
             child: Center(
               child: Text(
                 text,
@@ -452,6 +453,7 @@ class CalculatorPage extends State<HomeScreen> {
         color: MyColors.colorf9f9f9,
         child: new InkWell(onTap: callback,
           child: Container(
+            key: Key(assertName),
             child: Center(
               child: Image.asset(
                 assertName, width: size, height: size,),),),),),),);
@@ -487,7 +489,7 @@ class CalculatorPage extends State<HomeScreen> {
     return AppBar(
       backgroundColor: MyColors.colorfefefe,
       leading: clickToShowScaffold(
-          Padding(padding: EdgeInsets.all(13.0), child: Image.asset(
+          Padding(key: Key("leading"),padding: EdgeInsets.all(13.0), child: Image.asset(
             'assets/images/left_icon.png',
             fit: BoxFit.fill,
           ),)
