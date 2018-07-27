@@ -9,7 +9,7 @@ class LengthStatic {
   static final decimeter = ConvertModel(
       name: "分米", absValue: Decimal.parse("0.1"), key: "", unit: "dm");
   static final centimeter = ConvertModel(
-      name: "厘米", absValue: Decimal.parse("00.1"), key: "", unit: "cm");
+      name: "厘米", absValue: Decimal.parse("0.01"), key: "", unit: "cm");
   static final millimeter = ConvertModel(
       name: "毫米", absValue: Decimal.parse("0.001"), key: "", unit: "mm");
   static final micron = ConvertModel(
