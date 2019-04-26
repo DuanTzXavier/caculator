@@ -25,7 +25,7 @@ class CalculatorPage extends State<HomeScreen> {
 
   @override
   void initState() {
-    initStatements();
+//    initStatements();
     super.initState();
     if (statements == null) {
       statements = List();
@@ -86,6 +86,7 @@ class CalculatorPage extends State<HomeScreen> {
   }
 
   Widget initResult() {
+    var showText = resultNumber == "Error" ? resultNumber : ShowTextNumberUtil.showTextNumberFromString(resultNumber);
     return Align(alignment: Alignment.bottomRight, child: Row(
       mainAxisAlignment: MainAxisAlignment.end,
       children: <Widget>[
@@ -93,7 +94,7 @@ class CalculatorPage extends State<HomeScreen> {
           padding: EdgeInsets.only(right: 5.0),
           child: Icon(MdiIcons.equal, size: 20.0,
             color: MyColors.colorbfbfbf,),),
-        Text('${ShowTextNumberUtil.showTextNumberFromString(resultNumber)}',
+        Text('${showText}',
           style: TextStyle(
               fontSize: 25.0, color: MyColors.colorbfbfbf),key: Key("result")),
       ],),);
